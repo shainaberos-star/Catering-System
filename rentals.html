@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rentals – Cherry-Andrews Catering Services</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      color: #555;
+      background: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Main navigation */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 70px;
+      background-color: #8b1a2e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #f5e6c8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .logo-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f5e6c8;
+    }
+
+    .logo-tagline {
+      font-size: 9px;
+      color: #f5e6c8;
+      letter-spacing: 2.5px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-outline {
+      padding: 8px 20px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-solid {
+      padding: 8px 24px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      color: #8b1a2e;
+      font-size: 13px;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .btn-solid:hover {
+      background: #f5e6c8;
+    }
+
+    /* Rentals page heading */
+    .page-header {
+      background: #8b1a2e;
+      padding: 50px 40px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      opacity: 0.85;
+    }
+
+    /* Rental cards and prices */
+    .rentals-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      padding: 60px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .rental-card {
+      flex: 0 1 240px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .rental-card:hover {
+      box-shadow: 0 8px 30px rgba(139, 26, 46, 0.12);
+      border-color: #8b1a2e;
+    }
+
+    .rental-icon {
+      font-size: 40px;
+      margin-bottom: 14px;
+    }
+
+    .rental-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    .rental-card p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .rental-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #8b1a2e;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M8 2v4c0 1.1-.9 2-2 2s-2-.9-2-2V2" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M6 8v14" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M18 2c0 0 2 2 2 5s-2 3-2 3v10" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-brand">Cherry-Andrews</span>
+        <span class="logo-tagline">CATERING SERVICES</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="rentals.html" class="active">Rentals</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="signup.html" class="btn-outline">Create Account</a>
+      <a href="login.html" class="btn-solid">Log in</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Equipment Rentals</h1>
+    <p>Premium event equipment to bring your venue to life</p>
+  </div>
+
+  <div class="rentals-grid">
+    <div class="rental-card">
+      <div class="rental-icon">🪑</div>
+      <h3>Chairs</h3>
+      <p>Tiffany, Chiavari, and banquet chairs for all event styles.</p>
+      <div class="rental-price">₱50 / chair</div>
+    </div>
+    <div class="rental-card">
+      <div class="rental-icon">🍽️</div>
+      <h3>Round Tables</h3>
+      <p>60-inch round tables perfect for seated dinner events.</p>
+      <div class="rental-price">₱300 / table</div>
+    </div>
+    <div class="rental-card">
+      <div class="rental-icon">🎪</div>
+      <h3>Tent / Canopy</h3>
+      <p>Outdoor tent setups for garden and open-air events.</p>
+      <div class="rental-price">₱2,500 / tent</div>
+    </div>
+    <div class="rental-card">
+      <div class="rental-icon">💡</div>
+      <h3>Lighting</h3>
+      <p>Fairy lights, spotlights, and ambient mood lighting.</p>
+      <div class="rental-price">₱1,500 / set</div>
+    </div>
+    <div class="rental-card">
+      <div class="rental-icon">🎤</div>
+      <h3>Sound System</h3>
+      <p>PA system with microphone for speeches and music.</p>
+      <div class="rental-price">₱3,000 / day</div>
+    </div>
+    <div class="rental-card">
+      <div class="rental-icon">🌸</div>
+      <h3>Centerpieces</h3>
+      <p>Floral and decorative centerpieces for table arrangements.</p>
+      <div class="rental-price">₱500 / piece</div>
+    </div>
+  </div>
+</body>
+
+</html>

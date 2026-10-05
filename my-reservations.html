@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Reservations – Cherry-Andrews Catering</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: #e8ddd5;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: #4a0e18;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid #e0a53f;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-words {
+      line-height: 1.15;
+    }
+
+    .brand-words .b1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .brand-words .b2 {
+      font-size: 12px;
+      font-style: italic;
+      color: #e0a53f;
+      letter-spacing: 1px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* NOTIFICATION */
+    .notif-wrapper {
+      position: relative;
+    }
+
+    .bell-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      color: #e0a53f;
+      line-height: 1;
+      padding: 6px;
+    }
+
+    .action-icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 17px;
+      height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 50%;
+      border: 1.5px solid #4a0e18;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .notif-panel {
+      display: none;
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 300px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .25);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .notif-panel.show {
+      display: block;
+    }
+
+    .notif-head {
+      background: #8b1a2e;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notif-head h3 {
+      font-size: 14px;
+    }
+
+    .notif-clear {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 11px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .notif-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .notif-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .notif-item:hover {
+      background: #f8f1ed;
+    }
+
+    .notif-item.unread {
+      background: #fff5f2;
+      border-left: 4px solid #8b1a2e;
+    }
+
+    .notif-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4a0e18;
+      margin-bottom: 3px;
+    }
+
+    .notif-msg {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    .notif-time {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .notif-empty {
+      padding: 24px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #999;
+    }
+
+    /* AVATAR */
+    .avatar-btn {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .avatar-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* PROFILE MODAL */
+    .profile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0, 0, 0, .5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-overlay.show {
+      display: flex;
+    }
+
+    .profile-modal {
+      background: #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 380px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-head {
+      background: #4a0e18;
+      color: #fff;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile-head h3 {
+      font-size: 15px;
+    }
+
+    .profile-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .p-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #8b1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto 14px;
+      border: 3px solid #e0a53f;
+    }
+
+    .p-body {
+      padding: 0 24px 24px;
+    }
+
+    .p-name {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 16px;
+    }
+
+    .p-row {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0e0d6;
+      font-size: 13px;
+    }
+
+    .p-row:last-child {
+      border-bottom: none;
+    }
+
+    .p-row .lbl {
+      color: #888;
+      min-width: 110px;
+      font-size: 12px;
+    }
+
+    .p-row .val {
+      color: #222;
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      padding: 8px 22px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      background: transparent;
+      color: #fff;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, .12);
+    }
+
+    /* ===== LAYOUT ===== */
+    .body-wrap {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 185px;
+      background: #4a0e18;
+      flex-shrink: 0;
+      padding-top: 10px;
+      border-right: 1px solid #e8d9ce;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-label {
+      padding: 0 24px 16px;
+      border-bottom: 1px solid #f7decd;
+    }
+
+    .panel-label strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: #f4d6d6;
+    }
+
+    .panel-label span {
+      display: block;
+      color: #fffefe;
+      font-size: 13px;
+      line-height: 1.15;
+      letter-spacing: .7px;
+      margin-top: 4px;
+    }
+
+    .sidebar-item {
+      display: block;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #fbf7f7;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      transition: background 0.15s;
+    }
+
+    .sidebar-item:hover {
+      background: #ddd0c5;
+    }
+
+    .sidebar-item.active {
+      background: #c0392b;
+      color: #fff;
+      border-left: 4px solid #8b1a2e;
+      font-weight: 700;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      padding: 28px 28px;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0a0303;
+      margin-bottom: 16px;
+    }
+
+    /* ===== RESERVATION CARD ===== */
+    .res-card {
+      border: 2px solid #8b1a2e;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 640px;
+      margin-bottom: 24px;
+      background: #fff;
+    }
+
+    .res-card-header {
+      background: #8b1a2e;
+      color: #fff;
+      padding: 11px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .res-card-body {
+      padding: 18px 20px 0;
+    }
+
+    .res-details p {
+      font-size: 13.5px;
+      line-height: 2;
+      color: #222;
+    }
+
+    /* ===== PROGRESS STEPS ===== */
+    .steps-wrap {
+      margin: 20px 0 10px;
+    }
+
+    .steps-track {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .steps-track::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 16px;
+      right: 16px;
+      height: 1.5px;
+      background: #bbb;
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .step-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #140404;
+      background: #fff;
+      flex-shrink: 0;
+    }
+
+    .step-dot.done {
+      border-color: #8b1a2e;
+      background: #8b1a2e;
+    }
+
+    .step-dot.current {
+      border-color: #8b1a2e;
+      background: #fff;
+    }
+
+    .step-label {
+      font-size: 10px;
+      color: #666;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      line-height: 1.3;
+      max-width: 72px;
+    }
+
+    .step-label.active-label {
+      color: #eae6e6;
+      font-weight: 700;
+    }
+
+    /* ===== STATUS BAR ===== */
+    .status-bar {
+      background: #e8ddd5;
+      border-top: 1px solid #e8d9ce;
+      padding: 9px 20px;
+      font-size: 12.5px;
+      color: #333;
+      font-family: Arial, sans-serif;
+    }
+
+    .status-bar b {
+      color: #110202c4;
+    }
+
+    /* ===== COST SUMMARY ===== */
+    .cost-summary {
+      padding: 14px 20px 6px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      line-height: 2;
+      color: #333;
+      border-top: 1px solid #f0e0d6;
+    }
+
+    .cost-summary .balance {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #222;
+    }
+
+    .view-details-row {
+      text-align: right;
+      padding: 8px 20px 14px;
+    }
+
+    .view-details-row a {
+      font-size: 13px;
+      color: #555;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .view-details-row a:hover {
+      color: #8b1a2e;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: #999;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 48px;
+      margin-bottom: 14px;
+    }
+
+    /* ===== FILTER / TAB ROW ===== */
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      border: 1.5px solid #8b1a2e;
+      background: transparent;
+      color: #8b1a2e;
+      transition: background .15s, color .15s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #8b1a2e;
+      color: #fff;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:700px) {
+      .sidebar {
+        width: 140px;
+      }
+
+      .sidebar-item {
+        padding: 14px 14px;
+        font-size: 13px;
+      }
+    }
+
+    @media(max-width:500px) {
+      .sidebar {
+        display: none;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon">
+        <img src="image/logo.jpg" alt="Cherry-Andrews Logo" />
+      </div>
+      <div class="brand-words">
+        <div class="b1">CHERRY-ANDREWS</div>
+        <div class="b2">Catering</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrapper">
+        <button class="bell-btn" id="bellBtn" title="Notifications" aria-label="Open notifications">
+          <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
+          <span class="bell-badge" id="bellBadge">1</span>
+        </button>
+        <div class="notif-panel" id="notifPanel">
+          <div class="notif-head">
+            <h3>Notifications</h3><button class="notif-clear" id="notifClear">Clear all</button>
+          </div>
+          <div class="notif-list" id="notifList"></div>
+        </div>
+      </div>
+      <button class="avatar-btn" id="avatarBtn" type="button" title="My Profile" aria-label="Open profile">
+        <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+      </button>
+      <button class="logout-btn" onclick="window.location.href='index.html'">Log out</button>
+    </div>
+  </header>
+
+  <!-- Profile Modal -->
+  <div class="profile-overlay" id="profileOverlay">
+    <div class="profile-modal">
+      <div class="profile-head">
+        <h3>My Profile</h3><button class="profile-close" onclick="closeProfile()">&times;</button>
+      </div>
+      <div class="p-body">
+        <div class="p-avatar">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+        </div>
+        <div class="p-name">Shaina Mae Enriquez</div>
+        <div class="p-row"><span class="lbl">Email</span><span class="val">shainaberos@gmail.com</span></div>
+        <div class="p-row"><span class="lbl">Contact</span><span class="val">+63 9929987815</span></div>
+        <div class="p-row"><span class="lbl">Member Since</span><span class="val">January 2025</span></div>
+        <div class="p-row"><span class="lbl">Total Bookings</span><span class="val">2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-wrap">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="panel-label"><strong>CUSTOMER PANEL</strong><span>CHERRY-ANDREWS<br>CATERING</span></div>
+      <a class="sidebar-item " href="dashboard.html">Dashboard</a>
+      <a class="sidebar-item active" href="my-reservations.html">My Reservations</a>
+      <a class="sidebar-item" href="order-history.html">Order History</a>
+      <a class="sidebar-item" href="new-booking.html">New Booking</a>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="section-title">Active Reservation Tracker Card</div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+        <button class="filter-btn" onclick="filterCards('active', this)">Active</button>
+        <button class="filter-btn" onclick="filterCards('completed', this)">Completed</button>
+        <button class="filter-btn" onclick="filterCards('cancelled', this)">Cancelled</button>
+      </div>
+
+      <!-- ===== RESERVATION CARD 1 – Active ===== -->
+      <div class="res-card" data-status="active">
+        <div class="res-card-header">MY ACTIVE EVENT: JULY 1, 2026</div>
+        <div class="res-card-body">
+          <div class="res-details">
+            <p>Event: Wedding</p>
+            <p>Package: &nbsp;A</p>
+            <p>Pax: 50 guests</p>
+            <p>Location: Calamba City</p>
+            <p>Cost: ₱ 599.00/pax</p>
+          </div>
+
+          <!-- Progress Steps -->
+          <div class="steps-wrap">
+            <div class="steps-track">
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label active-label">1. Pending<br>Payment</div>
+              </div>
+              <div class="step">
+                <div class="step-dot current"></div>
+                <div class="step-label active-label">2. Reviewing<br>Deposit</div>
+              </div>
+              <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-label">3. Confirmed</div>
+              </div>
+              <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-label">4. Staff Assigned</div>
+              </div>
+              <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-label">5. Completed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar">
+          <b>STATUS</b>: Payment Review in Progress ( We are verifying your 50% deposit proof)
+        </div>
+
+        <div class="cost-summary">
+          <p>Total Package Cost: ₱ 29,950.00</p>
+          <p>Amount Paid: ₱ 14,975.00</p>
+          <p class="balance">Recalculated Balance Due: ₱ 14,975.00</p>
+        </div>
+
+        <div class="view-details-row">
+          <a href="#" onclick="openDetails(event)">View Details</a>
+        </div>
+      </div>
+
+      <!-- ===== RESERVATION CARD 2 – Completed ===== -->
+      <div class="res-card" data-status="completed">
+        <div class="res-card-header" style="background:#2e7d32;">COMPLETED EVENT: DECEMBER 25, 2025</div>
+        <div class="res-card-body">
+          <div class="res-details">
+            <p>Event: Christmas Party</p>
+            <p>Package: &nbsp;B</p>
+            <p>Pax: 30 guests</p>
+            <p>Location: Calamba City</p>
+            <p>Cost: ₱ 399.00/pax</p>
+          </div>
+
+          <!-- Progress Steps – all done -->
+          <div class="steps-wrap">
+            <div class="steps-track">
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label">1. Pending<br>Payment</div>
+              </div>
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label">2. Reviewing<br>Deposit</div>
+              </div>
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label">3. Confirmed</div>
+              </div>
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label">4. Staff Assigned</div>
+              </div>
+              <div class="step">
+                <div class="step-dot done"></div>
+                <div class="step-label">5. Completed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar" style="background:#e8f5e9;">
+          <b>STATUS</b>: Event Successfully Completed ✓
+        </div>
+
+        <div class="cost-summary">
+          <p>Total Package Cost: ₱ 11,970.00</p>
+          <p>Amount Paid: ₱ 11,970.00</p>
+          <p class="balance" style="color:#2e7d32;">Balance Due: ₱ 0.00 — Fully Paid</p>
+        </div>
+
+        <div class="view-details-row">
+          <a href="#" onclick="openDetails(event)">View Details</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== DETAILS MODAL ===== -->
+  <div id="detailsOverlay" style="
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(20, 5, 9, 0.892);backdrop-filter:blur(2px);
+  align-items:center;justify-content:center;padding:20px;">
+    <div style="
+    background:#fff;border-radius:10px;width:100%;max-width:420px;
+    box-shadow:0 20px 60px rgba(27, 25, 25, 0.849);overflow:hidden;font-family:Arial,sans-serif;">
+      <div
+        style="background:#4a0e18;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:700;letter-spacing:.5px;">Reservation Details</span>
+        <button onclick="closeDetails()"
+          style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+      </div>
+      <div style="padding:22px 24px;line-height:2;font-size:13.5px;color:#333;">
+        <p><b>Event:</b> Wedding</p>
+        <p><b>Date:</b> July 1, 2026</p>
+        <p><b>Package:</b> A</p>
+        <p><b>Pax:</b> 50 guests</p>
+        <p><b>Location:</b> Calamba City</p>
+        <p><b>Cost per Pax:</b> ₱ 599.00</p>
+        <p><b>Total:</b> ₱ 29,950.00</p>
+        <p><b>Amount Paid:</b> ₱ 14,975.00</p>
+        <p><b>Balance:</b> ₱ 14,975.00</p>
+        <p><b>Status:</b> Payment Review in Progress</p>
+      </div>
+      <div style="padding:0 24px 20px;text-align:right;">
+        <button onclick="closeDetails()" style="
+        padding:10px 28px;border:none;border-radius:25px;
+        background:#4a0e18;color:#fff;font-size:13px;cursor:pointer;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== FILTER TABS ===== */
+    function filterCards(status, btn) {
+      // update active button
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.res-card').forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    /* ===== DETAILS MODAL ===== */
+    function openDetails(e) {
+      e.preventDefault();
+      const overlay = document.getElementById('detailsOverlay');
+      overlay.style.display = 'flex';
+    }
+    function closeDetails() {
+      document.getElementById('detailsOverlay').style.display = 'none';
+    }
+    // close on backdrop click
+    document.getElementById('detailsOverlay').addEventListener('click', function (e) {
+      if (e.target === this) closeDetails();
+    });
+
+    /* ===== NOTIFICATIONS ===== */
+    let notifs = [
+      { id: 1, title: 'Payment Approved ✓', msg: 'Your 50% deposit for the July 1, 2026 Wedding has been verified!', time: 'Just now', read: false, link: 'my-reservations.html' },
+      { id: 2, title: 'Scheduling Reminder', msg: 'Bookings must be at least 14 days in advance.', time: 'Yesterday', read: true, link: '' },
+    ];
+    function renderNotifs() {
+      const list = document.getElementById('notifList'), badge = document.getElementById('bellBadge');
+      list.innerHTML = '';
+      const unread = notifs.filter(n => !n.read).length;
+      badge.textContent = unread; badge.style.display = unread > 0 ? 'flex' : 'none';
+      if (!notifs.length) { list.innerHTML = '<div class="notif-empty">No notifications</div>'; return; }
+      notifs.forEach(n => {
+        const d = document.createElement('div');
+        d.className = 'notif-item' + (n.read ? '' : ' unread');
+        d.innerHTML = `<div class="notif-title">${n.title}</div><div class="notif-msg">${n.msg}</div><div class="notif-time">${n.time}</div>`;
+        d.onclick = () => { n.read = true; renderNotifs(); if (n.link) location.href = n.link; };
+        list.appendChild(d);
+      });
+    }
+    document.getElementById('bellBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('notifPanel').classList.toggle('show'); notifs.forEach(n => n.read = true); renderNotifs(); });
+    document.getElementById('notifClear').addEventListener('click', e => { e.stopPropagation(); notifs = []; renderNotifs(); });
+    document.addEventListener('click', e => { const p = document.getElementById('notifPanel'), bell = document.getElementById('bellBtn'); if (p && !p.contains(e.target) && !bell.contains(e.target)) p.classList.remove('show'); });
+    renderNotifs();
+
+    /* ===== PROFILE ===== */
+    document.getElementById('avatarBtn').onclick = e => { e.stopPropagation(); document.getElementById('profileOverlay').classList.add('show'); };
+    function closeProfile() { document.getElementById('profileOverlay').classList.remove('show'); }
+    document.getElementById('profileOverlay').onclick = e => { if (e.target === document.getElementById('profileOverlay')) closeProfile(); };
+  </script>
+</body>
+
+</html>

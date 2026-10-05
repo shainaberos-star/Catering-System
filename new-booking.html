@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Booking – Cherry-Andrews Catering</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: #e8ddd5;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: #4a0e18;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid #e0a53f;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-words {
+      line-height: 1.15;
+    }
+
+    .brand-words .b1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .brand-words .b2 {
+      font-size: 12px;
+      font-style: italic;
+      color: #e0a53f;
+      letter-spacing: 1px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* NOTIFICATION */
+    .notif-wrapper {
+      position: relative;
+    }
+
+    .bell-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      color: #e0a53f;
+      line-height: 1;
+      padding: 6px;
+    }
+
+    .action-icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 17px;
+      height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 50%;
+      border: 1.5px solid #4a0e18;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .notif-panel {
+      display: none;
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 300px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .25);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .notif-panel.show {
+      display: block;
+    }
+
+    .notif-head {
+      background: #8b1a2e;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notif-head h3 {
+      font-size: 14px;
+    }
+
+    .notif-clear {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 11px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .notif-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .notif-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .notif-item:hover {
+      background: #f8f1ed;
+    }
+
+    .notif-item.unread {
+      background: #fff5f2;
+      border-left: 4px solid #8b1a2e;
+    }
+
+    .notif-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4a0e18;
+      margin-bottom: 3px;
+    }
+
+    .notif-msg {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    .notif-time {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .notif-empty {
+      padding: 24px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #999;
+    }
+
+    /* AVATAR */
+    .avatar-btn {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .avatar-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* PROFILE MODAL */
+    .profile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0, 0, 0, .5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-overlay.show {
+      display: flex;
+    }
+
+    .profile-modal {
+      background: #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 380px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-head {
+      background: #4a0e18;
+      color: #fff;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile-head h3 {
+      font-size: 15px;
+    }
+
+    .profile-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .p-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #8b1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto 14px;
+      border: 3px solid #e0a53f;
+    }
+
+    .p-body {
+      padding: 0 24px 24px;
+    }
+
+    .p-name {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 16px;
+    }
+
+    .p-row {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0e0d6;
+      font-size: 13px;
+    }
+
+    .p-row:last-child {
+      border-bottom: none;
+    }
+
+    .p-row .lbl {
+      color: #888;
+      min-width: 110px;
+      font-size: 12px;
+    }
+
+    .p-row .val {
+      color: #222;
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      padding: 8px 22px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      background: transparent;
+      color: #fff;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, .12);
+    }
+
+    /* ===== LAYOUT ===== */
+    .body-wrap {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 185px;
+      background: #4a0e18;
+      flex-shrink: 0;
+      padding-top: 10px;
+      border-right: 1px solid #e8d9ce;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-label {
+      padding: 0 24px 16px;
+      border-bottom: 1px solid #f7decd;
+    }
+
+    .panel-label strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: #f4d6d6;
+    }
+
+    .panel-label span {
+      display: block;
+      color: #fffefe;
+      font-size: 13px;
+      line-height: 1.15;
+      letter-spacing: .7px;
+      margin-top: 4px;
+    }
+
+    .sidebar-item {
+      display: block;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #fbf7f7;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      transition: background 0.15s;
+    }
+
+    .sidebar-item:hover {
+      background: #ddd0c5;
+    }
+
+    .sidebar-item.active {
+      background: #c0392b;
+      color: #fff;
+      border-left: 4px solid #8b1a2e;
+      font-weight: 700;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      padding: 28px 28px 40px;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-arrow {
+      font-size: 18px;
+      cursor: pointer;
+      color: #444;
+      background: none;
+      border: none;
+      font-family: inherit;
+      display: none;
+    }
+
+    /* ===== STEP CARD ===== */
+    .step-card {
+      border: 2px solid #8b1a2e;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 700px;
+      display: none;
+    }
+
+    .step-card.active {
+      display: block;
+    }
+
+    .step-header {
+      background: #8b1a2e;
+      color: #fff;
+      padding: 13px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .step-body {
+      padding: 24px 22px;
+      background: #fff;
+    }
+
+    /* ===== STEP 1 – EVENT DETAILS ===== */
+    .two-col {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .col-left {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .col-right {
+      flex: 0 0 200px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .date-display {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 25px;
+      padding: 9px 18px;
+      font-size: 13.5px;
+      color: #222;
+      margin-bottom: 14px;
+      cursor: pointer;
+      background: #fff;
+      width: fit-content;
+    }
+
+    .date-display .cal-icon {
+      font-size: 16px;
+    }
+
+    /* Calendar */
+    .calendar {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .cal-nav .cal-prev-next {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #444;
+      line-height: 1;
+      padding: 2px 6px;
+    }
+
+    .cal-nav .cal-prev-next:hover {
+      color: #8b1a2e;
+    }
+
+    /* clickable month + year */
+    .cal-month-year {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cal-year-btn {
+      background: none;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 5px;
+      color: #8b1a2e;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 2px 10px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      transition: all .15s;
+    }
+
+    .cal-year-btn:hover {
+      background: #8b1a2e;
+      color: #fff;
+    }
+
+    /* year picker dropdown */
+    .cal-wrap {
+      position: relative;
+    }
+
+    .year-picker {
+      display: none;
+      position: absolute;
+      top: 42px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
+      z-index: 20;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .year-picker.open {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+
+    .yr-opt {
+      padding: 6px 2px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      color: #333;
+      transition: background .12s;
+    }
+
+    .yr-opt:hover {
+      background: #f0e0d6;
+    }
+
+    .yr-opt.selected {
+      background: #8b1a2e;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .cal-grid {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .cal-grid th {
+      background: #f0e0d6;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      padding: 7px 0;
+      color: #555;
+    }
+
+    .cal-grid td {
+      text-align: center;
+      padding: 8px 4px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #333;
+      border-top: 1px solid #f5f0ec;
+    }
+
+    .cal-grid td:hover:not(.disabled):not(.empty) {
+      background: #fdf0ea;
+    }
+
+    .cal-grid td.today {
+      font-weight: 700;
+      color: #8b1a2e;
+    }
+
+    .cal-grid td.selected {
+      background: #8b1a2e;
+      color: #fff;
+      border-radius: 50%;
+      font-weight: 700;
+    }
+
+    .cal-grid td.disabled {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .cal-grid td.empty {
+      cursor: default;
+    }
+
+    .note-text {
+      font-size: 12px;
+      color: #444;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+
+    .note-text b {
+      color: #222;
+    }
+
+    /* Event Type select */
+    .select-field {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 25px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #222;
+      background: #fff;
+      outline: none;
+      appearance: auto;
+      cursor: pointer;
+      margin-top: 18px;
+    }
+
+    .select-field:focus {
+      border-color: #8b1a2e;
+    }
+
+    /* Time input */
+    .time-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 25px;
+      padding: 9px 16px;
+      background: #fff;
+      width: 100%;
+    }
+
+    .time-input input {
+      border: none;
+      outline: none;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: #222;
+      flex: 1;
+      background: transparent;
+    }
+
+    /* Guest counter */
+    .guest-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      margin: 18px 0 8px;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 25px;
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .counter button {
+      width: 36px;
+      height: 36px;
+      background: #8b1a2e;
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+      transition: background .15s;
+    }
+
+    .counter button:hover {
+      background: #6b0e1f;
+    }
+
+    .counter .count-val {
+      width: 50px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #222;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      cursor: text;
+      padding: 0;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .counter .count-val::-webkit-outer-spin-button,
+    .counter .count-val::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Venue address split fields */
+    .venue-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      margin: 18px 0 8px;
+    }
+
+    .venue-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .venue-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      color: #222;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .venue-input:focus {
+      border-color: #8b1a2e;
+    }
+
+    /* ===== STEP 2 – CATERING ===== */
+    .packages-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .packages-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .packages-scroll::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 4px;
+    }
+
+    .pkg-card {
+      flex: 0 0 200px;
+      border: 2px solid #8b1a2e;
+      border-radius: 10px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      transition: box-shadow .2s;
+    }
+
+    .pkg-card:hover,
+    .pkg-card.selected {
+      box-shadow: 0 4px 20px rgba(139, 26, 46, .25);
+    }
+
+    .pkg-card.selected {
+      border-color: #4a0e18;
+    }
+
+    .pkg-card-header {
+      background: #8b1a2e;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .pkg-card-body {
+      padding: 14px 14px;
+      background: #fff;
+    }
+
+    .pkg-price {
+      color: #8b1a2e;
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'Georgia', serif;
+      text-align: center;
+    }
+
+    .pkg-price span {
+      font-size: 12px;
+      font-weight: 400;
+      color: #888;
+      display: block;
+    }
+
+    .pkg-inclusions-title {
+      color: #8b1a2e;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 10px 0 8px;
+    }
+
+    .pkg-inclusions li {
+      font-size: 12px;
+      color: #333;
+      line-height: 1.7;
+      list-style: disc inside;
+    }
+
+    .pkg-occasion {
+      font-size: 11px;
+      color: #8b1a2e;
+      font-weight: 700;
+      text-align: center;
+      margin: 10px 0 4px;
+      letter-spacing: .5px;
+    }
+
+    .pkg-occasion-text {
+      font-size: 11px;
+      color: #555;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .pkg-btn {
+      width: 100%;
+      padding: 9px;
+      background: #8b1a2e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+      letter-spacing: .5px;
+    }
+
+    .pkg-btn:hover {
+      background: #6b0e1f;
+    }
+
+    .two-col-bottom {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .special-req {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .special-req textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      resize: vertical;
+      outline: none;
+    }
+
+    .special-req textarea:focus {
+      border-color: #8b1a2e;
+    }
+
+    .add-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .add-info-box {
+      border: 1.5px solid #8b1a2e;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: Arial, sans-serif;
+      font-size: 12.5px;
+      color: #333;
+      line-height: 1.9;
+    }
+
+    .add-info-box li {
+      list-style: disc inside;
+    }
+
+    /* ===== STEP 3 – RENTALS ===== */
+    .rental-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .rental-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .rental-scroll::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 4px;
+    }
+
+    .rental-item {
+      flex: 0 0 200px;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .rental-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rental-info {
+      padding: 12px 12px 14px;
+    }
+
+    .rental-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 4px;
+      font-family: 'Georgia', serif;
+    }
+
+    .rental-info p {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    .rental-info .cost {
+      font-size: 12.5px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    /* ===== STEP 4 – COST BREAKDOWN ===== */
+    .step4-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cost-box {
+      flex: 1;
+      min-width: 220px;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 10px;
+      padding: 20px 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .cost-box h3 {
+      font-family: 'Georgia', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 14px;
+    }
+
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #444;
+      padding: 6px 0;
+    }
+
+    .cost-divider {
+      border: none;
+      border-top: 1px solid #e0d0c8;
+      margin: 10px 0;
+    }
+
+    .cost-total {
+      font-weight: 700;
+      font-size: 14px;
+      color: #222;
+    }
+
+    .cost-deposit {
+      font-weight: 700;
+      color: #8b1a2e;
+    }
+
+    .payment-box h3 {
+      background: #8b1a2e;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 8px 8px 0 0;
+      margin: -20px -20px 16px;
+    }
+
+    .pay-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .pay-select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .pay-select:focus {
+      border-color: #8b1a2e;
+    }
+
+    .autofill-btn {
+      width: 100%;
+      padding: 9px;
+      border: 1.5px solid #8b1a2e;
+      border-radius: 25px;
+      background: #fff;
+      color: #8b1a2e;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: background .15s;
+    }
+
+    .autofill-btn:hover {
+      background: #fdf0ea;
+    }
+
+    .qr-section {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .qr-details {
+      font-size: 12.5px;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .qr-details b {
+      color: #222;
+    }
+
+    .qr-img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .qr-note {
+      font-size: 10.5px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .upload-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .upload-box {
+      border: 1.5px dashed #8b1a2e;
+      border-radius: 8px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      background: #fdf8f6;
+      position: relative;
+      transition: background .15s;
+    }
+
+    .upload-box:hover {
+      background: #fdf0ea;
+    }
+
+    .upload-box input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-box .upload-icon {
+      font-size: 28px;
+    }
+
+    .upload-box p {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      font-family: Arial, sans-serif;
+    }
+
+    .upload-note {
+      font-size: 11px;
+      color: #888;
+      margin-top: 6px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ===== FOOTER BUTTONS ===== */
+    .step-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 22px 20px;
+      background: #fff;
+      border-top: 1px solid #f0e0d6;
+      flex-wrap: wrap;
+    }
+
+    .step-footer .skip-note {
+      font-size: 11px;
+      color: #888;
+      font-family: Arial, sans-serif;
+      flex: 1;
+    }
+
+    .btn-nav {
+      padding: 11px 30px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      letter-spacing: .3px;
+      transition: background .15s;
+    }
+
+    .btn-back {
+      background: #8b1a2e;
+      color: #fff;
+    }
+
+    .btn-back:hover {
+      background: #6b0e1f;
+    }
+
+    .btn-skip {
+      background: #8b1a2e;
+      color: #fff;
+    }
+
+    .btn-skip:hover {
+      background: #6b0e1f;
+    }
+
+    .btn-next {
+      background: #4a0e18;
+      color: #fff;
+    }
+
+    .btn-next:hover {
+      background: #8b1a2e;
+    }
+
+    .btn-submit {
+      width: calc(100% - 44px);
+      margin: 0 22px 22px;
+      padding: 14px;
+      background: #4a0e18;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s;
+    }
+
+    .btn-submit:hover {
+      background: #8b1a2e;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:700px) {
+      .sidebar {
+        width: 140px;
+      }
+
+      .sidebar-item {
+        padding: 14px 14px;
+        font-size: 13px;
+      }
+
+      .two-col {
+        flex-direction: column;
+      }
+
+      .col-right {
+        flex: none;
+        width: 100%;
+      }
+    }
+
+    @media(max-width:500px) {
+      .sidebar {
+        display: none;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon">
+        <img src="image/logo.jpg" alt="Cherry-Andrews Logo" />
+      </div>
+      <div class="brand-words">
+        <div class="b1">CHERRY-ANDREWS</div>
+        <div class="b2">Catering</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrapper">
+        <button class="bell-btn" id="bellBtn" title="Notifications" aria-label="Open notifications">
+          <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
+          <span class="bell-badge" id="bellBadge">1</span>
+        </button>
+        <div class="notif-panel" id="notifPanel">
+          <div class="notif-head">
+            <h3>Notifications</h3><button class="notif-clear" id="notifClear">Clear all</button>
+          </div>
+          <div class="notif-list" id="notifList"></div>
+        </div>
+      </div>
+      <button class="avatar-btn" id="avatarBtn" type="button" title="My Profile" aria-label="Open profile">
+        <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+      </button>
+      <button class="logout-btn" onclick="window.location.href='index.html'">Log out</button>
+    </div>
+  </header>
+
+  <!-- Profile Modal -->
+  <div class="profile-overlay" id="profileOverlay">
+    <div class="profile-modal">
+      <div class="profile-head">
+        <h3>My Profile</h3><button class="profile-close" onclick="closeProfile()">&times;</button>
+      </div>
+      <div class="p-body">
+        <div class="p-avatar">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+        </div>
+        <div class="p-name">Shaina Mae Enriquez</div>
+        <div class="p-row"><span class="lbl">Email</span><span class="val">shainaberos@gmail.com</span></div>
+        <div class="p-row"><span class="lbl">Contact</span><span class="val">+63 9929987815</span></div>
+        <div class="p-row"><span class="lbl">Member Since</span><span class="val">January 2025</span></div>
+        <div class="p-row"><span class="lbl">Total Bookings</span><span class="val">2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-wrap">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="panel-label"><strong>CUSTOMER PANEL</strong><span>CHERRY-ANDREWS<br>CATERING</span></div>
+      <a class="sidebar-item " href="dashboard.html">Dashboard</a>
+      <a class="sidebar-item " href="my-reservations.html">My Reservations</a>
+      <a class="sidebar-item" href="order-history.html">Order History</a>
+      <a class="sidebar-item active" href="new-booking.html">New Booking</a>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="page-title">
+        <button class="back-arrow" id="backArrow" onclick="prevStep()">&#8592;</button>
+        Event Details
+      </div>
+
+      <!-- ===================== STEP 1 ===================== -->
+      <div class="step-card active" id="step1">
+        <div class="step-header">STEP 1: Confirm Event Details</div>
+        <div class="step-body">
+          <div class="two-col">
+            <!-- LEFT: Date picker -->
+            <div class="col-left">
+              <span class="field-label">Event Date (Mandatory)</span>
+              <div class="date-display" id="dateDisplay">
+                <span class="cal-icon">📅</span>
+                <span id="selectedDateText">Select a date</span>
+              </div>
+              <!-- Calendar -->
+              <div class="cal-wrap">
+                <div class="calendar">
+                  <div class="cal-nav">
+                    <button class="cal-prev-next" onclick="changeMonth(-1)">&#8249;</button>
+                    <div class="cal-month-year">
+                      <span id="calMonthLbl"></span>
+                      <button class="cal-year-btn" id="calYearBtn" onclick="toggleYearPicker(event)"></button>
+                    </div>
+                    <button class="cal-prev-next" onclick="changeMonth(1)">&#8250;</button>
+                  </div>
+                  <table class="cal-grid">
+                    <thead>
+                      <tr>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>T</th>
+                        <th>W</th>
+                        <th>T</th>
+                        <th>F</th>
+                        <th>S</th>
+                      </tr>
+                    </thead>
+                    <tbody id="calBody"></tbody>
+                  </table>
+                </div>
+                <div class="year-picker" id="yearPicker"></div>
+              </div>
+              <p class="note-text"><b>*Note:</b> All future event bookings must be scheduled 14 days or more in advance
+                prior to your preferred date.</p>
+              <!-- Event Type -->
+              <span class="field-label" style="margin-top:18px;display:block;">Event Type</span>
+              <select class="select-field" id="eventType">
+                <optgroup label="🎂 Birthday">
+                  <option value="Birthday – Kids (Below 12)">Birthday – Kids (Below 12)</option>
+                  <option value="Birthday – Teens (13–17)">Birthday – Teens (13–17)</option>
+                  <option value="Birthday – Adults (18+)">Birthday – Adults (18+)</option>
+                  <option value="Birthday – Debut (18th)">Birthday – Debut (18th)</option>
+                </optgroup>
+                <optgroup label="💍 Wedding">
+                  <option value="Wedding Reception">Wedding Reception</option>
+                  <option value="Wedding Anniversary">Wedding Anniversary</option>
+                </optgroup>
+                <optgroup label="👨‍👩‍👧 Family">
+                  <option value="Baptism / Christening">Baptism / Christening</option>
+                  <option value="Family Reunion">Family Reunion</option>
+                  <option value="Graduation Party">Graduation Party</option>
+                </optgroup>
+                <optgroup label="🎄 Holiday">
+                  <option value="Christmas Party">Christmas Party</option>
+                  <option value="New Year Celebration">New Year Celebration</option>
+                  <option value="Fiesta / Town Celebration">Fiesta / Town Celebration</option>
+                </optgroup>
+                <optgroup label="🏢 Corporate">
+                  <option value="Corporate Event">Corporate Event</option>
+                  <option value="Team Building">Team Building</option>
+                  <option value="Seminar / Conference">Seminar / Conference</option>
+                </optgroup>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- RIGHT: Time, Guest Count, Venue -->
+            <div class="col-right">
+              <span class="field-label">Event Time</span>
+              <div class="time-input">
+                <span>⏰</span>
+                <input type="time" id="eventTime" value="08:00" />
+              </div>
+
+              <div class="guest-label">Guest Count</div>
+              <div class="counter">
+                <button onclick="changeGuest(-1)">−</button>
+                <input class="count-val" id="guestCount" type="number" min="50" max="150" value="0" inputmode="numeric"
+                  onchange="normalizeGuestCount()" onblur="normalizeGuestCount()" />
+                <button onclick="changeGuest(1)">+</button>
+              </div>
+
+              <div class="venue-label">Venue Address</div>
+              <div class="venue-fields">
+                <input class="venue-input" id="venueHouse" placeholder="House No. / Blk / Lot / Street" />
+                <input class="venue-input" id="venueBarangay" placeholder="Barangay" />
+                <input class="venue-input" id="venueCity" placeholder="City / Municipality" />
+                <input class="venue-input" id="venueProvince" placeholder="Province" />
+                <input class="venue-input" id="venueLandmark" placeholder="Landmark (optional)" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-footer">
+          <button class="btn-nav btn-next" onclick="goToStep(2)">Next</button>
+        </div>
+      </div>
+
+      <!-- ===================== STEP 2 ===================== -->
+      <div class="step-card" id="step2">
+        <div class="step-header">STEP 2: Decide On Catering</div>
+        <div class="step-body">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;">Menu Packages</h3>
+
+          <div class="packages-scroll">
+            <!-- Package 1 -->
+            <div class="pkg-card" onclick="selectPackage(this, 1, 399)">
+              <div class="pkg-card-header">PACKAGE 1</div>
+              <div class="pkg-card-body">
+                <div class="pkg-price">₱ 399<span>PER HEAD</span></div>
+                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+                <ul class="pkg-inclusions">
+                  <li>Steamed Rice</li>
+                  <li>Pancit Canton</li>
+                  <li>Fried Chicken</li>
+                  <li>Pork Menudo</li>
+                  <li>Fresh Lumpia</li>
+                  <li>Mixed Vegetables</li>
+                  <li>Dessert</li>
+                  <li>Iced Tea</li>
+                </ul>
+                <div class="pkg-occasion">GOOD FOR ANY OCCASION</div>
+                <div class="pkg-occasion-text">Birthdays, Baptism, Small Gatherings</div>
+                <button class="pkg-btn">Customize Package</button>
+              </div>
+            </div>
+
+            <!-- Package 2 -->
+            <div class="pkg-card" onclick="selectPackage(this, 2, 499)">
+              <div class="pkg-card-header">PACKAGE 2</div>
+              <div class="pkg-card-body">
+                <div class="pkg-price">₱ 499<span>PER HEAD</span></div>
+                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+                <ul class="pkg-inclusions">
+                  <li>Steamed Rice</li>
+                  <li>Pancit Bihon</li>
+                  <li>Chicken Teriyaki</li>
+                  <li>Beef Caldereta</li>
+                  <li>Shanghai Lumpia</li>
+                  <li>Buttered Mixed Vegetables</li>
+                  <li>Fruit Salad</li>
+                  <li>Dessert</li>
+                  <li>Iced Tea</li>
+                </ul>
+                <div class="pkg-occasion">PERFECT FOR</div>
+                <div class="pkg-occasion-text">Birthdays, Anniversaries, Reunions</div>
+                <button class="pkg-btn">Customize Package</button>
+              </div>
+            </div>
+
+            <!-- Package 3 -->
+            <div class="pkg-card" onclick="selectPackage(this, 3, 599)">
+              <div class="pkg-card-header">PACKAGE 3</div>
+              <div class="pkg-card-body">
+                <div class="pkg-price">₱ 599<span>PER HEAD</span></div>
+                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+                <ul class="pkg-inclusions">
+                  <li>Steamed Rice</li>
+                  <li>Pancit Canton Guisado</li>
+                  <li>Fried Chicken</li>
+                  <li>Beef Stroganoff</li>
+                  <li>Garlic Butter Shrimp</li>
+                  <li>Mixed Vegetables</li>
+                  <li>Corn Soup</li>
+                  <li>Fruit Salad</li>
+                  <li>Dessert</li>
+                  <li>Iced Tea</li>
+                </ul>
+                <div class="pkg-occasion">BEST FOR</div>
+                <div class="pkg-occasion-text">Weddings, Corporate Events</div>
+                <button class="pkg-btn">Customize Package</button>
+              </div>
+            </div>
+
+            <!-- Package 4 -->
+            <div class="pkg-card" onclick="selectPackage(this, 4, 799)">
+              <div class="pkg-card-header">PACKAGE 4</div>
+              <div class="pkg-card-body">
+                <div class="pkg-price">₱ 799<span>PER HEAD</span></div>
+                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+                <ul class="pkg-inclusions">
+                  <li>Steamed Rice</li>
+                  <li>Pancit Malabon</li>
+                  <li>Roasted Chicken</li>
+                  <li>Beef Tenderloin Tips</li>
+                  <li>Fish Fillet with Tartar Sauce</li>
+                  <li>Garlic Butter Shrimp</li>
+                  <li>Mixed Vegetables</li>
+                  <li>Creamy Macaroni Salad</li>
+                  <li>Corn Soup</li>
+                  <li>Dessert</li>
+                  <li>Iced Tea</li>
+                </ul>
+                <div class="pkg-occasion">PREMIUM CHOICE FOR</div>
+                <div class="pkg-occasion-text">Weddings, Debuts, Special Celebrations</div>
+                <button class="pkg-btn">Customize Package</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-col-bottom">
+            <div class="special-req">
+              <span class="field-label">Special Requests</span>
+              <textarea placeholder="Enter any special requests or dietary requirements..."></textarea>
+            </div>
+            <div class="add-info">
+              <span class="field-label">Additional Information</span>
+              <div class="add-info-box">
+                <ul>
+                  <li>Minimum of 50 Persons.</li>
+                  <li>Prices may change without prior notice.</li>
+                  <li>Food May be subject to seasonal availability.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-footer">
+          <span class="skip-note">*Click skip if you will only rent equipments.</span>
+          <button class="btn-nav btn-back" onclick="goToStep(1)">Back</button>
+          <button class="btn-nav btn-skip" onclick="goToStep(3)">Skip</button>
+          <button class="btn-nav btn-next" onclick="goToStep(3)">Next</button>
+        </div>
+      </div>
+
+      <!-- ===================== STEP 3 ===================== -->
+      <div class="step-card" id="step3">
+        <div class="step-header">STEP 3: Decide On Rental Inventory</div>
+        <div class="step-body">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;">Select and Browse Rental Inventory</h3>
+
+          <div class="rental-scroll">
+
+            <!-- Chiavari Chair -->
+            <div class="rental-item">
+              <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&auto=format&fit=crop"
+                alt="Chiavari Chair" />
+              <div class="rental-info">
+                <h4>Chiavari Chair</h4>
+                <p>Description: High Quality Chair</p>
+                <p class="cost">Cost: ₱ 50.00/per chair</p>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                  <span style="font-size:12px;color:#555;">Quantity</span>
+                  <div class="counter">
+                    <button onclick="changeQty(this,-1)">−</button>
+                    <div class="count-val">0</div>
+                    <button onclick="changeQty(this,1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wood Table -->
+            <div class="rental-item">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&auto=format&fit=crop"
+                alt="Wood Table" />
+              <div class="rental-info">
+                <h4>Wood Table</h4>
+                <p>Description: High Quality Table</p>
+                <p class="cost">Cost: ₱ 50.00/per table</p>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                  <span style="font-size:12px;color:#555;">Quantity</span>
+                  <div class="counter">
+                    <button onclick="changeQty(this,-1)">−</button>
+                    <div class="count-val">0</div>
+                    <button onclick="changeQty(this,1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tent House -->
+            <div class="rental-item">
+              <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=400&auto=format&fit=crop"
+                alt="Tent House" />
+              <div class="rental-info">
+                <h4>Tent House</h4>
+                <p>Description: High Quality tent</p>
+                <p class="cost">Cost: ₱ 150.00/per tent</p>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                  <span style="font-size:12px;color:#555;">Quantity</span>
+                  <div class="counter">
+                    <button onclick="changeQty(this,-1)">−</button>
+                    <div class="count-val">0</div>
+                    <button onclick="changeQty(this,1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fairy Lights -->
+            <div class="rental-item">
+              <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&auto=format&fit=crop"
+                alt="Fairy Lights" />
+              <div class="rental-info">
+                <h4>Fairy Lights</h4>
+                <p>Description: Ambient LED string lights</p>
+                <p class="cost">Cost: ₱ 80.00/per set</p>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                  <span style="font-size:12px;color:#555;">Quantity</span>
+                  <div class="counter">
+                    <button onclick="changeQty(this,-1)">−</button>
+                    <div class="count-val">0</div>
+                    <button onclick="changeQty(this,1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="step-footer">
+          <span class="skip-note">*Click skip if you will only book food catering.</span>
+          <button class="btn-nav btn-back" onclick="goToStep(2)">Back</button>
+          <button class="btn-nav btn-skip" onclick="goToStep(4)">Skip</button>
+          <button class="btn-nav btn-next" onclick="goToStep(4)">Next</button>
+        </div>
+      </div>
+
+      <!-- ===================== STEP 4 ===================== -->
+      <div class="step-card" id="step4">
+        <div class="step-header">STEP 4: Cost Breakdown and Submit Booking</div>
+        <div class="step-body">
+          <div class="step4-grid">
+
+            <!-- Cost Breakdown -->
+            <div class="cost-box">
+              <h3>Transparent Cost Breakdown</h3>
+              <div class="cost-row">
+                <span></span><span style="font-weight:700;color:#555;">Price</span>
+              </div>
+              <div class="cost-row">
+                <span>Package:</span>
+                <span id="breakPackage">—</span>
+              </div>
+              <div class="cost-row">
+                <span>Rentals:</span>
+                <span id="breakRentals">—</span>
+              </div>
+              <hr class="cost-divider" />
+              <div class="cost-row cost-total">
+                <span>Total Cost:</span>
+                <span id="breakTotal">—</span>
+              </div>
+              <div class="cost-row cost-deposit">
+                <span>Deposit Due Now:</span>
+                <span id="breakDeposit">—</span>
+              </div>
+              <div class="cost-row cost-total">
+                <span>Balance to Pay:</span>
+                <span id="breakBalance">—</span>
+              </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="cost-box payment-box">
+              <h3>Secure Slot &amp; Submit Booking</h3>
+
+              <div class="pay-label">Online Payment Type</div>
+              <select class="pay-select" id="paymentType">
+                <option>Gcash</option>
+                <option>Maya</option>
+                <option>Bank Transfer</option>
+              </select>
+
+              <div class="pay-label">Amount Due</div>
+              <button class="autofill-btn" onclick="autofillAmount()">Autofill 50%</button>
+
+              <div class="pay-label">QR code and Number for Payment</div>
+              <div class="qr-section">
+                <div class="qr-details">
+                  <b>Phone Number:</b><br>
+                  0963-707-4735
+                  <div class="qr-note">Transfer fees may apply.</div>
+                  <div style="font-size:11px;color:#8b1a2e;font-weight:700;margin-top:2px;">Cherry-And</div>
+                </div>
+                <!-- QR placeholder image -->
+                <img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=09637074735"
+                  alt="GCash QR Code" />
+              </div>
+
+              <span class="upload-label">Upload Receipt/Proof of Payment</span>
+              <div class="upload-box">
+                <input type="file" accept="image/*,.pdf" onchange="handleUpload(this)" />
+                <div class="upload-icon">📎</div>
+                <p id="uploadText">Click to upload or drag &amp; drop</p>
+              </div>
+              <div class="upload-note">*Note: Deposit is non-refundable until owner verification.</div>
+            </div>
+
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitBooking()">SUBMIT YOUR REQUEST</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    /* ============================================================
+       STEP NAVIGATION
+    ============================================================ */
+    let currentStep = 1;
+
+    function goToStep(n) {
+      if (n === 2 && !validateStep1()) return;
+      document.getElementById('step' + currentStep).classList.remove('active');
+      currentStep = n;
+      document.getElementById('step' + currentStep).classList.add('active');
+      document.getElementById('backArrow').style.display = n > 1 ? 'inline' : 'none';
+      if (n === 4) calcBreakdown();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevStep() { if (currentStep > 1) goToStep(currentStep - 1); }
+
+    /* ============================================================
+       STEP 1 VALIDATION
+    ============================================================ */
+    function validateStep1() {
+      const date = selectedDate;
+      const guests = normalizeGuestCount();
+      const time = document.getElementById('eventTime').value;
+
+      if (!date) { alert('Please select an event date.'); return false; }
+      if (![50, 100, 150].includes(guests)) {
+        alert('Invalid guest count. Choose a pax bracket: 30-50 books 50, 70-100 books 100, or 120-150 books 150.');
+        return false;
+      }
+      if (!document.getElementById('venueHouse').value.trim()) {
+        alert('Please enter your House No. / Block / Street.'); return false;
+      }
+      if (!document.getElementById('venueBarangay').value.trim()) {
+        alert('Please enter your Barangay.'); return false;
+      }
+      if (!document.getElementById('venueCity').value.trim()) {
+        alert('Please enter your City / Municipality.'); return false;
+      }
+      if (!document.getElementById('venueProvince').value.trim()) {
+        alert('Please enter your Province.'); return false;
+      }
+      if (!time) { alert('Please select an event time.'); return false; }
+      return true;
+    }
+
+    /* ============================================================
+       CALENDAR
+    ============================================================ */
+    let calDate = new Date();
+    let selectedDate = null;
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function renderCalendar() {
+      const y = calDate.getFullYear(), m = calDate.getMonth();
+      document.getElementById('calMonthLbl').textContent = MONTHS[m] + ' ';
+      document.getElementById('calYearBtn').textContent = y;
+
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const minDate = new Date(today); minDate.setDate(minDate.getDate() + 14);
+
+      const first = new Date(y, m, 1).getDay();
+      const days = new Date(y, m + 1, 0).getDate();
+
+      let html = '<tr>';
+      let cell = 0;
+
+      for (let i = 0; i < first; i++) {
+        html += '<td class="empty"></td>'; cell++;
+      }
+      for (let d = 1; d <= days; d++) {
+        const thisDay = new Date(y, m, d);
+        let cls = '';
+        if (thisDay < minDate) cls = 'disabled';
+        if (thisDay.toDateString() === today.toDateString()) cls += ' today';
+        if (selectedDate && thisDay.toDateString() === selectedDate.toDateString()) cls = 'selected';
+
+        html += `<td class="${cls.trim()}" onclick="pickDate(${y},${m},${d},this)">${d}</td>`;
+        cell++;
+        if (cell % 7 === 0 && d < days) html += '</tr><tr>';
+      }
+      // fill last row
+      while (cell % 7 !== 0) { html += '<td class="empty"></td>'; cell++; }
+      html += '</tr>';
+      document.getElementById('calBody').innerHTML = html;
+    }
+
+    function changeMonth(dir) {
+      calDate.setMonth(calDate.getMonth() + dir);
+      renderCalendar();
+    }
+
+    function pickDate(y, m, d, el) {
+      if (el.classList.contains('disabled') || el.classList.contains('empty')) return;
+      selectedDate = new Date(y, m, d);
+      document.getElementById('selectedDateText').textContent =
+        MONTHS[m] + ' ' + d + ', ' + y;
+      renderCalendar();
+    }
+
+    renderCalendar();
+
+    /* ---- YEAR PICKER ---- */
+    function toggleYearPicker(e) {
+      e.stopPropagation();
+      const picker = document.getElementById('yearPicker');
+      if (picker.classList.contains('open')) { picker.classList.remove('open'); return; }
+      const cur = calDate.getFullYear();
+      let html = '';
+      for (let y = cur - 2; y <= cur + 10; y++) {
+        html += `<div class="yr-opt${y === cur ? ' selected' : ''}" onclick="selectYear(${y})">${y}</div>`;
+      }
+      picker.innerHTML = html;
+      picker.classList.add('open');
+    }
+    function selectYear(y) {
+      calDate.setFullYear(y);
+      document.getElementById('yearPicker').classList.remove('open');
+      renderCalendar();
+    }
+    document.addEventListener('click', function (e) {
+      const picker = document.getElementById('yearPicker');
+      const btn = document.getElementById('calYearBtn');
+      if (picker && !picker.contains(e.target) && e.target !== btn)
+        picker.classList.remove('open');
+    });
+
+    /* ============================================================
+       GUEST COUNTER
+    ============================================================ */
+    function normalizeGuestCount() {
+      const el = document.getElementById('guestCount');
+      const requested = parseInt(el.value, 10) || 0;
+      let capacity = requested;
+
+      if (requested >= 30 && requested <= 50) capacity = 50;
+      else if (requested >= 70 && requested <= 100) capacity = 100;
+      else if (requested >= 120 && requested <= 150) capacity = 150;
+
+      if (capacity !== requested && [50, 100, 150].includes(capacity)) el.value = capacity;
+      return parseInt(el.value, 10) || 0;
+    }
+
+    function changeGuest(dir) {
+      const el = document.getElementById('guestCount');
+      const current = parseInt(el.value, 10) || 0;
+      let capacity;
+
+      if (dir > 0) {
+        capacity = current < 30 ? 50 : current < 70 ? 100 : 150;
+      } else {
+        capacity = current > 100 ? 100 : current > 50 ? 50 : 0;
+      }
+      el.value = capacity;
+    }
+
+    /* ============================================================
+       RENTAL QTY COUNTERS
+    ============================================================ */
+    function changeQty(btn, dir) {
+      const wrap = btn.parentElement;
+      const display = wrap.querySelector('.count-val');
+      let v = parseInt(display.textContent) + dir;
+      if (v < 0) v = 0;
+      display.textContent = v;
+    }
+
+    /* ============================================================
+       PACKAGE SELECTION
+    ============================================================ */
+    let selectedPkg = null;
+    let selectedPkgPrice = 0;
+
+    function selectPackage(card, num, price) {
+      document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedPkg = num;
+      selectedPkgPrice = price;
+    }
+
+    /* ============================================================
+       STEP 4 – COST BREAKDOWN
+    ============================================================ */
+    const RENTAL_PRICES = [50, 50, 150, 80]; // chair, table, tent, lights
+
+    function calcBreakdown() {
+      const guests = parseInt(document.getElementById('guestCount').value, 10) || 0;
+      const pkgCost = selectedPkgPrice > 0 ? selectedPkgPrice * guests : 0;
+
+      let rentalCost = 0;
+      document.querySelectorAll('.rental-item .count-val').forEach((el, i) => {
+        rentalCost += parseInt(el.textContent) * RENTAL_PRICES[i];
+      });
+
+      const total = pkgCost + rentalCost;
+      const deposit = total * 0.5;
+      const balance = total - deposit;
+
+      const fmt = v => v > 0 ? '₱ ' + v.toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '₱ 0.00';
+
+      document.getElementById('breakPackage').textContent = fmt(pkgCost);
+      document.getElementById('breakRentals').textContent = fmt(rentalCost);
+      document.getElementById('breakTotal').textContent = fmt(total);
+      document.getElementById('breakDeposit').textContent = fmt(deposit);
+      document.getElementById('breakBalance').textContent = fmt(balance);
+    }
+
+    function autofillAmount() {
+      calcBreakdown();
+      const depositEl = document.getElementById('breakDeposit');
+      alert('Deposit amount: ' + depositEl.textContent);
+    }
+
+    /* ============================================================
+       FILE UPLOAD
+    ============================================================ */
+    function handleUpload(input) {
+      if (input.files && input.files[0]) {
+        document.getElementById('uploadText').textContent = '✓ ' + input.files[0].name;
+      }
+    }
+
+    /* ============================================================
+       SUBMIT
+    ============================================================ */
+    function submitBooking() {
+      const upload = document.querySelector('.upload-box input').files;
+      if (!upload || upload.length === 0) {
+        alert('Please upload your proof of payment before submitting.'); return;
+      }
+      alert('Booking request submitted! We will review your payment and confirm your reservation within 24 hours.');
+      window.location.href = 'dashboard.html';
+    }
+
+    /* ============================================================
+       NOTIFICATIONS
+    ============================================================ */
+    let notifs = [
+      { id: 1, title: 'Booking Reminder', msg: 'Bookings must be scheduled at least 14 days in advance.', time: 'Just now', read: false, link: '' },
+    ];
+    function renderNotifs() {
+      const list = document.getElementById('notifList'), badge = document.getElementById('bellBadge');
+      list.innerHTML = '';
+      const unread = notifs.filter(n => !n.read).length;
+      badge.textContent = unread; badge.style.display = unread > 0 ? 'flex' : 'none';
+      if (!notifs.length) { list.innerHTML = '<div class="notif-empty">No notifications</div>'; return; }
+      notifs.forEach(n => {
+        const d = document.createElement('div');
+        d.className = 'notif-item' + (n.read ? '' : ' unread');
+        d.innerHTML = `<div class="notif-title">${n.title}</div><div class="notif-msg">${n.msg}</div><div class="notif-time">${n.time}</div>`;
+        d.onclick = () => { n.read = true; renderNotifs(); if (n.link) location.href = n.link; };
+        list.appendChild(d);
+      });
+    }
+    document.getElementById('bellBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('notifPanel').classList.toggle('show'); notifs.forEach(n => n.read = true); renderNotifs(); });
+    document.getElementById('notifClear').addEventListener('click', e => { e.stopPropagation(); notifs = []; renderNotifs(); });
+    document.addEventListener('click', e => { const p = document.getElementById('notifPanel'), bell = document.getElementById('bellBtn'); if (p && !p.contains(e.target) && !bell.contains(e.target)) p.classList.remove('show'); });
+    renderNotifs();
+
+    /* ============================================================
+       PROFILE
+    ============================================================ */
+    document.getElementById('avatarBtn').onclick = e => { e.stopPropagation(); document.getElementById('profileOverlay').classList.add('show'); };
+    function closeProfile() { document.getElementById('profileOverlay').classList.remove('show'); }
+    document.getElementById('profileOverlay').onclick = e => { if (e.target === document.getElementById('profileOverlay')) closeProfile(); };
+  </script>
+</body>
+
+</html>

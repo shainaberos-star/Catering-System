@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cherry-Andrews Catering Services</title>
+
+<style>
+
+  :root{
+    --maroon-dark:#4a0e18;
+    --maroon:#5c111d;
+    --maroon-light:#6d1523;
+    --gold:#e0a53f;
+    --line:rgba(255,255,255,.35);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    font-family:'Georgia','Times New Roman',serif;
+    background:var(--maroon);
+    color:#fff;
+    min-height:100vh;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- NAV ---------- */
+
+  .navbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 40px;
+    background:var(--maroon-dark);
+  }
+
+  .brand{display:flex;align-items:center;gap:12px;}
+
+  .brand-mark{
+    width:40px;height:40px;border-radius:50%;
+    border:1.5px solid var(--gold);
+    overflow:hidden;flex-shrink:0;
+  }
+
+  .brand-mark img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+
+  .brand-text{line-height:1.1;}
+
+  .brand-text .top{
+    font-size:15px;letter-spacing:2px;font-weight:600;
+  }
+
+  .brand-text .bottom{
+    font-size:9px;letter-spacing:3px;color:var(--gold);
+  }
+
+  .nav-links{
+    display:flex;gap:32px;font-size:14px;letter-spacing:.3px;
+  }
+
+  .nav-links a{
+    opacity:.9;transition:opacity .2s;
+  }
+
+  .nav-links a:hover{opacity:1;}
+
+  .nav-actions{display:flex;gap:14px;}
+
+  .pill{
+    padding:9px 20px;border-radius:30px;font-size:13px;cursor:pointer;
+    border:1.5px solid var(--line);background:transparent;color:#fff;
+    font-family:inherit;letter-spacing:.3px;transition:background .2s;
+  }
+
+  .pill:hover{background:rgba(255,255,255,.08);}
+
+  /* ---------- HERO ---------- */
+
+  .hero{
+    position:relative;min-height:440px;
+    display:flex;align-items:center;
+    padding:0 60px;
+    background:
+      linear-gradient(90deg, rgba(74,14,24,.92) 20%, rgba(74,14,24,.25) 60%, rgba(74,14,24,0) 90%),
+      url('image/background.jpg') center/cover no-repeat;
+    overflow:hidden;
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:2;
+    max-width:480px;
+  }
+
+  .hero-content h1{
+    font-style:italic;
+    font-weight:400;
+    font-size:44px;
+    line-height:1.25;
+    margin-bottom:28px;
+  }
+
+  .book-now{
+    background:#fff;
+    color:var(--maroon-dark);
+    border:none;
+    padding:14px 34px;
+    border-radius:30px;
+    font-size:15px;
+    font-family:inherit;
+    cursor:pointer;
+    letter-spacing:.3px;
+    transition:background .2s;
+  }
+
+  .book-now:hover{background:#f1e9df;}
+
+  /* ---------- SERVICES ---------- */
+
+  .services{
+    padding:56px 40px 40px;
+    text-align:center;
+  }
+
+  .services h2{
+    font-weight:400;
+    font-size:28px;
+    margin-bottom:40px;
+  }
+
+  .service-grid{
+    display:flex;
+    justify-content:center;
+    gap:70px;
+    flex-wrap:wrap;
+    max-width:900px;
+    margin:0 auto;
+  }
+
+  .service{max-width:220px;}
+
+  .service .icon{
+    width:56px;
+    height:56px;
+    margin:0 auto 16px;
+    border:1.5px solid var(--gold);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-size:24px;
+  }
+
+  .service h3{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+
+  .service p{
+    font-size:13px;
+    line-height:1.5;
+    opacity:.85;
+    font-family:Arial,sans-serif;
+  }
+
+  .note{
+    max-width:900px;
+    margin:36px auto 0;
+    font-size:11px;
+    font-style:italic;
+    opacity:.75;
+    font-family:Arial,sans-serif;
+    padding:0 10px;
+  }
+
+  /* ---------- AUTH OVERLAY ---------- */
+
+  .overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    background:rgba(20,4,7,.55);
+    backdrop-filter:blur(2px);
+    z-index:50;
+    padding:60px 16px 24px;
+    overflow-y:auto;
+  }
+
+  .overlay.active{display:flex;}
+
+  .back-btn{
+    position:fixed;
+    top:22px;
+    left:28px;
+    color:#fff;
+    font-size:20px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    z-index:51;
+  }
+
+  .auth-card{
+    width:360px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+    color:#2a2a2a;
+    font-family:Arial,sans-serif;
+    position:relative;
+  }
+
+  .auth-header{
+    background:var(--maroon-dark);
+    color:#fff;
+    text-align:center;
+    padding:22px 20px 0;
+  }
+
+  .auth-header .brand{
+    justify-content:center;
+    margin-bottom:16px;
+  }
+
+  .tabs{display:flex;}
+
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:12px 0;
+    font-size:13px;
+    letter-spacing:1px;
+    cursor:pointer;
+    font-weight:600;
+    border-top-left-radius:8px;
+    border-top-right-radius:8px;
+    transition:background .15s,color .15s;
+  }
+
+  .tab.inactive{
+    background:var(--maroon-dark);
+    color:#fff;
+  }
+
+  .tab.active{
+    background:#fff;
+    color:var(--maroon-dark);
+  }
+
+  .auth-body{padding:26px 26px 28px;}
+
+  .field{
+    margin-bottom:14px;
+    text-align:left;
+  }
+
+  .field label{
+    display:block;
+    font-size:12px;
+    margin-bottom:5px;
+    color:#333;
+    font-weight:600;
+  }
+
+  .field input[type=text],
+  .field input[type=email],
+  .field input[type=password],
+  .field input[type=tel]{
+    width:100%;
+    padding:11px 12px;
+    border:1.5px solid #cfcfcf;
+    border-radius:6px;
+    font-size:13px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .2s;
+  }
+
+  .field input:focus{
+    border-color:var(--maroon-light);
+  }
+
+  .field input.invalid{
+    border-color:#c0392b !important;
+    background:#fdf1f0;
+  }
+
+  .field input.valid{
+    border-color:#3a8a4d !important;
+  }
+
+  .pw-wrap{position:relative;}
+
+  .pw-wrap input{padding-right:42px;}
+
+  .pw-toggle{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:2px;
+    line-height:0;
+    color:#999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .pw-toggle:hover{color:var(--maroon-dark);}
+
+  .pw-toggle svg{
+    width:18px;
+    height:18px;
+    display:block;
+  }
+
+  .error-msg{
+    display:none;
+    color:#c0392b;
+    font-size:11px;
+    margin-top:5px;
+    line-height:1.4;
+  }
+
+  .field.show-error .error-msg{display:block;}
+
+  .hint{
+    font-size:10.5px;
+    color:#777;
+    margin-top:5px;
+    line-height:1.4;
+  }
+
+  .row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    margin-bottom:16px;
+  }
+
+  .row.terms{
+    align-items:flex-start;
+    line-height:1.5;
+  }
+
+  .row.terms a{
+    color:var(--maroon-dark);
+    text-decoration:underline;
+  }
+
+  .submit-btn{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:30px;
+    background:var(--maroon-dark);
+    color:#fff;
+    font-size:14px;
+    cursor:pointer;
+    font-family:inherit;
+    letter-spacing:.3px;
+    transition:background .2s;
+  }
+
+  .submit-btn:hover{background:var(--maroon-light);}
+
+  .below-link{
+    display:block;
+    text-align:center;
+    margin-top:14px;
+    font-size:12px;
+    color:#333;
+  }
+
+  .below-link b{
+    color:var(--maroon-dark);
+    cursor:pointer;
+  }
+
+  .view{display:none;}
+
+  .view.active{display:block;}
+
+  @media(max-width:640px){
+
+    .navbar{
+      flex-wrap:wrap;
+      gap:12px;
+      padding:14px 20px;
+    }
+
+    .nav-links{
+      order:3;
+      width:100%;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .hero{padding:0 24px;}
+
+    .hero-content h1{font-size:32px;}
+
+    .service-grid{gap:32px;}
+
+    .auth-card{
+      width:100%;
+      max-width:360px;
+    }
+
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ===== HOME PAGE ===== -->
+
+<div id="home">
+
+  <nav class="navbar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        <img src="image/logo.jpg" alt="Cherry-Andrews Logo" />
+      </div>
+
+      <div class="brand-text">
+        <div class="top">CHERRY-ANDREWS</div>
+        <div class="bottom">CATERING SERVICES</div>
+      </div>
+
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="packages.html">Packages</a>
+      <a href="rentals.html">Rentals</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="pill" onclick="openAuth('signup')">Create Account</button>
+      <button class="pill" onclick="openAuth('login')">Log in</button>
+    </div>
+
+  </nav>
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1>Affordable Luxury<br>for Every Occasion</h1>
+
+      <button class="book-now" onclick="openAuth('login')">
+        Book Now
+      </button>
+
+    </div>
+
+  </section>
+
+  <section class="services">
+
+    <h2>Our Services</h2>
+
+    <div class="service-grid">
+
+      <div class="service">
+
+        <div class="icon">&#127860;</div>
+
+        <h3>Catering Service</h3>
+
+        <p>
+          Affordable luxury catering tailored for every special occasion
+        </p>
+
+      </div>
+
+      <div class="service">
+
+        <div class="icon">&#128194;</div>
+
+        <h3>Rent Equipments</h3>
+
+        <p>
+          Premium event rentals, seating, and setups to bring your venue to life.
+        </p>
+
+      </div>
+
+      <div class="service">
+
+        <div class="icon">&#128241;</div>
+
+        <h3>Order Foods</h3>
+
+        <p>
+          Fresh, professionally prepared dishes delivered straight to your event.
+        </p>
+
+      </div>
+
+    </div>
+
+    <p class="note">
+      *Booking Requirement: To ensure proper preparation, bookings must be scheduled 14 days or more in advance.
+    </p>
+
+  </section>
+
+</div>
+
+
+<!-- ===== AUTH OVERLAY ===== -->
+
+<div class="overlay" id="authOverlay">
+
+  <button class="back-btn" onclick="closeAuth()">&#8592;</button>
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          <img src="image/logo.jpg" alt="Cherry-Andrews Logo" />
+        </div>
+
+        <div class="brand-text" style="text-align:left;">
+
+          <div class="top">CHERRY-ANDREWS</div>
+          <div class="bottom">CATERING SERVICES</div>
+
+        </div>
+
+      </div>
+
+      <div class="tabs">
+
+        <div class="tab" id="tabLogin" onclick="showView('login')">
+          LOG IN
+        </div>
+
+        <div class="tab" id="tabSignup" onclick="showView('signup')">
+          SIGN UP
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="auth-body">
+
+
+      <!-- ===== LOGIN FORM ===== -->
+
+      <form class="view" id="loginView" novalidate>
+
+        <div class="field" id="loginEmailField">
+
+          <label for="loginEmail">Email</label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+
+          <div class="error-msg">
+            Enter a valid email address (e.g. juan@example.com).
+          </div>
+
+        </div>
+
+
+        <div class="field" id="loginPasswordField">
+
+          <label for="loginPassword">Password</label>
+
+          <div class="pw-wrap">
+
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            >
+
+            <button
+              type="button"
+              class="pw-toggle"
+              onclick="togglePw('loginPassword',this)"
+              aria-label="Show/hide password"
+            >
+
+              <svg
+                class="eye-open"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+
+              <svg
+                class="eye-off"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="display:none;"
+              >
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+          <div class="error-msg">
+            Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <input type="checkbox" id="remember">
+
+          <label for="remember">
+            Remember Me
+          </label>
+
+        </div>
+
+
+        <button class="submit-btn" type="submit">
+          Log In
+        </button>
+
+
+        <span class="below-link">
+          Doesn't have an account yet?
+          <b onclick="showView('signup')">SIGN UP</b>
+        </span>
+
+      </form>
+
+
+      <!-- ===== SIGN UP FORM ===== -->
+
+      <form class="view" id="signupView" novalidate>
+
+
+        <div class="field" id="signupNameField">
+
+          <label for="signupName">Full Name</label>
+
+          <input
+            type="text"
+            id="signupName"
+            placeholder="Juan Dela Cruz"
+            maxlength="60"
+            autocomplete="name"
+          >
+
+          <div class="hint">
+            First name and surname, each starting with a capital letter. Letters only.
+          </div>
+
+          <div class="error-msg">
+            Enter your complete full name (e.g. Juan Dela Cruz). Each word must start with a capital letter — no numbers or symbols.
+          </div>
+
+        </div>
+
+
+        <div class="field" id="signupEmailField">
+
+          <label for="signupEmail">Email</label>
+
+          <input
+            type="email"
+            id="signupEmail"
+            placeholder="you@example.com"
+            maxlength="100"
+            autocomplete="email"
+          >
+
+          <div class="error-msg">
+            Enter a valid email address (e.g. juan@example.com).
+          </div>
+
+        </div>
+
+
+        <div class="field" id="signupContactField">
+
+          <label for="signupContact">Contact Number</label>
+
+          <input
+            type="tel"
+            id="signupContact"
+            placeholder="09XXXXXXXXX"
+            maxlength="11"
+            inputmode="numeric"
+          >
+
+          <div class="hint">
+            Philippine mobile number — 11 digits starting with 09.
+          </div>
+
+          <div class="error-msg">
+            Enter a valid 11-digit PH mobile number starting with 09 (e.g. 09171234567).
+          </div>
+
+        </div>
+
+
+        <div class="field" id="signupPasswordField">
+
+          <label for="signupPassword">Password</label>
+
+          <div class="pw-wrap">
+
+            <input
+              type="password"
+              id="signupPassword"
+              placeholder="Create a password"
+              autocomplete="new-password"
+            >
+
+            <button
+              type="button"
+              class="pw-toggle"
+              onclick="togglePw('signupPassword',this)"
+              aria-label="Show/hide password"
+            >
+
+              <svg
+                class="eye-open"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+
+              <svg
+                class="eye-off"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="display:none;"
+              >
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+          <div class="hint">
+            Min. 8 characters — needs uppercase, lowercase, number, and special character.
+          </div>
+
+          <div class="error-msg">
+            Password does not meet the requirements above.
+          </div>
+
+        </div>
+
+
+        <div class="row terms">
+
+          <input
+            type="checkbox"
+            id="agree"
+            style="margin-top:3px;flex-shrink:0;"
+          >
+
+          <label for="agree">
+            By creating an account, you agree to our
+            <a href="#">Terms &amp; Conditions</a>
+            and consent to our
+            <a href="#">Privacy Policy</a>,
+            including how we collect, use, and protect your personal information for managing bookings and services.
+          </label>
+
+        </div>
+
+
+        <div
+          class="error-msg"
+          id="agreeError"
+          style="display:none;margin-bottom:10px;"
+        >
+          Please check the box to agree before continuing.
+        </div>
+
+
+        <button class="submit-btn" type="submit">
+          Create Account
+        </button>
+
+
+        <span class="below-link">
+          Already have an account?
+          <b onclick="showView('login')">LOG IN</b>
+        </span>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* ===== OVERLAY CONTROLS ===== */
+
+  function openAuth(view){
+
+    document.getElementById('authOverlay').classList.add('active');
+
+    showView(view);
+
+  }
+
+
+  function closeAuth(){
+
+    document.getElementById('authOverlay').classList.remove('active');
+
+  }
+
+
+  function showView(view){
+
+    const isLogin = view === 'login';
+
+    document.getElementById('loginView')
+      .classList.toggle('active', isLogin);
+
+    document.getElementById('signupView')
+      .classList.toggle('active', !isLogin);
+
+    document.getElementById('tabLogin').className =
+      'tab ' + (isLogin ? 'active' : 'inactive');
+
+    document.getElementById('tabSignup').className =
+      'tab ' + (!isLogin ? 'active' : 'inactive');
+
+  }
+
+
+  showView('login');
+
+
+  /* ===== EYE ICON TOGGLE ===== */
+
+  function togglePw(inputId, btn){
+
+    const input = document.getElementById(inputId);
+
+    const isHidden = input.type === 'password';
+
+    input.type = isHidden ? 'text' : 'password';
+
+    btn.querySelector('.eye-open').style.display =
+      isHidden ? 'none' : 'block';
+
+    btn.querySelector('.eye-off').style.display =
+      isHidden ? 'block' : 'none';
+
+  }
+
+
+  /* ===== INPUT RESTRICTIONS ===== */
+
+  // Contact: digits only
+  document.getElementById('signupContact')
+    .addEventListener('keypress', function(e){
+
+      if(!/[0-9]/.test(e.key)){
+        e.preventDefault();
+      }
+
+    });
+
+
+  document.getElementById('signupContact')
+    .addEventListener('input', function(){
+
+      this.value = this.value.replace(/\D/g, '');
+
+      // I-clear muna ang error habang nagta-type.
+      const field =
+        document.getElementById('signupContactField');
+
+      field.classList.remove('show-error');
+
+      this.classList.remove('invalid');
+      this.classList.remove('valid');
+
+    });
+
+
+  // Name: letters, spaces, hyphens, apostrophes only
+  document.getElementById('signupName')
+    .addEventListener('keypress', function(e){
+
+      if(!/[a-zA-Z\s'\-]/.test(e.key)){
+        e.preventDefault();
+      }
+
+    });
+
+
+  /* ===== VALIDATION PATTERNS ===== */
+
+  const patterns = {
+
+    // Pangalan na may first at last name.
+    name:
+      /^[A-Z][a-zA-Z'\-]*(\s[A-Z][a-zA-Z'\-]*)+$/,
+
+    // Email na may valid domain.
+    email:
+      /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/,
+
+    // Contact: 09 + 9 digits = 11 digits
+    contact:
+      /^09\d{9}$/,
+
+    // Minimum 8 characters with uppercase, lowercase, number, and symbol.
+    password:
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/
+
+  };
+
+
+  function setFieldState(fieldId, isValid){
+
+    const field =
+      document.getElementById(fieldId);
+
+    const input =
+      field.querySelector('input');
+
+    field.classList.toggle(
+      'show-error',
+      !isValid
+    );
+
+    input.classList.toggle(
+      'invalid',
+      !isValid
+    );
+
+    input.classList.toggle(
+      'valid',
+      isValid && input.value.trim() !== ''
+    );
+
+    return isValid;
+
+  }
+
+
+  function validateField(fieldId, inputId, pattern){
+
+    return setFieldState(
+      fieldId,
+      pattern.test(
+        document.getElementById(inputId)
+          .value.trim()
+      )
+    );
+
+  }
+
+
+  /* Validate fields on blur and check all values on submit. */
+
+
+  // Fields checked as the user fills out the forms.
+  [
+    'signupName',
+    'signupEmail',
+    'signupContact',
+    'signupPassword',
+    'loginEmail',
+    'loginPassword'
+  ].forEach(id => {
+
+    const el =
+      document.getElementById(id);
+
+
+    // Clear the current validation state while typing.
+    el.addEventListener('input', function(){
+
+      const field =
+        this.closest('.field');
+
+      field.classList.remove('show-error');
+
+      this.classList.remove('invalid');
+
+      this.classList.remove('valid');
+
+    });
+
+
+    // Validate the field when it loses focus.
+    el.addEventListener('blur', function(){
+
+      liveCheck(id);
+
+    });
+
+  });
+
+
+  // Show errors only after the field has enough input.
+  function liveCheck(id){
+
+    switch(id){
+
+
+      /* =========================
+         FULL NAME
+         ========================= */
+
+      case 'signupName': {
+
+        const value =
+          document.getElementById('signupName')
+            .value.trim();
+
+
+        // Wait until the field has a value.
+        if(value === ''){
+          return;
+        }
+
+
+        validateField(
+          'signupNameField',
+          'signupName',
+          patterns.name
+        );
+
+        break;
+
+      }
+
+
+      /* =========================
+         EMAIL
+         ========================= */
+
+      case 'signupEmail': {
+
+        const value =
+          document.getElementById('signupEmail')
+            .value.trim();
+
+
+        // Wait until the email has the basic address parts.
+        if(
+          value === '' ||
+          !value.includes('@') ||
+          !value.includes('.')
+        ){
+          return;
+        }
+
+
+        validateField(
+          'signupEmailField',
+          'signupEmail',
+          patterns.email
+        );
+
+        break;
+
+      }
+
+
+      /* =========================
+         CONTACT NUMBER
+         ========================= */
+
+      case 'signupContact': {
+
+        const contact =
+          document.getElementById('signupContact');
+
+        const contactField =
+          document.getElementById('signupContactField');
+
+
+        // Wait for all 11 digits before validating.
+        if(contact.value.length < 11){
+
+          contactField.classList.remove(
+            'show-error'
+          );
+
+          contact.classList.remove(
+            'invalid'
+          );
+
+          contact.classList.remove(
+            'valid'
+          );
+
+          return;
+
+        }
+
+
+        // Validate once the complete contact number is entered.
+        validateField(
+          'signupContactField',
+          'signupContact',
+          patterns.contact
+        );
+
+        break;
+
+      }
+
+
+      /* =========================
+         PASSWORD
+         ========================= */
+
+      case 'signupPassword': {
+
+        const password =
+          document.getElementById('signupPassword')
+            .value;
+
+        const passwordField =
+          document.getElementById('signupPasswordField');
+
+
+        // Wait until the password reaches the minimum length.
+        if(password.length < 8){
+
+          passwordField.classList.remove(
+            'show-error'
+          );
+
+          document
+            .getElementById('signupPassword')
+            .classList.remove('invalid');
+
+          document
+            .getElementById('signupPassword')
+            .classList.remove('valid');
+
+          return;
+
+        }
+
+
+        // Validate once the password reaches the minimum length.
+        validateField(
+          'signupPasswordField',
+          'signupPassword',
+          patterns.password
+        );
+
+        break;
+
+      }
+
+
+      /* =========================
+         LOGIN EMAIL
+         ========================= */
+
+      case 'loginEmail': {
+
+        const val = document.getElementById('loginEmail').value.trim();
+        if(val === '') return;
+        validateField('loginEmailField', 'loginEmail', patterns.email);
+        break;
+
+      }
+
+
+      /* =========================
+         LOGIN PASSWORD
+         ========================= */
+
+      case 'loginPassword': {
+
+        const pw = document.getElementById('loginPassword').value;
+        if(pw.length < 8){
+          document.getElementById('loginPasswordField').classList.remove('show-error');
+          document.getElementById('loginPassword').classList.remove('invalid','valid');
+          return;
+        }
+        validateField('loginPasswordField', 'loginPassword', patterns.password);
+        break;
+
+      }
+
+    }
+
+  }
+
+
+  /* ===== SIGN UP SUBMIT ===== */
+
+  document.getElementById('signupView')
+    .addEventListener('submit', function(e){
+
+      e.preventDefault();
+
+
+      // Check every required field when the form is submitted.
+
+      const nameOk =
+        validateField(
+          'signupNameField',
+          'signupName',
+          patterns.name
+        );
+
+
+      const emailOk =
+        validateField(
+          'signupEmailField',
+          'signupEmail',
+          patterns.email
+        );
+
+
+      const contactOk =
+        validateField(
+          'signupContactField',
+          'signupContact',
+          patterns.contact
+        );
+
+
+      const passOk =
+        validateField(
+          'signupPasswordField',
+          'signupPassword',
+          patterns.password
+        );
+
+
+      const agreed =
+        document.getElementById('agree').checked;
+
+
+      document.getElementById('agreeError')
+        .style.display =
+        agreed ? 'none' : 'block';
+
+
+      if(
+        nameOk &&
+        emailOk &&
+        contactOk &&
+        passOk &&
+        agreed
+      ){
+
+        alert(
+          'Account created! Connect this form to your backend.'
+        );
+
+
+        this.reset();
+
+
+        // Clear validation states after account creation.
+        [
+          'signupNameField',
+          'signupEmailField',
+          'signupContactField',
+          'signupPasswordField'
+        ].forEach(fid => {
+
+          const f =
+            document.getElementById(fid);
+
+          f.classList.remove(
+            'show-error'
+          );
+
+          f.querySelector('input')
+            .classList.remove(
+              'valid',
+              'invalid'
+            );
+
+        });
+
+      }
+
+    });
+
+
+  /* ===== LOGIN SUBMIT ===== */
+
+  document.getElementById('loginView')
+    .addEventListener('submit', function(e){
+
+      e.preventDefault();
+
+
+      const emailOk =
+        validateField(
+          'loginEmailField',
+          'loginEmail',
+          patterns.email
+        );
+
+
+      const passOk =
+        validateField(
+          'loginPasswordField',
+          'loginPassword',
+          patterns.password
+        );
+
+      if(emailOk && passOk){
+        window.location.href = 'dashboard.html';
+      }
+
+    });
+
+</script>
+
+</body>
+
+</html>

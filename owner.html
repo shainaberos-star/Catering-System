@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Owner Panel - Cherry-Andrews Catering</title>
+
+  <style>
+
+    :root {
+      --wine: #8d1831;
+      --wine-dark: #651025;
+      --wine-soft: #a62843;
+      --cream: #f5f0e8;
+      --paper: #fffdf9;
+      --ink: #252126;
+      --muted: #756d6e;
+      --line: #d7b5b8;
+      --gold: #f1c018;
+      --green: #4f8b61;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ece7de;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       TOP BAR
+       ========================= */
+
+    .topbar {
+      height: 88px;
+      background: #4a0e18;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      border: 2px solid #e0a53f;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-name small {
+      display: block;
+      color: #e0a53f;
+      font-size: 14px;
+      font-style: italic;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+
+    /* =========================
+       TOP ACTIONS
+       ========================= */
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .profile {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      font-size: 12px;
+      background: transparent;
+      border: none;
+      padding: 5px 6px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .action-icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .account-profile-dialog {
+      width: min(360px, calc(100% - 32px));
+      margin: auto;
+      padding: 24px;
+      border: 0;
+      border-radius: 10px;
+      color: #222;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    .account-profile-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .account-profile-dialog h2 {
+      margin-bottom: 16px;
+      color: #4a0e18;
+      font-size: 20px;
+    }
+
+    .account-profile-dialog dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 16px;
+      font: 13px Arial, sans-serif;
+    }
+
+    .account-profile-dialog dt {
+      color: #777;
+    }
+
+    .account-profile-dialog dd {
+      font-weight: 700;
+    }
+
+    .account-profile-note {
+      margin-top: 16px;
+      color: #666;
+      font: 12px/1.5 Arial, sans-serif;
+    }
+
+    .account-profile-close {
+      display: block;
+      margin: 20px 0 0 auto;
+      padding: 8px 16px;
+      border: 0;
+      border-radius: 5px;
+      background: #8b1a2e;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .logout {
+      color: #fff;
+      background: transparent;
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 11px;
+      margin: 0;
+    }
+
+    /* =========================
+       NOTIFICATION
+       ========================= */
+
+    .notification-wrapper {
+      position: relative;
+    }
+
+    .bell-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      color: #e0a53f;
+      font-size: 22px;
+      line-height: 1;
+      padding: 6px;
+      margin: 0;
+    }
+
+    .bell-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 17px;
+      height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      border: 1.5px solid #4a0e18;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .notification-panel {
+      display: none;
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 340px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .notification-panel.show {
+      display: block;
+    }
+
+    .notification-header {
+      background: #8b1a2e;
+      color: white;
+      padding: 13px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification-header h3 {
+      font-size: 15px;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 11px;
+      text-decoration: underline;
+    }
+
+    .notification-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .notification-item {
+      padding: 13px 15px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .notification-item:hover {
+      background: #f8f1ed;
+    }
+
+    .notification-item.unread {
+      background: #fff5f2;
+      border-left: 4px solid #8b1a2e;
+    }
+
+    .notification-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #4a0e18;
+      margin-bottom: 4px;
+    }
+
+    .notification-message {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    .notification-time {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .no-notification {
+      padding: 25px 15px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #777;
+    }
+
+    /* =========================
+       LAYOUT
+       ========================= */
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 88px);
+    }
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+
+    .sidebar {
+      width: 185px;
+      flex: 0 0 185px;
+      background: #4a0e18;
+      color: #fff;
+      padding: 10px 0 24px;
+      border-right: 1px solid #e8d9ce;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-label {
+      padding: 0 24px 16px;
+      border-bottom: 1px solid #f7decd;
+    }
+
+    .panel-label strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: #f4d6d6;
+    }
+
+    .panel-label span {
+      display: block;
+      color: #fffefe;
+      font-size: 13px;
+      line-height: 1.15;
+      letter-spacing: 0.7px;
+      margin-top: 4px;
+    }
+
+    .nav-section {
+      color: #d9bfc0;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      padding: 15px 24px 6px;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 44px;
+      border: 0;
+      border-left: 4px solid transparent;
+      background: transparent;
+      color: #fbf7f7;
+      text-align: left;
+      text-decoration: none;
+      padding: 10px 16px 10px 20px;
+      font-size: 13px;
+      font-family: Georgia, "Times New Roman", serif;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-item:hover {
+      background: #ddd0c5;
+      color: #4a0e18;
+    }
+
+    .nav-item.active {
+      background: #c0392b;
+      border-left: 4px solid #8b1a2e;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      width: 20px;
+      color: #f4d6d6;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      flex: 0 0 20px;
+    }
+
+    .nav-item.active .nav-icon {
+      color: #fff;
+    }
+
+    /* =========================
+       MAIN
+       ========================= */
+
+    .main {
+      width: 100%;
+      max-width: 1180px;
+      padding: 25px 28px 40px;
+      margin: 0 auto;
+    }
+
+    .view {
+      display: none;
+      animation: appear 0.2s ease-out;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 17px;
+    }
+
+    .view-title h1 {
+      font-size: 21px;
+      color: var(--wine-dark);
+    }
+
+    .view-title p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* =========================
+       DASHBOARD
+       ========================= */
+
+    .stat-grid,
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .metric-strip {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-card,
+    .metric,
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--wine);
+      border-radius: 8px;
+    }
+
+    .stat-card {
+      min-height: 105px;
+      padding: 13px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--wine-dark);
+    }
+
+    .stat-value {
+      font-size: 25px;
+      margin: 12px 0 4px;
+    }
+
+    .stat-card p,
+    .metric span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .metric {
+      padding: 15px;
+      border-color: var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--wine);
+      font-size: 22px;
+      margin-top: 7px;
+    }
+
+    .chart-grid,
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+    }
+
+    .report-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--wine);
+      color: #fff;
+      padding: 10px 13px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .panel-body {
+      padding: 15px;
+    }
+
+    .bar-chart {
+      height: 190px;
+      display: flex;
+      align-items: end;
+      gap: 14px;
+      padding: 12px 12px 25px 30px;
+      border-bottom: 1px solid #aaa;
+      background:
+        linear-gradient(
+          to top,
+          transparent 24%,
+          #eee 25%,
+          transparent 26%,
+          transparent 49%,
+          #eee 50%,
+          transparent 51%,
+          transparent 74%,
+          #eee 75%,
+          transparent 76%
+        );
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 18px;
+      height: var(--height);
+      background: var(--wine);
+      position: relative;
+    }
+
+    .bar span {
+      position: absolute;
+      bottom: -19px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .pie-wrap {
+      min-height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .pie {
+      width: 135px;
+      height: 135px;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          #8d1831 0 35%,
+          #cf7d86 35% 62%,
+          #f0a5ac 62% 84%,
+          #7f8899 84% 100%
+        );
+    }
+
+    .legend,
+    .report-list {
+      list-style: none;
+      font-size: 11px;
+      line-height: 2;
+      color: var(--muted);
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 5px;
+    }
+
+    /* =========================
+       TABLE
+       ========================= */
+
+    .table-panel {
+      margin-top: 12px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      min-width: 600px;
+    }
+
+    th {
+      background: #f3e7df;
+      color: var(--wine-dark);
+    }
+
+    th,
+    td {
+      padding: 10px 9px;
+      text-align: left;
+      border-bottom: 1px solid #e3d7cf;
+      white-space: nowrap;
+    }
+
+    td:last-child,
+    th:last-child {
+      text-align: right;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 12px;
+      padding: 3px 9px;
+      font-size: 9px;
+    }
+
+    .approved {
+      background: #cfe6d4;
+      color: #286038;
+    }
+
+    .pending {
+      background: #f3d8a5;
+      color: #704800;
+    }
+
+    .report-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eadfd7;
+    }
+
+    .report-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      padding: 35px 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 760px) {
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .top-actions {
+        gap: 6px;
+      }
+
+      .profile {
+        display: inline-flex;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .panel-label,
+      .nav-section {
+        display: none;
+      }
+
+      .nav-item {
+        min-width: 145px;
+        justify-content: center;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+        padding: 12px 8px;
+        font-size: 10px;
+      }
+
+      .nav-item.active {
+        border-left: 0;
+        border-bottom-color: #d99a41;
+      }
+
+      .main {
+        padding: 18px 10px 28px;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart-grid,
+      .report-grid,
+      .metric-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .notification-panel {
+        right: -5px;
+        width: 320px;
+      }
+    }
+
+    @media (max-width: 430px) {
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+      }
+
+      .brand-name {
+        font-size: 14px;
+      }
+
+      .brand-name small {
+        font-size: 10px;
+      }
+
+      .logout {
+        padding: 5px 10px;
+      }
+
+      .notification-panel {
+        width: 290px;
+        right: -5px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       TOP BAR
+       ========================= -->
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        <img
+          src="image/logo.jpg"
+          alt="Cherry-Andrews Logo"
+        >
+      </div>
+
+      <div class="brand-name">
+        CHERRY-ANDREWS
+        <small>Catering</small>
+      </div>
+
+    </div>
+
+    <!-- TOP ACTIONS -->
+    <div class="top-actions">
+
+      <!-- NOTIFICATION -->
+      <div class="notification-wrapper">
+
+        <button
+          class="bell-btn"
+          id="notificationBtn"
+          title="Notifications"
+          aria-label="Open notifications"
+        >
+          <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
+
+          <span
+            class="bell-badge"
+            id="notificationBadge"
+          >0</span>
+
+        </button>
+
+        <!-- NOTIFICATION PANEL -->
+        <div
+          class="notification-panel"
+          id="notificationPanel"
+        >
+
+          <div class="notification-header">
+
+            <h3>Notifications</h3>
+
+            <button
+              class="clear-btn"
+              id="clearNotifications"
+            >
+              Clear all
+            </button>
+
+          </div>
+
+          <div
+            class="notification-list"
+            id="notificationList"
+          ></div>
+
+        </div>
+
+      </div>
+
+      <!-- PROFILE -->
+      <button
+        class="profile"
+        id="profileBtn"
+        type="button"
+        aria-haspopup="dialog"
+        aria-controls="ownerProfileDialog"
+      >
+        <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21a8 8 0 0 1 16 0"></path>
+        </svg>
+        Profile
+      </button>
+
+      <!-- LOGOUT -->
+      <button
+        class="logout"
+        onclick="window.location.href='index.html'"
+      >
+        Log out
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       PAGE LAYOUT
+       ========================= -->
+
+  <div class="layout">
+
+    <!-- =========================
+         OWNER SIDEBAR
+         ========================= -->
+
+    <aside
+      class="sidebar"
+      aria-label="Owner navigation"
+    >
+
+      <div class="panel-label">
+
+        <strong>OWNER PANEL</strong>
+
+        <span>
+          CHERRY-ANDREWS<br>
+          CATERING
+        </span>
+
+      </div>
+
+
+      <div class="nav-section">
+        Overview
+      </div>
+
+      <button
+        class="nav-item active"
+        data-view="dashboard"
+      >
+        <span class="nav-icon">&#8862;</span>
+        <span>Dashboard</span>
+      </button>
+
+
+      <div class="nav-section">
+        Business
+      </div>
+
+      <button
+        class="nav-item"
+        data-view="analytics"
+      >
+        <span class="nav-icon">$</span>
+        <span>Sales Analytics</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-view="clients"
+      >
+        <span class="nav-icon">&#9823;</span>
+        <span>Clients / Customers</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-view="bookings"
+      >
+        <span class="nav-icon">&#9633;</span>
+        <span>Bookings</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-view="pos"
+      >
+        <span class="nav-icon">&#9634;</span>
+        <span>POS</span>
+      </button>
+
+
+      <div class="nav-section">
+        Administration
+      </div>
+
+      <button
+        class="nav-item"
+        data-view="users"
+      >
+        <span class="nav-icon">&#9823;</span>
+        <span>User Accounts</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-view="maintenance"
+      >
+        <span class="nav-icon">&#9673;</span>
+        <span>Website Maintenance</span>
+      </button>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+
+    <main class="main">
+
+      <!-- =========================
+           DASHBOARD
+           ========================= -->
+
+      <section
+        class="view active"
+        id="dashboard"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Owner Dashboard</h1>
+
+            <p>
+              Business overview for Cherry-Andrews Catering.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+          <article class="stat-card">
+
+            <h3>Total Revenue</h3>
+
+            <div class="stat-value">
+              &#8369; 124,500
+            </div>
+
+            <p>This year</p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Active Bookings</h3>
+
+            <div class="stat-value">
+              28
+            </div>
+
+            <p>Confirmed events</p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Total Clients</h3>
+
+            <div class="stat-value">
+              64
+            </div>
+
+            <p>Registered customers</p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Pending Actions</h3>
+
+            <div class="stat-value">
+              7
+            </div>
+
+            <p>Needs attention</p>
+
+          </article>
+
+        </div>
+
+
+        <div class="chart-grid">
+
+          <article class="panel">
+
+            <div class="panel-heading">
+              Monthly Sales
+              <span>2026</span>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="bar-chart">
+
+                <div
+                  class="bar"
+                  style="--height:42%"
+                >
+                  <span>Jan</span>
+                </div>
+
+                <div
+                  class="bar"
+                  style="--height:58%"
+                >
+                  <span>Feb</span>
+                </div>
+
+                <div
+                  class="bar"
+                  style="--height:72%"
+                >
+                  <span>Mar</span>
+                </div>
+
+                <div
+                  class="bar"
+                  style="--height:51%"
+                >
+                  <span>Apr</span>
+                </div>
+
+                <div
+                  class="bar"
+                  style="--height:88%"
+                >
+                  <span>May</span>
+                </div>
+
+                <div
+                  class="bar"
+                  style="--height:66%"
+                >
+                  <span>Jun</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="panel">
+
+            <div class="panel-heading">
+              Revenue by Service
+            </div>
+
+            <div class="panel-body pie-wrap">
+
+              <div
+                class="pie"
+                aria-label="Revenue by service chart"
+              ></div>
+
+              <ul class="legend">
+
+                <li>
+                  <i style="background:#8d1831"></i>
+                  Catering
+                </li>
+
+                <li>
+                  <i style="background:#cf7d86"></i>
+                  Rentals
+                </li>
+
+                <li>
+                  <i style="background:#f0a5ac"></i>
+                  Food Orders
+                </li>
+
+                <li>
+                  <i style="background:#7f8899"></i>
+                  Other
+                </li>
+
+              </ul>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           SALES ANALYTICS
+           ========================= -->
+
+      <section
+        class="view"
+        id="analytics"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Sales Analytics</h1>
+
+            <p>
+              Track revenue and service performance.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="metric-strip">
+
+          <div class="metric">
+
+            <span>
+              Average Booking Value
+            </span>
+
+            <strong>
+              &#8369; 4,446
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Best Performing Service
+            </span>
+
+            <strong>
+              Catering
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Growth This Month
+            </span>
+
+            <strong>
+              +18%
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel">
+
+          <div class="panel-heading">
+            Sales Summary
+          </div>
+
+          <div class="empty-state">
+            Detailed sales reports will appear here.
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
+           CLIENTS
+           ========================= -->
+
+      <section
+        class="view"
+        id="clients"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Clients / Customers</h1>
+
+            <p>
+              View registered customers and their booking activity.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel table-panel">
+
+          <div class="panel-heading">
+
+            Customer Directory
+
+            <span>
+              64 customers
+            </span>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Client Name</th>
+                  <th>Contact</th>
+                  <th>Bookings</th>
+                  <th>Total Spent</th>
+                  <th>Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                <tr>
+
+                  <td>
+                    User 1
+                  </td>
+
+                  <td>
+                    user1@example.com
+                  </td>
+
+                  <td>
+                    4
+                  </td>
+
+                  <td>
+                    &#8369; 18,500
+                  </td>
+
+                  <td>
+                    <span class="status approved">
+                      Active
+                    </span>
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>
+                    User 2
+                  </td>
+
+                  <td>
+                    user2@example.com
+                  </td>
+
+                  <td>
+                    2
+                  </td>
+
+                  <td>
+                    &#8369; 9,980
+                  </td>
+
+                  <td>
+                    <span class="status approved">
+                      Active
+                    </span>
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
+           BOOKINGS
+           ========================= -->
+
+      <section
+        class="view"
+        id="bookings"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Bookings</h1>
+
+            <p>
+              Monitor upcoming events and reservation status.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel table-panel">
+
+          <div class="panel-heading">
+
+            Upcoming Bookings
+
+            <span>
+              28 confirmed
+            </span>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Event Date</th>
+                  <th>Client</th>
+                  <th>Event Type</th>
+                  <th>Package</th>
+                  <th>Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                <tr>
+
+                  <td>
+                    July 1, 2026
+                  </td>
+
+                  <td>
+                    User 1
+                  </td>
+
+                  <td>
+                    Wedding
+                  </td>
+
+                  <td>
+                    Package A
+                  </td>
+
+                  <td>
+                    <span class="status approved">
+                      Confirmed
+                    </span>
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>
+                    July 15, 2026
+                  </td>
+
+                  <td>
+                    User 2
+                  </td>
+
+                  <td>
+                    Birthday
+                  </td>
+
+                  <td>
+                    Package B
+                  </td>
+
+                  <td>
+                    <span class="status pending">
+                      For review
+                    </span>
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
+           POS
+           ========================= -->
+
+      <section
+        class="view"
+        id="pos"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>POS</h1>
+
+            <p>
+              Point-of-sale activity and order monitoring.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel">
+
+          <div class="panel-heading">
+            Recent Transactions
+          </div>
+
+          <div class="empty-state">
+            No new point-of-sale transactions.
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
+           USER ACCOUNTS
+           ========================= -->
+
+      <section
+        class="view"
+        id="users"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>User Accounts</h1>
+
+            <p>
+              Manage staff access and account status.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel table-panel">
+
+          <div class="panel-heading">
+            Account Directory
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Last Login</th>
+                  <th>Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                <tr>
+
+                  <td>
+                    Admin User
+                  </td>
+
+                  <td>
+                    Administrator
+                  </td>
+
+                  <td>
+                    Today, 9:15 AM
+                  </td>
+
+                  <td>
+                    <span class="status approved">
+                      Active
+                    </span>
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>
+                    Customer
+                  </td>
+
+                  <td>
+                    Customer
+                  </td>
+
+                  <td>
+                    Yesterday, 4:30 PM
+                  </td>
+
+                  <td>
+                    <span class="status approved">
+                      Active
+                    </span>
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
+           WEBSITE MAINTENANCE
+           ========================= -->
+
+      <section
+        class="view"
+        id="maintenance"
+      >
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Website Maintenance</h1>
+
+            <p>
+              Manage public website content and availability.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel">
+
+          <div class="panel-heading">
+
+            Website Status
+
+            <span class="status approved">
+              Online
+            </span>
+
+          </div>
+
+          <div class="empty-state">
+            Website maintenance tools are ready.
+          </div>
+
+        </article>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <div id="toast" role="status"></div>
+
+  <dialog
+    class="account-profile-dialog"
+    id="ownerProfileDialog"
+    aria-labelledby="ownerProfileTitle"
+  >
+    <h2 id="ownerProfileTitle">Owner Profile</h2>
+    <dl>
+      <dt>Account type</dt>
+      <dd>Owner</dd>
+      <dt>Business</dt>
+      <dd>Cherry-Andrews Catering</dd>
+    </dl>
+    <p class="account-profile-note">
+      Personal profile details are not connected to an account system yet.
+    </p>
+    <form method="dialog">
+      <button class="account-profile-close" type="submit">Close</button>
+    </form>
+  </dialog>
+
+
+  <script>
+
+    /* =========================
+       SIDEBAR NAVIGATION
+       ========================= */
+
+    const navItems =
+      document.querySelectorAll(".nav-item[data-view]");
+
+    navItems.forEach(item => {
+
+      item.addEventListener("click", () => {
+
+        navItems.forEach(nav => {
+          nav.classList.remove("active");
+        });
+
+        item.classList.add("active");
+
+        document.querySelectorAll(".view").forEach(view => {
+          view.classList.remove("active");
+        });
+
+        const selectedView =
+          document.getElementById(item.dataset.view);
+
+        if (selectedView) {
+          selectedView.classList.add("active");
+        }
+
+      });
+
+    });
+
+
+    /* =========================
+       TOAST MESSAGE
+       ========================= */
+
+    function showToast(message) {
+
+      const toast =
+        document.getElementById("toast");
+
+      toast.textContent = message;
+
+      toast.style.cssText = `
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #651025;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 5px;
+        font: 11px Arial, sans-serif;
+        z-index: 2000;
+      `;
+
+      clearTimeout(window.toastTimer);
+
+      window.toastTimer =
+        setTimeout(() => {
+          toast.style.cssText = "";
+        }, 2400);
+
+    }
+
+
+    /* =========================
+       OWNER NOTIFICATION SYSTEM
+       ========================= */
+
+    const notificationBtn =
+      document.getElementById("notificationBtn");
+
+    const notificationPanel =
+      document.getElementById("notificationPanel");
+
+    const notificationList =
+      document.getElementById("notificationList");
+
+    const notificationBadge =
+      document.getElementById("notificationBadge");
+
+    const clearNotifications =
+      document.getElementById("clearNotifications");
+
+    const profileBtn =
+      document.getElementById("profileBtn");
+
+    const profileDialog =
+      document.getElementById("ownerProfileDialog");
+
+    profileBtn.addEventListener("click", () => {
+      profileDialog.showModal();
+    });
+
+
+    /* =========================
+       OWNER NOTIFICATIONS
+       ========================= */
+
+    let notifications = [
+
+      {
+        id: 1,
+        title: "New Booking",
+        message:
+          "A new customer reservation has been submitted.",
+        time: "Just now",
+        read: false,
+        view: "bookings"
+      },
+
+      {
+        id: 2,
+        title: "Payment Verified",
+        message:
+          "A customer payment has been verified successfully.",
+        time: "10 minutes ago",
+        read: false,
+        view: "bookings"
+      },
+
+      {
+        id: 3,
+        title: "Booking Update",
+        message:
+          "A customer reservation has been updated.",
+        time: "30 minutes ago",
+        read: false,
+        view: "bookings"
+      },
+
+      {
+        id: 4,
+        title: "Business Update",
+        message:
+          "You have 28 confirmed bookings for the current period.",
+        time: "1 hour ago",
+        read: true,
+        view: "analytics"
+      }
+
+    ];
+
+
+    /* =========================
+       DISPLAY NOTIFICATIONS
+       ========================= */
+
+    function displayNotifications() {
+
+      notificationList.innerHTML = "";
+
+      if (notifications.length === 0) {
+
+        notificationList.innerHTML = `
+          <div class="no-notification">
+            No notifications
+          </div>
+        `;
+
+        notificationBadge.style.display = "none";
+
+        return;
+      }
+
+
+      const unreadCount =
+        notifications.filter(
+          notification => !notification.read
+        ).length;
+
+
+      /* UPDATE BADGE */
+
+      if (unreadCount > 0) {
+
+        notificationBadge.textContent =
+          unreadCount;
+
+        notificationBadge.style.display =
+          "flex";
+
+      } else {
+
+        notificationBadge.style.display =
+          "none";
+
+      }
+
+
+      /* CREATE NOTIFICATION ITEMS */
+
+      notifications.forEach(notification => {
+
+        const item =
+          document.createElement("div");
+
+        item.className =
+          "notification-item";
+
+
+        if (!notification.read) {
+          item.classList.add("unread");
+        }
+
+
+        item.innerHTML = `
+          <div class="notification-title">
+            ${notification.title}
+          </div>
+
+          <div class="notification-message">
+            ${notification.message}
+          </div>
+
+          <div class="notification-time">
+            ${notification.time}
+          </div>
+        `;
+
+
+        /* MARK ONLY THIS NOTIFICATION AS READ */
+
+        item.addEventListener("click", () => {
+
+          notification.read = true;
+
+          displayNotifications();
+
+          notificationPanel.classList.remove("show");
+
+          if (notification.view) {
+            const targetNavItem = [
+              ...document.querySelectorAll(".nav-item[data-view]")
+            ].find(item => item.dataset.view === notification.view);
+
+            if (targetNavItem) {
+              targetNavItem.click();
+            }
+          }
+
+        });
+
+
+        notificationList.appendChild(item);
+
+      });
+
+    }
+
+
+    /* =========================
+       OPEN / CLOSE NOTIFICATION
+       ========================= */
+
+    notificationBtn.addEventListener(
+      "click",
+      function(event) {
+
+        event.stopPropagation();
+
+        notificationPanel.classList.toggle("show");
+
+      }
+    );
+
+
+    /* =========================
+       CLEAR ALL NOTIFICATIONS
+       ========================= */
+
+    clearNotifications.addEventListener(
+      "click",
+      function(event) {
+
+        event.stopPropagation();
+
+        notifications = [];
+
+        displayNotifications();
+
+      }
+    );
+
+
+    /* =========================
+       CLOSE WHEN CLICKING OUTSIDE
+       ========================= */
+
+    document.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          !notificationPanel.contains(event.target) &&
+          !notificationBtn.contains(event.target)
+        ) {
+
+          notificationPanel.classList.remove("show");
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       INITIAL DISPLAY
+       ========================= */
+
+    displayNotifications();
+
+  </script>
+
+</body>
+</html>

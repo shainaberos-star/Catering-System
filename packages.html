@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Packages – Cherry-Andrews Catering Services</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      color: #555;
+      background: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Main navigation */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 70px;
+      background-color: #8b1a2e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #f5e6c8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .logo-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f5e6c8;
+    }
+
+    .logo-tagline {
+      font-size: 9px;
+      color: #f5e6c8;
+      letter-spacing: 2.5px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-outline {
+      padding: 8px 20px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-solid {
+      padding: 8px 24px;
+      border: 1.5px solid #fff;
+      border-radius: 20px;
+      color: #8b1a2e;
+      font-size: 13px;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .btn-solid:hover {
+      background: #f5e6c8;
+    }
+
+    /* Packages page heading */
+    .page-header {
+      background: #8b1a2e;
+      padding: 50px 40px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      opacity: 0.85;
+    }
+
+    /* Package cards and details */
+    .packages-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      padding: 60px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .package-card {
+      flex: 0 1 300px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 30px 28px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .package-card:hover {
+      box-shadow: 0 8px 30px rgba(139, 26, 46, 0.12);
+      border-color: #8b1a2e;
+    }
+
+    .package-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #8b1a2e;
+      margin-bottom: 10px;
+    }
+
+    .package-price {
+      font-size: 28px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 16px;
+    }
+
+    .package-price span {
+      font-size: 14px;
+      font-weight: 400;
+      color: #888;
+    }
+
+    .package-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .package-features li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .package-features li:last-child {
+      border-bottom: none;
+    }
+
+    .btn-package {
+      display: inline-block;
+      padding: 11px 30px;
+      background: #8b1a2e;
+      color: #fff;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+
+    .btn-package:hover {
+      background: #6b0e1f;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M8 2v4c0 1.1-.9 2-2 2s-2-.9-2-2V2" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M6 8v14" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M18 2c0 0 2 2 2 5s-2 3-2 3v10" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-brand">Cherry-Andrews</span>
+        <span class="logo-tagline">CATERING SERVICES</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="packages.html" class="active">Packages</a></li>
+      <li><a href="rentals.html">Rentals</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="signup.html" class="btn-outline">Create Account</a>
+      <a href="login.html" class="btn-solid">Log in</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Our Packages</h1>
+    <p>Choose the perfect catering package for your occasion</p>
+  </div>
+
+  <div class="packages-grid">
+    <div class="package-card">
+      <h3>Basic Package</h3>
+      <div class="package-price">₱5,000 <span>/ event</span></div>
+      <ul class="package-features">
+        <li>Up to 50 guests</li>
+        <li>3-course meal</li>
+        <li>Basic table setup</li>
+        <li>Service staff included</li>
+      </ul>
+      <a href="login.html" class="btn-package">Book Now</a>
+    </div>
+    <div class="package-card">
+      <h3>Standard Package</h3>
+      <div class="package-price">₱12,000 <span>/ event</span></div>
+      <ul class="package-features">
+        <li>Up to 100 guests</li>
+        <li>5-course meal</li>
+        <li>Premium table setup</li>
+        <li>Service staff included</li>
+        <li>Floral centerpieces</li>
+      </ul>
+      <a href="login.html" class="btn-package">Book Now</a>
+    </div>
+    <div class="package-card">
+      <h3>Premium Package</h3>
+      <div class="package-price">₱25,000 <span>/ event</span></div>
+      <ul class="package-features">
+        <li>Up to 200 guests</li>
+        <li>7-course meal</li>
+        <li>Full venue decoration</li>
+        <li>Dedicated event coordinator</li>
+        <li>Photography service</li>
+        <li>Live food stations</li>
+      </ul>
+      <a href="login.html" class="btn-package">Book Now</a>
+    </div>
+  </div>
+</body>
+
+</html>
