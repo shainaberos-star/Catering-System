@@ -28,14 +28,14 @@
       color: inherit;
     }
 
-    /* Main navigation */
+    /* CSS RENTALS NAV: matches <nav class="navbar"> near the start of the body. */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 40px;
       height: 70px;
-      background-color: #8b1a2e;
+      background-color: #5c111d;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -47,15 +47,21 @@
       gap: 12px;
     }
 
-    .logo-circle {
-      width: 48px;
-      height: 48px;
+    /* Header logo, matched to the home page */
+    .brand-mark {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      border: 2px solid #f5e6c8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: 2px solid #e0a53f;
+      overflow: hidden;
       flex-shrink: 0;
+    }
+
+    .brand-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .logo-text {
@@ -118,10 +124,10 @@
       padding: 8px 24px;
       border: 1.5px solid #fff;
       border-radius: 20px;
-      color: #8b1a2e;
+      color: #fff;
       font-size: 13px;
       font-weight: 700;
-      background: #fff;
+      background: #5c111d;
     }
 
     .btn-solid:hover {
@@ -129,8 +135,9 @@
     }
 
     /* Rentals page heading */
+    /* CSS RENTALS INTRO: matches .page-header below the navbar. */
     .page-header {
-      background: #8b1a2e;
+      background: #5c111d;
       padding: 50px 40px;
       text-align: center;
       color: #fff;
@@ -147,7 +154,7 @@
       opacity: 0.85;
     }
 
-    /* Rental cards and prices */
+    /* CSS RENTAL CARDS: matches .rentals-grid and each .rental-card. */
     .rentals-grid {
       display: flex;
       flex-wrap: wrap;
@@ -197,17 +204,16 @@
       color: #8b1a2e;
     }
   </style>
+  <!-- Responsive layout fixes for phones and tablets are in responsive.css. -->
+  <link rel="stylesheet" href="responsive.css" />
 </head>
 
 <body>
+  <!-- HTML RENTALS NAV: styled by CSS .navbar, .nav-links, and .nav-actions. -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="logo-circle">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M8 2v4c0 1.1-.9 2-2 2s-2-.9-2-2V2" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
-          <path d="M6 8v14" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
-          <path d="M18 2c0 0 2 2 2 5s-2 3-2 3v10" stroke="#f5e6c8" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
+      <div class="brand-mark">
+        <img src="image/logo.jpg" alt="Cherry-Andrews Logo" />
       </div>
       <div class="logo-text">
         <span class="logo-brand">Cherry-Andrews</span>
@@ -221,17 +227,21 @@
       <li><a href="rentals.html" class="active">Rentals</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+    <!-- Authentication links open the matching form on the home page -->
     <div class="nav-actions">
-      <a href="signup.html" class="btn-outline">Create Account</a>
-      <a href="login.html" class="btn-solid">Log in</a>
+      <a href="index.html?auth=signup" class="btn-outline">Create Account</a>
+      <a href="index.html?auth=login" class="btn-solid">Log in</a>
     </div>
   </nav>
+  </nav>
 
+  <!-- HTML RENTALS INTRO: styled by CSS .page-header. -->
   <div class="page-header">
     <h1>Equipment Rentals</h1>
     <p>Premium event equipment to bring your venue to life</p>
   </div>
 
+  <!-- HTML RENTAL CARDS: styled by CSS .rentals-grid and .rental-card. -->
   <div class="rentals-grid">
     <div class="rental-card">
       <div class="rental-icon">🪑</div>

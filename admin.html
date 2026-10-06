@@ -4,3418 +4,3832 @@
 
 <head>
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Admin Panel - Cherry-Andrews Catering</title>
+  <title>Admin Panel - Cherry-Andrews Catering</title>
 
-<style>
+  <style>
+    :root {
+      --wine: #8d1831;
+      --wine-dark: #651025;
+      --wine-soft: #a62843;
+      --cream: #f5f0e8;
+      --paper: #fffdf9;
+      --ink: #252126;
+      --muted: #756d6e;
+      --line: #d7b5b8;
+      --gold: #f1c018;
+      --green: #4f8b61;
+      --blue: #1b7cb7;
+    }
 
-  :root {
-    --wine: #8d1831;
-    --wine-dark: #651025;
-    --wine-soft: #a62843;
-    --cream: #f5f0e8;
-    --paper: #fffdf9;
-    --ink: #252126;
-    --muted: #756d6e;
-    --line: #d7b5b8;
-    --gold: #f1c018;
-    --green: #4f8b61;
-    --blue: #1b7cb7;
-  }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+    body {
+      min-height: 100vh;
+      background: #ece7de;
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
 
-  body {
-    min-height: 100vh;
-    background: #ece7de;
-    color: var(--ink);
-    font-family: Georgia, 'Times New Roman', serif;
-  }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-  button, input, select {
-    font: inherit;
-  }
+    button {
+      cursor: pointer;
+    }
 
-  button {
-    cursor: pointer;
-  }
-
-  /* =========================
+    /* =========================
      TOP BAR
      ========================= */
 
-  .topbar {
-    height: 88px;
-    background: #5d0d1c;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 34px;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .brand-mark {
-    width: 54px;
-    height: 54px;
-    border: 2px solid #e0a53f;
-    border-radius: 50%;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-  }
-
-  .brand-mark img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .brand-name {
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 1.5px;
-  }
-
-  .brand-name small {
-    display: block;
-    color: #e0a53f;
-    font-size: 14px;
-    font-style: italic;
-    letter-spacing: 1px;
-    margin-top: 5px;
-  }
-
-  .top-actions {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    font-size: 12px;
-  }
-
-   /* ===== NOTIFICATION ===== */
-
-        .notification-wrapper {
-            position: relative;
-        }
-
-        .bell-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            color: #e0a53f;
-            font-size: 22px;
-            line-height: 1;
-            padding: 6px;
-        }
-
-        .action-icon {
-            width: 20px;
-            height: 20px;
-            display: block;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.8;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .bell-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .bell-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-
-            min-width: 17px;
-            height: 17px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: #e74c3c;
-            color: white;
-
-            border-radius: 50%;
-            border: 1.5px solid #4a0e18;
-
-            font-family: Arial, sans-serif;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        /* Notification dropdown */
-
-        .notification-panel {
-            display: none;
-
-            position: absolute;
-            top: 48px;
-            right: 0;
-
-            width: 340px;
-
-            background: #fff;
-            border-radius: 10px;
-
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-
-            overflow: hidden;
-
-            z-index: 1000;
-        }
-
-        .notification-panel.show {
-            display: block;
-        }
-
-        .notification-header {
-            background: #8b1a2e;
-            color: white;
-
-            padding: 13px 16px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .notification-header h3 {
-            font-size: 15px;
-        }
-
-        .clear-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-
-            font-size: 11px;
-            text-decoration: underline;
-        }
-
-        .notification-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .notification-item {
-            padding: 13px 15px;
-
-            border-bottom: 1px solid #eee;
-
-            cursor: pointer;
-
-            transition: background 0.2s;
-        }
-
-        .notification-item:hover {
-            background: #f8f1ed;
-        }
-
-        .notification-item.unread {
-            background: #fff5f2;
-            border-left: 4px solid #8b1a2e;
-        }
-
-        .notification-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #4a0e18;
-
-            margin-bottom: 4px;
-        }
-
-        .notification-message {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            color: #444;
-            line-height: 1.4;
-        }
-
-        .notification-time {
-            font-family: Arial, sans-serif;
-            font-size: 10px;
-            color: #999;
-            margin-top: 5px;
-        }
-
-        .no-notification {
-            padding: 25px 15px;
-            text-align: center;
-
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            color: #777;
-        }
-
-  .profile {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: #fff;
-    border: 0;
-    background: transparent;
-    font-size: 12px;
-    cursor: pointer;
-  }
-
-  .account-profile-dialog {
-    width: min(360px, calc(100% - 32px));
-    margin: auto;
-    padding: 24px;
-    border: 0;
-    border-radius: 10px;
-    color: #222;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
-  }
-
-  .account-profile-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.45);
-  }
-
-  .account-profile-dialog h2 {
-    margin-bottom: 16px;
-    color: #4a0e18;
-    font-size: 20px;
-  }
-
-  .account-profile-dialog dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10px 16px;
-    font: 13px Arial, sans-serif;
-  }
-
-  .account-profile-dialog dt {
-    color: #777;
-  }
-
-  .account-profile-dialog dd {
-    font-weight: 700;
-  }
-
-  .account-profile-note {
-    margin-top: 16px;
-    color: #666;
-    font: 12px/1.5 Arial, sans-serif;
-  }
-
-  .account-profile-close {
-    display: block;
-    margin: 20px 0 0 auto;
-    padding: 8px 16px;
-    border: 0;
-    border-radius: 5px;
-    background: #8b1a2e;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .logout {
-    color: #fff;
-    background: transparent;
-    border: 1px solid #fff;
-    border-radius: 16px;
-    padding: 5px 16px;
-    font-size: 11px;
-  }
-
-  /* =========================
-     LAYOUT
-     ========================= */
-
-  .layout {
-    display: flex;
-    min-height: calc(100vh - 88px);
-  }
-
-  .sidebar {
-    width: 185px;
-    background: #4a0e18;
-    flex-shrink: 0;
-    padding-top: 10px;
-    border-right: 1px solid #e8d9ce;
-    position: relative;
-    z-index: 1;
-  }
-
-  .panel-label {
-    padding: 0 24px 16px;
-    border-bottom: 1px solid #f7decd;
-  }
-
-  .panel-label strong {
-    display: block;
-    font-size: 15px;
-    letter-spacing: 1px;
-    color: #f4d6d6;
-  }
-
-  .panel-label span {
-    display: block;
-    color: #fffefe;
-    font-size: 13px;
-    line-height: 1.15;
-    letter-spacing: .7px;
-    margin-top: 4px;
-  }
-
-  /* Sidebar links */
-
-  .nav-item {
-    display: block;
-    width: 100%;
-    padding: 16px 24px;
-    font-size: 14px;
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #fbf7f7;
-    background: transparent;
-    cursor: pointer;
-    border: 0;
-    border-left: 4px solid transparent;
-    text-align: left;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  /* Hover and selected sidebar states */
-  .nav-item:hover {
-    background: #5c111d;
-    color: #fff;
-  }
-
-  .nav-item.active {
-    background: #c0392b;
-    color: #fff;
-    border-left: 4px solid #8b1a2e;
-    font-weight: 700;
-  }
-
-  .main {
-    width: 100%;
-    max-width: 1120px;
-    padding: 20px 24px 38px;
-    margin: 0 auto;
-  }
-
-  /* =========================
-     VIEWS
-     ========================= */
-
-  .view {
-    display: none;
-    animation: appear .2s ease-out;
-  }
-
-  .view.active {
-    display: block;
-  }
-
-  @keyframes appear {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .view-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .view-title h1 {
-    font-size: 19px;
-    color: var(--wine-dark);
-  }
-
-  .view-title p {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 4px;
-  }
-
-  .outline-btn,
-  .primary-btn {
-    border-radius: 14px;
-    padding: 7px 14px;
-    font-size: 11px;
-    border: 1px solid var(--wine);
-  }
-
-  .outline-btn {
-    background: var(--paper);
-    color: var(--wine);
-  }
-
-  .primary-btn {
-    background: var(--wine);
-    color: #fff;
-  }
-
-  .outline-btn:hover,
-  .primary-btn:hover {
-    background: var(--wine-dark);
-    color: #fff;
-  }
-
-  /* =========================
-     DASHBOARD
-     ========================= */
-
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .stat-card,
-  .panel {
-    background: var(--paper);
-    border: 1px solid var(--wine);
-    border-radius: 10px;
-  }
-
-  .stat-card {
-    min-height: 81px;
-    padding: 9px 10px;
-    text-align: center;
-  }
-
-  .stat-card h3 {
-    font-size: 10px;
-    text-transform: uppercase;
-    color: var(--wine-dark);
-  }
-
-  .stat-value {
-    font-size: 24px;
-    margin: 9px 0 3px;
-  }
-
-  .stat-card p {
-    color: var(--muted);
-    font-size: 9px;
-  }
-
-  .chart-grid {
-    display: grid;
-    grid-template-columns: 1.15fr .85fr;
-    gap: 10px;
-  }
-
-  .panel {
-    overflow: hidden;
-  }
-
-  .panel-heading {
-    background: var(--wine);
-    color: #fff;
-    padding: 8px 11px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .panel-body {
-    padding: 13px;
-  }
-
-  .bar-chart {
-    height: 174px;
-    display: flex;
-    align-items: end;
-    gap: 12px;
-    padding: 12px 10px 22px 28px;
-    border-bottom: 1px solid #aaa;
-    position: relative;
-    background:
-      linear-gradient(
-        to top,
-        transparent 24%,
-        #eee 25%,
-        transparent 26%,
-        transparent 49%,
-        #eee 50%,
-        transparent 51%,
-        transparent 74%,
-        #eee 75%,
-        transparent 76%
-      );
-  }
-
-  .bar-chart::before {
-    content: '₱';
-    position: absolute;
-    left: 0;
-    top: 5px;
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  .bar {
-    flex: 1;
-    min-width: 18px;
-    background: var(--wine);
-    height: var(--height);
-    position: relative;
-  }
-
-  .bar span {
-    position: absolute;
-    bottom: -17px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--muted);
-    font-size: 9px;
-  }
-
-  .pie-wrap {
-    min-height: 174px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-  }
-
-  .pie {
-    width: 125px;
-    height: 125px;
-    border-radius: 50%;
-    background:
-      conic-gradient(
-        #8d1831 0 35%,
-        #cf7d86 35% 62%,
-        #f0a5ac 62% 84%,
-        #7f8899 84% 100%
-      );
-  }
-
-  .legend {
-    list-style: none;
-    font-size: 10px;
-    line-height: 1.9;
-    color: var(--muted);
-  }
-
-  .legend i {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    margin-right: 5px;
-  }
-
-  /* =========================
-     TABLES
-     ========================= */
-
-  .table-panel {
-    margin-top: 10px;
-  }
-
-  .table-wrap {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    min-width: 660px;
-  }
-
-  th {
-    background: #f3e7df;
-    color: var(--wine-dark);
-    font-weight: 700;
-  }
-
-  th,
-  td {
-    padding: 9px 8px;
-    text-align: left;
-    border-bottom: 1px solid #e3d7cf;
-    white-space: nowrap;
-  }
-
-  td:last-child,
-  th:last-child {
-    text-align: right;
-  }
-
-  .status {
-    display: inline-block;
-    border-radius: 12px;
-    padding: 3px 9px;
-    font-size: 9px;
-  }
-
-  .pending {
-    background: #f3d8a5;
-    color: #704800;
-  }
-
-  .approved,
-  .active-status,
-  .excellent {
-    background: #cfe6d4;
-    color: #286038;
-  }
-
-  .inactive {
-    background: #ead4d5;
-    color: #88313d;
-  }
-
-  .review-btn {
-    border: 0;
-    background: var(--wine);
-    color: #fff;
-    border-radius: 11px;
-    padding: 4px 8px;
-    font-size: 9px;
-  }
-
-  .icon-btn {
-    border: 0;
-    background: transparent;
-    color: var(--wine);
-    padding: 2px 4px;
-    font-size: 14px;
-  }
-
-  .inventory-img {
-    width: 31px;
-    height: 25px;
-    object-fit: cover;
-    vertical-align: middle;
-    margin-right: 4px;
-    cursor: pointer;
-  }
-
-  .attachment-preview {
-    width: 100%;
-    max-height: 330px;
-    object-fit: contain;
-    display: block;
-    border-radius: 6px;
-    background: #f3eee8;
-  }
-
-  .payment-preview {
-    min-height: 210px;
-    border: 1px dashed var(--wine);
-    border-radius: 7px;
-    background: #f8f1e9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--wine-dark);
-    text-align: center;
-  }
-
-  .payment-preview-mark {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: var(--wine);
-    color: #fff;
-    font-size: 25px;
-  }
-
-  .payment-preview span,
-  .payment-preview small {
-    color: var(--muted);
-    font-size: 11px;
-  }
-
-  .payment-preview b {
-    margin-top: 10px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--wine);
-  }
-
-  /* =========================
-     PACKAGE TOOLTIP
-     ========================= */
-
-  .package-tooltip {
-    display: none;
-    position: fixed;
-    z-index: 30;
-    width: 230px;
-    padding: 12px;
-    background: var(--paper);
-    border: 1px solid var(--wine);
-    border-radius: 7px;
-    box-shadow: 0 8px 22px rgba(50, 20, 25, .2);
-    pointer-events: none;
-  }
-
-  .package-tooltip.open {
-    display: block;
-  }
-
-  .package-tooltip h3 {
-    color: var(--wine-dark);
-    font-size: 12px;
-    margin-bottom: 7px;
-  }
-
-  .package-tooltip ul {
-    padding-left: 16px;
-    color: var(--muted);
-    font-size: 10px;
-    line-height: 1.7;
-  }
-
-  .package-tooltip strong {
-    color: var(--wine);
-    font-size: 10px;
-  }
-
-  /* =========================
-     REPORTS
-     ========================= */
-
-  .metric-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .metric {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 14px;
-    border-radius: 8px;
-  }
-
-  .metric strong {
-    display: block;
-    font-size: 20px;
-    color: var(--wine);
-    margin-top: 5px;
-  }
-
-  .metric span {
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  .report-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .report-list {
-    list-style: none;
-    font-size: 11px;
-  }
-
-  .report-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid #eadfd7;
-  }
-
-  /* =========================
-     MODAL
-     ========================= */
-
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(27, 12, 16, .45);
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-  }
-
-  .modal-backdrop.open {
-    display: flex;
-  }
-
-  .modal {
-    background: var(--paper);
-    width: min(420px, calc(100% - 30px));
-    border-radius: 10px;
-    border: 1px solid var(--wine);
-    padding: 18px;
-  }
-
-  .modal h2 {
-    color: var(--wine-dark);
-    font-size: 17px;
-    margin-bottom: 14px;
-  }
-
-  .form-row {
-    display: grid;
-    gap: 5px;
-    margin-bottom: 11px;
-  }
-
-  .form-row label {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .form-row input,
-  .form-row select {
-    width: 100%;
-    border: 1px solid #cdbfc0;
-    border-radius: 5px;
-    padding: 8px;
-    font-size: 12px;
-    background: #fff;
-  }
-
-  .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 15px;
-  }
-
-  /* =========================
-     TOAST
-     ========================= */
-
-  .toast {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background: var(--wine-dark);
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 5px;
-    font-size: 11px;
-    display: none;
-    z-index: 20;
-  }
-
-  .toast.show {
-    display: block;
-    animation: fade .25s ease-out;
-  }
-
-  @keyframes fade {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* =========================
-     MOBILE
-     ========================= */
-
-  @media (max-width: 760px) {
-
+    /* CSS ADMIN TOPBAR: styles the HTML <header class="topbar"> below. */
     .topbar {
-      padding: 0 14px;
+      height: 88px;
+      background: #5d0d1c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      border: 2px solid #e0a53f;
+      border-radius: 50%;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-name small {
+      display: block;
+      color: #e0a53f;
+      font-size: 14px;
+      font-style: italic;
+      letter-spacing: 1px;
+      margin-top: 5px;
     }
 
     .top-actions {
-      gap: 9px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 12px;
+    }
+
+    /* ===== NOTIFICATION ===== */
+
+    .notification-wrapper {
+      position: relative;
+    }
+
+    .bell-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      color: #e0a53f;
+      font-size: 22px;
+      line-height: 1;
+      padding: 6px;
+    }
+
+    .action-icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+
+    .bell-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      min-width: 17px;
+      height: 17px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #e74c3c;
+      color: white;
+
+      border-radius: 50%;
+      border: 1.5px solid #4a0e18;
+
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    /* Notification dropdown */
+
+    .notification-panel {
+      display: none;
+
+      position: absolute;
+      top: 48px;
+      right: 0;
+
+      width: 340px;
+
+      background: #fff;
+      border-radius: 10px;
+
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+
+      overflow: hidden;
+
+      z-index: 1000;
+    }
+
+    .notification-panel.show {
+      display: block;
+    }
+
+    .notification-header {
+      background: #8b1a2e;
+      color: white;
+
+      padding: 13px 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification-header h3 {
+      font-size: 15px;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+
+      font-size: 11px;
+      text-decoration: underline;
+    }
+
+    .notification-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .notification-item {
+      padding: 13px 15px;
+
+      border-bottom: 1px solid #eee;
+
+      cursor: pointer;
+
+      transition: background 0.2s;
+    }
+
+    .notification-item:hover {
+      background: #f8f1ed;
+    }
+
+    .notification-item.unread {
+      background: #fff5f2;
+      border-left: 4px solid #8b1a2e;
+    }
+
+    .notification-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #4a0e18;
+
+      margin-bottom: 4px;
+    }
+
+    .notification-message {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    .notification-time {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .no-notification {
+      padding: 25px 15px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #777;
+    }
+
+    /* Notification bulk actions keep selection separate from opening an item. */
+    .notification-panel {
+      width: min(520px, calc(100vw - 24px));
+    }
+
+    .notification-header {
+      background: #5c111d;;
+      color: #e4eaf1;
+      border-bottom: 1px solid #e4eaf1;
+    }
+
+    .notification-header h3 {
+      font: 600 16px Arial, sans-serif;
+    }
+
+    .notification-close {
+      border: 0;
+      background: transparent;
+      color: #52647a;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .notification-list {
+      max-height: 340px;
+    }
+
+    .notification-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 10px;
+      padding: 13px 14px;
+      border-color: #edf0f4;
+      font-family: Arial, sans-serif;
+    }
+    .notification-panel.selection-mode .notification-item { grid-template-columns: 22px 42px minmax(0, 1fr) auto; }
+
+    .notification-item.unread {
+      background: #fff;
+      border-left: 0;
+    }
+
+    .notification-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e4eaf1;
+      font: 12px Arial, sans-serif;
+    }
+
+    .notification-toolbar label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-right: auto;
+      color: #34465b;
+      white-space: nowrap;
+    }
+
+    .notification-select-toggle {
+      border: 1px solid #e0a53f;
+      border-radius: 5px;
+      padding: 7px 12px;
+      background: #fff4e8;
+      color: #704719;
+      font: 600 12px Arial, sans-serif;
+      cursor: pointer;
+    }
+
+    .notification-bulk-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notification-panel.selection-mode .notification-bulk-controls { display: flex; }
+    .notification-panel.selection-mode .notification-toolbar { flex-wrap: wrap; }
+    .notification-select { display: none; }
+    .notification-panel.selection-mode .notification-select { display: block; }
+
+    .notification-toolbar input {
+      width: 16px;
+      height: 16px;
+      accent-color: #8b1a2e;
+      cursor: pointer;
+    }
+
+    .notification-action {
+      border: 0;
+      border-radius: 5px;
+      padding: 8px 10px;
+      color: #fff;
+      font: 600 11px Arial, sans-serif;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .notification-action:disabled {
+      opacity: .5;
+      cursor: default;
+    }
+
+    .notification-action-read {
+      background: #8b1a2e;
+    }
+
+    .notification-action-unread {
+      background: #e0a53f;
+      color: #4a0e18;
+    }
+
+    .notification-action-delete {
+      background: #5d0d1c;
+    }
+
+    .notification-icon {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fbf0dc;
+      color: #8b1a2e;
+      font-size: 19px;
+    }
+
+    .notification-open {
+      display: block;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .notification-open .notification-title {
+      color: #24364b;
+    }
+
+    .notification-open .notification-message {
+      color: #65758a;
+    }
+
+    .notification-status {
+      align-self: center;
+      border-radius: 12px;
+      padding: 4px 8px;
+      background: #fbf0dc;
+      color: #8b1a2e;
+      font: 600 10px Arial, sans-serif;
+    }
+
+    .notification-status.read {
+      background: #f1e8e2;
+      color: #704719;
+    }
+
+    .notification-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      color: #704719;
+      font: 12px Arial, sans-serif;
+    }
+
+    .notification-count {
+      border-radius: 10px;
+      padding: 3px 7px;
+      background: #fbf0dc;
+      color: #704719;
+      font-weight: 700;
+    }
+
+    @media (max-width: 560px) {
+      .notification-toolbar {
+        flex-wrap: wrap;
+      }
+
+      .notification-panel.selection-mode .notification-bulk-controls {
+        flex-wrap: wrap;
+      }
+
+      .notification-action {
+        flex: 1;
+        padding: 7px 5px;
+      }
+    }
+
+    /* CSS ADMIN BOOKING MODAL: styles #bookingReviewDialog at the end of the page. */
+    .booking-review-dialog {
+      position: fixed;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      width: min(620px, calc(100vw - 32px));
+      max-height: min(80vh, 700px);
+      padding: 0;
+      border: 0;
+      border-radius: 14px;
+      color: #24364b;
+      box-shadow: 0 18px 50px rgba(16, 30, 48, .3);
+    }
+
+    .booking-review-dialog::backdrop {
+      background: rgba(20, 31, 46, .58);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+
+    .booking-review-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      background: #8b1a2e;
+      color: #fff;
+    }
+
+    .booking-review-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .booking-review-head button {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .booking-review-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px 22px;
+    }
+
+    .booking-review-field {
+      padding: 11px 12px;
+      border-radius: 8px;
+      background: #f3f6fa;
+      overflow-wrap: anywhere;
+    }
+
+    .booking-review-field strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #75849a;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .booking-review-empty {
+      grid-column: 1 / -1;
+      color: #65758a;
+      line-height: 1.5;
+    }
+
+    .booking-review-actions {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 22px 20px;
+    }
+
+    .booking-review-actions button {
+      border: 0;
+      border-radius: 7px;
+      padding: 9px 16px;
+      background: #8b1a2e;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    @media (max-width: 520px) {
+      .booking-review-body {
+        grid-template-columns: 1fr;
+      }
     }
 
     .profile {
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      border: 0;
+      background: transparent;
+      padding: 6px;
+      cursor: pointer;
     }
 
-    .layout {
-      display: block;
+    .profile .action-icon {
+      width: 22px;
+      height: 22px;
     }
 
-    .sidebar {
-      width: 100%;
-      display: flex;
-      overflow-x: auto;
+    /* Compact admin profile panel */
+    /* CSS ADMIN PROFILE: styles #adminProfileDialog and its .admin-profile-* sections. */
+    .account-profile-dialog {
+      width: min(920px, calc(100% - 32px));
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      margin: auto;
       padding: 0;
-      border-right: 0;
-      border-bottom: 1px solid #ddd;
+      border: 0;
+      border-radius: 10px;
+      background: #fff4e8;
+      color: #222;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
     }
 
-    /* Mobile sidebar */
+    .account-profile-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .account-profile-dialog h2 {
+      margin: 0 0 4px;
+      color: #fff;
+      font: 700 20px Georgia, 'Times New Roman', serif;
+    }
+
+    .account-profile-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 18px;
+      background: #4a0e18;
+    }
+
+    .account-profile-heading p {
+      color: #ead9d5;
+      font: 12px Arial, sans-serif;
+      margin: 0;
+    }
+
+    .account-profile-heading-copy {
+      min-width: 0;
+    }
+
+    .account-profile-heading button {
+      flex: 0 0 auto;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .admin-profile-section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .admin-profile-section-heading h3 {
+      margin: 0;
+    }
+
+    .admin-profile-section-heading .admin-profile-actions {
+      flex: 0 0 auto;
+      gap: 6px;
+      margin: 0;
+    }
+
+    .admin-profile-section-heading .admin-profile-actions button {
+      padding: 5px 10px;
+    }
+
+    .account-profile-dialog dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 16px;
+      font: 13px Arial, sans-serif;
+    }
+
+    .account-profile-dialog dt {
+      color: #777;
+    }
+
+    .account-profile-dialog dd {
+      font-weight: 700;
+    }
+
+    .account-profile-note {
+      margin-top: 10px;
+      color: #666;
+      font: 12px/1.5 Arial, sans-serif;
+    }
+
+    /* Admin and owner profile cards */
+    .admin-profile-layout {
+      display: grid;
+      grid-template-columns: minmax(145px, .72fr) minmax(240px, 1.35fr) minmax(190px, 1fr);
+      gap: 10px;
+      padding: 12px;
+      background: #f7e5d2;
+    }
+
+    .admin-profile-card {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #ead1b8;
+      border-radius: 8px;
+      background: #fff9f1;
+    }
+
+    .admin-profile-summary {
+      text-align: center;
+      background: #f7e5d2;
+    }
+
+    .admin-profile-avatar {
+      display: grid;
+      place-items: center;
+      width: 72px;
+      height: 72px;
+      margin: 2px auto 9px;
+      overflow: hidden;
+      border: 3px solid #f0d9b5;
+      border-radius: 50%;
+      background: #8b1a2e;
+      color: #fff;
+      font-size: 30px;
+    }
+
+    .admin-profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .admin-profile-summary p,
+    .admin-profile-note {
+      color: #666;
+      font: 12px/1.5 Arial, sans-serif;
+    }
+
+    .admin-profile-summary p {
+      margin: 5px 0 10px;
+    }
+
+    .admin-profile-section h3 {
+      margin: 0 0 8px;
+      color: #4a0e18;
+      font-size: 14px;
+    }
+
+    .admin-profile-field {
+      display: block;
+      margin: 8px 0;
+      color: #666;
+      font: 11px Arial, sans-serif;
+    }
+
+    .admin-profile-field input {
+      display: block;
+      width: 100%;
+      margin-top: 4px;
+      padding: 5px 7px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: #222;
+      font: 12px Arial, sans-serif;
+    }
+
+    .admin-profile-editing .admin-profile-field input {
+      border-color: #d8c9bf;
+      background: #fffdf9;
+    }
+
+    .admin-profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .admin-profile-actions button,
+    .admin-profile-photo-btn {
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 5px;
+      background: #8b1a2e;
+      color: #fff;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .admin-profile-actions [data-cancel],
+    .admin-profile-actions [data-edit] {
+      border: 1px solid #e0a53f;
+      background: #fff4e8;
+      color: #704719;
+    }
+
+    .admin-profile-actions [data-cancel],
+    .admin-profile-actions [data-save] {
+      display: none;
+    }
+
+    .admin-profile-editing .admin-profile-actions [data-cancel],
+    .admin-profile-editing .admin-profile-actions [data-save] {
+      display: inline-block;
+    }
+
+    @media (max-width: 760px) {
+      .admin-profile-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+      }
+
+      .admin-profile-access {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .account-profile-dialog {
+        width: calc(100% - 24px);
+        max-height: calc(100vh - 24px);
+      }
+
+      .admin-profile-layout {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .admin-profile-access {
+        grid-column: auto;
+      }
+
+      .admin-profile-summary {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        text-align: left;
+        align-items: center;
+        column-gap: 12px;
+      }
+
+      .admin-profile-avatar {
+        grid-row: span 2;
+        margin: 0;
+      }
+
+      .admin-profile-summary p {
+        margin: 0;
+      }
+    }
+
+    /* CSS LOGOUT: style for the login-redirect button in the top bar. */
+    .logout {
+      color: #fff;
+      background: transparent;
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 5px 16px;
+      font-size: 11px;
+    }
+
+    /* =========================
+     LAYOUT
+     ========================= */
+
+    /* CSS ADMIN LAYOUT: styles the HTML .layout, .sidebar, and .main containers. */
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 88px);
+    }
+
+    /* CSS ADMIN SIDEBAR: styles the admin navigation in <nav class="sidebar">. */
+    .sidebar {
+      width: 185px;
+      background: #4a0e18;
+      flex-shrink: 0;
+      padding-top: 10px;
+      border-right: 1px solid #e8d9ce;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-label {
+      padding: 0 24px 16px;
+      border-bottom: 1px solid #f7decd;
+    }
+
+    .panel-label strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: #f4d6d6;
+    }
+
+    .panel-label span {
+      display: block;
+      color: #fffefe;
+      font-size: 13px;
+      line-height: 1.15;
+      letter-spacing: .7px;
+      margin-top: 4px;
+    }
+
+    /* Sidebar links */
 
     .nav-item {
-      min-width: 132px;
-      width: auto;
-      text-align: center;
-      padding: 11px 8px;
-      font-size: 10px;
-      border-left: 0;
-      border-bottom: 3px solid transparent;
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 14px;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #fbf7f7;
+      background: transparent;
+      cursor: pointer;
+      border: 0;
+      border-left: 4px solid transparent;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    /* Hover and selected sidebar states */
+    .nav-item:hover {
+      background: #5c111d;
+      color: #fff;
     }
 
     .nav-item.active {
-      border-left: 0;
-      border-bottom: 3px solid #8b1a2e;
+      background: #c0392b;
+      color: #fff;
+      border-left: 4px solid #8b1a2e;
+      font-weight: 700;
     }
 
+    /* CSS ADMIN CONTENT: styles <main class="main"> and its dashboard views. */
     .main {
-      padding: 14px 10px 28px;
+      width: 100%;
+      max-width: 1120px;
+      padding: 20px 24px 38px;
+      margin: 0 auto;
     }
+
+    /* =========================
+     VIEWS
+     ========================= */
+
+    /* CSS ADMIN VIEWS: styles the sections selected by the admin sidebar. */
+    .view {
+      display: none;
+      animation: appear .2s ease-out;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .view-title h1 {
+      font-size: 19px;
+      color: var(--wine-dark);
+    }
+
+    .view-title p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .outline-btn,
+    .primary-btn {
+      border-radius: 14px;
+      padding: 7px 14px;
+      font-size: 11px;
+      border: 1px solid var(--wine);
+    }
+
+    .outline-btn {
+      background: var(--paper);
+      color: var(--wine);
+    }
+
+    .primary-btn {
+      background: var(--wine);
+      color: #fff;
+    }
+
+    .outline-btn:hover,
+    .primary-btn:hover {
+      background: var(--wine-dark);
+      color: #fff;
+    }
+
+    /* =========================
+     DASHBOARD
+     ========================= */
 
     .stat-grid {
-      grid-template-columns: repeat(2, 1fr);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .chart-grid,
-    .report-grid {
-      grid-template-columns: 1fr;
+    .stat-card,
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--wine);
+      border-radius: 10px;
     }
+
+    .stat-card {
+      min-height: 81px;
+      padding: 9px 10px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--wine-dark);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      margin: 9px 0 3px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 10px;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-heading {
+      background: var(--wine);
+      color: #fff;
+      padding: 8px 11px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-body {
+      padding: 13px;
+    }
+
+    .bar-chart {
+      height: 174px;
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      padding: 12px 10px 22px 28px;
+      border-bottom: 1px solid #aaa;
+      position: relative;
+      background:
+        linear-gradient(to top,
+          transparent 24%,
+          #eee 25%,
+          transparent 26%,
+          transparent 49%,
+          #eee 50%,
+          transparent 51%,
+          transparent 74%,
+          #eee 75%,
+          transparent 76%);
+    }
+
+    .bar-chart::before {
+      content: '₱';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 18px;
+      background: var(--wine);
+      height: var(--height);
+      position: relative;
+    }
+
+    .bar span {
+      position: absolute;
+      bottom: -17px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .pie-wrap {
+      min-height: 174px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .pie {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background:
+        conic-gradient(#8d1831 0 35%,
+          #cf7d86 35% 62%,
+          #f0a5ac 62% 84%,
+          #7f8899 84% 100%);
+    }
+
+    .legend {
+      list-style: none;
+      font-size: 10px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 5px;
+    }
+
+    /* =========================
+     TABLES
+     ========================= */
+
+    .table-panel {
+      margin-top: 10px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+      min-width: 660px;
+    }
+
+    th {
+      background: #f3e7df;
+      color: var(--wine-dark);
+      font-weight: 700;
+    }
+
+    th,
+    td {
+      padding: 9px 8px;
+      text-align: left;
+      border-bottom: 1px solid #e3d7cf;
+      white-space: nowrap;
+    }
+
+    td:last-child,
+    th:last-child {
+      text-align: right;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 12px;
+      padding: 3px 9px;
+      font-size: 9px;
+    }
+
+    .pending {
+      background: #f3d8a5;
+      color: #704800;
+    }
+
+    .approved,
+    .active-status,
+    .excellent {
+      background: #cfe6d4;
+      color: #286038;
+    }
+
+    .inactive {
+      background: #ead4d5;
+      color: #88313d;
+    }
+
+    .review-btn {
+      border: 0;
+      background: var(--wine);
+      color: #fff;
+      border-radius: 11px;
+      padding: 4px 8px;
+      font-size: 9px;
+    }
+
+    .icon-btn {
+      border: 0;
+      background: transparent;
+      color: var(--wine);
+      padding: 2px 4px;
+      font-size: 14px;
+    }
+
+    .inventory-img {
+      width: 31px;
+      height: 25px;
+      object-fit: cover;
+      vertical-align: middle;
+      margin-right: 4px;
+      cursor: pointer;
+    }
+
+    .attachment-preview {
+      width: 100%;
+      max-height: 330px;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
+      background: #f3eee8;
+    }
+
+    .payment-preview {
+      min-height: 210px;
+      border: 1px dashed var(--wine);
+      border-radius: 7px;
+      background: #f8f1e9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--wine-dark);
+      text-align: center;
+    }
+
+    .payment-preview-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--wine);
+      color: #fff;
+      font-size: 25px;
+    }
+
+    .payment-preview span,
+    .payment-preview small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .payment-preview b {
+      margin-top: 10px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--wine);
+    }
+
+    /* =========================
+     PACKAGE TOOLTIP
+     ========================= */
+
+    .package-tooltip {
+      display: none;
+      position: fixed;
+      z-index: 30;
+      width: 230px;
+      padding: 12px;
+      background: var(--paper);
+      border: 1px solid var(--wine);
+      border-radius: 7px;
+      box-shadow: 0 8px 22px rgba(50, 20, 25, .2);
+      pointer-events: none;
+    }
+
+    .package-tooltip.open {
+      display: block;
+    }
+
+    .package-tooltip h3 {
+      color: var(--wine-dark);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .package-tooltip ul {
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .package-tooltip strong {
+      color: var(--wine);
+      font-size: 10px;
+    }
+
+    /* =========================
+     REPORTS
+     ========================= */
 
     .metric-strip {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
     }
-  }
 
-</style>
+    .metric {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 20px;
+      color: var(--wine);
+      margin-top: 5px;
+    }
+
+    .metric span {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .report-list {
+      list-style: none;
+      font-size: 11px;
+    }
+
+    .report-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid #eadfd7;
+    }
+
+    /* =========================
+     MODAL
+     ========================= */
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(27, 12, 16, .45);
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--paper);
+      width: min(420px, calc(100% - 30px));
+      border-radius: 10px;
+      border: 1px solid var(--wine);
+      padding: 18px;
+    }
+
+    .modal h2 {
+      color: var(--wine-dark);
+      font-size: 17px;
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 11px;
+    }
+
+    .form-row label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .form-row input,
+    .form-row select {
+      width: 100%;
+      border: 1px solid #cdbfc0;
+      border-radius: 5px;
+      padding: 8px;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    /* =========================
+     TOAST
+     ========================= */
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--wine-dark);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 5px;
+      font-size: 11px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.show {
+      display: block;
+      animation: fade .25s ease-out;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* =========================
+     MOBILE
+     ========================= */
+
+    @media (max-width: 760px) {
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .top-actions {
+        gap: 9px;
+      }
+
+      .profile {
+        display: inline-flex;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      /* Mobile sidebar */
+
+      .nav-item {
+        min-width: 132px;
+        width: auto;
+        text-align: center;
+        padding: 11px 8px;
+        font-size: 10px;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+      }
+
+      .nav-item.active {
+        border-left: 0;
+        border-bottom: 3px solid #8b1a2e;
+      }
+
+      .main {
+        padding: 14px 10px 28px;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart-grid,
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <!-- Responsive layout fixes for phones and tablets are in responsive.css. -->
+  <link rel="stylesheet" href="responsive.css" />
 
 </head>
 
 <body>
 
-<!-- =========================
+  <!-- =========================
      TOP BAR
      ========================= -->
 
-<header class="topbar">
+  <!-- HTML ADMIN TOPBAR: styled by CSS .topbar and .top-actions. -->
+  <header class="topbar">
 
-  <div class="brand">
+    <div class="brand">
 
-    <div class="brand-mark">
-      <img src="image/logo.jpg" alt="Cherry-Andrews Logo">
+      <div class="brand-mark">
+        <img src="image/logo.jpg" alt="Cherry-Andrews Logo">
+      </div>
+
+      <div class="brand-name">
+        CHERRY-ANDREWS
+        <small>Catering</small>
+      </div>
+
     </div>
 
-    <div class="brand-name">
-      CHERRY-ANDREWS
-      <small>Catering</small>
-    </div>
+    <div class="top-actions">
 
-  </div>
+      <!-- ===== NOTIFICATION ===== -->
 
-  <div class="top-actions">
+      <div class="notification-wrapper">
 
-     <!-- ===== NOTIFICATION ===== -->
+        <button class="bell-btn" id="notificationBtn" title="Notifications" aria-label="Open notifications">
+          <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
 
-            <div class="notification-wrapper">
+          <span class="bell-badge" id="notificationBadge">
+            0
+          </span>
+        </button>
 
-                <button
-                    class="bell-btn"
-                    id="notificationBtn"
-                    title="Notifications"
-                    aria-label="Open notifications"
-                >
-                    <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
-                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
-                        <path d="M10 21h4"></path>
-                    </svg>
+        <!-- Notification Panel -->
 
-                    <span
-                        class="bell-badge"
-                        id="notificationBadge"
-                    >
-                        0
-                    </span>
-                </button>
+        <!-- HTML ADMIN NOTIFICATIONS: styled by CSS .notification-panel and .notification-item. -->
+        <div class="notification-panel" id="notificationPanel">
 
-                <!-- Notification Panel -->
+          <div class="notification-header">
 
-                <div
-                    class="notification-panel"
-                    id="notificationPanel"
-                >
+            <h3>Notifications</h3>
 
-                    <div class="notification-header">
+            <button class="notification-close" type="button" aria-label="Close notifications">&times;</button>
 
-                        <h3>Notifications</h3>
+          </div>
 
-                        <button
-                            class="clear-btn"
-                            id="clearNotifications"
-                        >
-                            Clear all
-                        </button>
-
-                    </div>
-
-                    <div
-                        class="notification-list"
-                        id="notificationList"
-                    >
-                    </div>
-
-                </div>
-
+          <div class="notification-toolbar">
+            <button class="notification-select-toggle" type="button" id="notificationSelectToggle" aria-pressed="false">Select</button>
+            <div class="notification-bulk-controls">
+              <label><input id="notificationSelectAll" type="checkbox"> Select <span class="notification-count" id="notificationSelectedCount">0</span></label>
+              <button class="notification-action notification-action-read" type="button" data-notification-action="read" disabled>Mark as Read</button>
+              <button class="notification-action notification-action-unread" type="button" data-notification-action="unread" disabled>Mark as Unread</button>
+              <button class="notification-action notification-action-delete" type="button" data-notification-action="delete" disabled>Delete</button>
             </div>
-
-
-    <button
-      class="profile"
-      id="profileBtn"
-      type="button"
-      aria-haspopup="dialog"
-      aria-controls="adminProfileDialog"
-    >
-      <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
-        <circle cx="12" cy="8" r="4"></circle>
-        <path d="M4 21a8 8 0 0 1 16 0"></path>
-      </svg>
-      Profile
-    </button>
-
-    <button
-      class="logout"
-      onclick="showToast('Logout is ready to connect to your login page')"
-    >
-      Log out
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =========================
-     MAIN LAYOUT
-     ========================= -->
-
-<div class="layout">
-
-
-  <!-- =========================
-       SIDEBAR
-       ========================= -->
-
-  <aside class="sidebar" aria-label="Admin navigation">
-
-    <div class="panel-label">
-
-      <strong>ADMIN PANEL</strong>
-
-      <span>
-        CHERRY-ANDREWS<br>
-        CATERING
-      </span>
-
-    </div>
-
-
-    <!-- Admin navigation -->
-
-    <button
-      class="nav-item active"
-      data-view="dashboard"
-    >
-      Dashboard
-    </button>
-
-    <button
-      class="nav-item"
-      data-view="payments"
-    >
-      Payment Verification
-    </button>
-
-    <button
-      class="nav-item"
-      data-view="inventory"
-    >
-      Inventory Management
-    </button>
-
-    <button
-      class="nav-item"
-      data-view="packages"
-    >
-      Package Management
-    </button>
-
-    <button
-      class="nav-item"
-      data-view="reports"
-    >
-      Report
-    </button>
-
-  </aside>
-
-
-  <!-- =========================
-       MAIN CONTENT
-       ========================= -->
-
-  <main class="main">
-
-
-    <!-- =========================
-         DASHBOARD
-         ========================= -->
-
-    <section
-      class="view active"
-      id="dashboard"
-    >
-
-      <div class="view-title">
-
-        <div>
-
-          <h1>Dashboard</h1>
-
-          <p>
-            Operations overview for Cherry-Andrews Catering.
-          </p>
+          </div>
+          <div class="notification-list" id="notificationList">
+          </div>
+          <div class="notification-footer"><span id="notificationSelectionSummary">Select notifications to manage them</span></div>
 
         </div>
 
       </div>
 
 
-      <div class="stat-grid">
+      <button class="profile" id="profileBtn" type="button" title="Profile" aria-label="Open admin profile"
+        aria-haspopup="dialog" aria-controls="adminProfileDialog">
+        <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21a8 8 0 0 1 16 0"></path>
+        </svg>
+      </button>
 
-        <article class="stat-card">
+      <!-- HTML LOGOUT: sends the admin to the login form after logging out. -->
+      <button class="logout" onclick="window.location.href='index.html?auth=login'">
+        Log out
+      </button>
 
-          <h3>Active Reservation</h3>
+    </div>
 
-          <div class="stat-value">
-            0
-          </div>
-
-          <p>
-            Confirmed Events
-          </p>
-
-        </article>
-
-
-        <article class="stat-card">
-
-          <h3>Pending Payments</h3>
-
-          <div class="stat-value">
-            ₱ 0
-          </div>
-
-          <p>
-            0 Unverified
-          </p>
-
-        </article>
+  </header>
 
 
-        <article class="stat-card">
+  <!-- =========================
+     MAIN LAYOUT
+     ========================= -->
 
-          <h3>Low Inventory Alert</h3>
-
-          <div class="stat-value">
-            0
-          </div>
-
-          <p>
-            Items
-          </p>
-
-        </article>
+  <!-- HTML ADMIN LAYOUT: styled by CSS .layout, .sidebar, and .main. -->
+  <div class="layout">
 
 
-        <article class="stat-card">
+    <!-- =========================
+       SIDEBAR
+       ========================= -->
 
-          <h3>Staff Status</h3>
+    <aside class="sidebar" aria-label="Admin navigation">
 
-          <div class="stat-value">
-            0 &nbsp;&nbsp; 0
-          </div>
+      <div class="panel-label">
 
-          <p>
-            On-duty &nbsp;&nbsp;&nbsp; Available
-          </p>
+        <strong>ADMIN PANEL</strong>
 
-        </article>
+        <span>
+          CHERRY-ANDREWS<br>
+          CATERING
+        </span>
 
       </div>
 
 
-      <div class="chart-grid">
+      <!-- Admin navigation -->
+
+      <button class="nav-item active" data-view="dashboard">
+        Dashboard
+      </button>
+
+      <button class="nav-item" data-view="payments">
+        Payment Verification
+      </button>
+
+      <button class="nav-item" data-view="inventory">
+        Inventory Management
+      </button>
+
+      <button class="nav-item" data-view="packages">
+        Package Management
+      </button>
+
+      <button class="nav-item" data-view="reports">
+        Report
+      </button>
+
+    </aside>
 
 
-        <article class="panel">
+    <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+
+    <!-- HTML ADMIN CONTENT: styled by CSS .main and .view sections. -->
+    <main class="main">
+
+
+      <!-- =========================
+         DASHBOARD
+         ========================= -->
+
+      <section class="view active" id="dashboard">
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>Dashboard</h1>
+
+            <p>
+              Operations overview for Cherry-Andrews Catering.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+          <article class="stat-card">
+
+            <h3>Active Reservation</h3>
+
+            <div class="stat-value">
+              0
+            </div>
+
+            <p>
+              Confirmed Events
+            </p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Pending Payments</h3>
+
+            <div class="stat-value">
+              ₱ 0
+            </div>
+
+            <p>
+              0 Unverified
+            </p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Low Inventory Alert</h3>
+
+            <div class="stat-value">
+              0
+            </div>
+
+            <p>
+              Items
+            </p>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <h3>Staff Status</h3>
+
+            <div class="stat-value">
+              0 &nbsp;&nbsp; 0
+            </div>
+
+            <p>
+              On-duty &nbsp;&nbsp;&nbsp; Available
+            </p>
+
+          </article>
+
+        </div>
+
+
+        <div class="chart-grid">
+
+
+          <article class="panel">
+
+            <div class="panel-heading">
+
+              Monthly Revenue Trend
+
+              <span>
+                2026
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="bar-chart">
+
+                <div class="bar" style="--height:25%">
+                  <span>Jan</span>
+                </div>
+
+                <div class="bar" style="--height:51%">
+                  <span>Feb</span>
+                </div>
+
+                <div class="bar" style="--height:70%">
+                  <span>Mar</span>
+                </div>
+
+                <div class="bar" style="--height:42%">
+                  <span>Apr</span>
+                </div>
+
+                <div class="bar" style="--height:84%">
+                  <span>May</span>
+                </div>
+
+                <div class="bar" style="--height:60%">
+                  <span>Jun</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="panel">
+
+            <div class="panel-heading">
+              Popular Packages
+            </div>
+
+            <div class="panel-body pie-wrap">
+
+              <div class="pie" aria-label="Popular package chart"></div>
+
+              <ul class="legend">
+
+                <li>
+                  <i style="background:#8d1831"></i>
+                  Package A
+                </li>
+
+                <li>
+                  <i style="background:#cf7d86"></i>
+                  Package B
+                </li>
+
+                <li>
+                  <i style="background:#f0a5ac"></i>
+                  Package C
+                </li>
+
+                <li>
+                  <i style="background:#7f8899"></i>
+                  Package D
+                </li>
+
+              </ul>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+         PAYMENT VERIFICATION
+         ========================= -->
+
+      <section class="view" id="payments">
+
+        <div class="view-title">
+
+          <div>
+
+            <h1>
+              Payment Verification
+            </h1>
+
+            <p>
+              Review customer proof of payment before confirming reservations.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <article class="panel table-panel">
 
           <div class="panel-heading">
 
-            Monthly Revenue Trend
+            Payment Queue
 
-            <span>
-              2026
+            <span id="payment-count">
+              3 pending
             </span>
 
           </div>
 
-          <div class="panel-body">
 
-            <div class="bar-chart">
+          <div class="table-wrap">
 
-              <div
-                class="bar"
-                style="--height:25%"
-              >
-                <span>Jan</span>
-              </div>
+            <table>
 
-              <div
-                class="bar"
-                style="--height:51%"
-              >
-                <span>Feb</span>
-              </div>
+              <thead>
 
-              <div
-                class="bar"
-                style="--height:70%"
-              >
-                <span>Mar</span>
-              </div>
+                <tr>
 
-              <div
-                class="bar"
-                style="--height:42%"
-              >
-                <span>Apr</span>
-              </div>
+                  <th>Payment ID</th>
+                  <th>Client Name</th>
+                  <th>Upload Date</th>
+                  <th>POP Image</th>
+                  <th>Verification Status</th>
 
-              <div
-                class="bar"
-                style="--height:84%"
-              >
-                <span>May</span>
-              </div>
+                </tr>
 
-              <div
-                class="bar"
-                style="--height:60%"
-              >
-                <span>Jun</span>
-              </div>
+              </thead>
 
-            </div>
+
+              <tbody id="payment-table">
+
+                <tr>
+
+                  <td>P-001</td>
+
+                  <td>User 1</td>
+
+                  <td>05.15.2026</td>
+
+                  <td>
+
+                    <button class="icon-btn" onclick="viewPaymentAttachment('P-001', 'User 1', '05.15.2026')">
+                      [View Attachment]
+                    </button>
+
+                  </td>
+
+                  <td>
+                    <span class="status pending">
+                      Pending
+                    </span>
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>P-002</td>
+
+                  <td>User 2</td>
+
+                  <td>05.01.2026</td>
+
+                  <td>
+
+                    <button class="icon-btn" onclick="viewPaymentAttachment('P-002', 'User 2', '05.01.2026')">
+                      [View Attachment]
+                    </button>
+
+                  </td>
+
+                  <td>
+                    <span class="status pending">
+                      Pending
+                    </span>
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>P-003</td>
+
+                  <td>User 3</td>
+
+                  <td>04.28.2026</td>
+
+                  <td>
+
+                    <button class="icon-btn" onclick="viewPaymentAttachment('P-003', 'User 3', '04.28.2026')">
+                      [View Attachment]
+                    </button>
+
+                  </td>
+
+                  <td>
+                    <span class="status pending">
+                      Pending
+                    </span>
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
 
           </div>
 
         </article>
 
+      </section>
 
-        <article class="panel">
 
-          <div class="panel-heading">
-            Popular Packages
-          </div>
-
-          <div class="panel-body pie-wrap">
-
-            <div
-              class="pie"
-              aria-label="Popular package chart"
-            ></div>
-
-            <ul class="legend">
-
-              <li>
-                <i style="background:#8d1831"></i>
-                Package A
-              </li>
-
-              <li>
-                <i style="background:#cf7d86"></i>
-                Package B
-              </li>
-
-              <li>
-                <i style="background:#f0a5ac"></i>
-                Package C
-              </li>
-
-              <li>
-                <i style="background:#7f8899"></i>
-                Package D
-              </li>
-
-            </ul>
-
-          </div>
-
-        </article>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         PAYMENT VERIFICATION
-         ========================= -->
-
-    <section
-      class="view"
-      id="payments"
-    >
-
-      <div class="view-title">
-
-        <div>
-
-          <h1>
-            Payment Verification
-          </h1>
-
-          <p>
-            Review customer proof of payment before confirming reservations.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <article class="panel table-panel">
-
-        <div class="panel-heading">
-
-          Payment Queue
-
-          <span id="payment-count">
-            3 pending
-          </span>
-
-        </div>
-
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-
-              <tr>
-
-                <th>Payment ID</th>
-                <th>Client Name</th>
-                <th>Upload Date</th>
-                <th>POP Image</th>
-                <th>Verification Status</th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody id="payment-table">
-
-              <tr>
-
-                <td>P-001</td>
-
-                <td>User 1</td>
-
-                <td>05.15.2026</td>
-
-                <td>
-
-                  <button
-                    class="icon-btn"
-                    onclick="viewPaymentAttachment('P-001', 'User 1', '05.15.2026')"
-                  >
-                    [View Attachment]
-                  </button>
-
-                </td>
-
-                <td>
-                  <span class="status pending">
-                    Pending
-                  </span>
-                </td>
-
-              </tr>
-
-
-              <tr>
-
-                <td>P-002</td>
-
-                <td>User 2</td>
-
-                <td>05.01.2026</td>
-
-                <td>
-
-                  <button
-                    class="icon-btn"
-                    onclick="viewPaymentAttachment('P-002', 'User 2', '05.01.2026')"
-                  >
-                    [View Attachment]
-                  </button>
-
-                </td>
-
-                <td>
-                  <span class="status pending">
-                    Pending
-                  </span>
-                </td>
-
-              </tr>
-
-
-              <tr>
-
-                <td>P-003</td>
-
-                <td>User 3</td>
-
-                <td>04.28.2026</td>
-
-                <td>
-
-                  <button
-                    class="icon-btn"
-                    onclick="viewPaymentAttachment('P-003', 'User 3', '04.28.2026')"
-                  >
-                    [View Attachment]
-                  </button>
-
-                </td>
-
-                <td>
-                  <span class="status pending">
-                    Pending
-                  </span>
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </article>
-
-    </section>
-
-
-    <!-- =========================
+      <!-- =========================
          INVENTORY MANAGEMENT
          ========================= -->
 
-    <section
-      class="view"
-      id="inventory"
-    >
+      <section class="view" id="inventory">
 
-      <div class="view-title">
+        <div class="view-title">
 
-        <div>
+          <div>
 
-          <h1>
-            Inventory Management
-          </h1>
+            <h1>
+              Inventory Management
+            </h1>
 
-          <p>
-            Track stock levels and update rental item condition.
-          </p>
+            <p>
+              Track stock levels and update rental item condition.
+            </p>
 
-        </div>
+          </div>
 
-        <button
-          class="primary-btn"
-          onclick="openInventoryModal()"
-        >
-          + Add New Item
-        </button>
-
-      </div>
-
-
-      <article class="panel table-panel">
-
-        <div class="panel-heading">
-
-          Rental Items
-
-          <button
-            class="outline-btn"
-            onclick="openInventoryModal()"
-          >
-            Update Stock
+          <button class="primary-btn" onclick="openInventoryModal()">
+            + Add New Item
           </button>
 
         </div>
 
 
-        <div class="table-wrap">
+        <article class="panel table-panel">
 
-          <table>
+          <div class="panel-heading">
 
-            <thead>
+            Rental Items
 
-              <tr>
+            <button class="outline-btn" onclick="openInventoryModal()">
+              Update Stock
+            </button>
 
-                <th>Item ID</th>
-                <th>Item Name</th>
-                <th>Price</th>
-                <th>Item Image</th>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Stock Condition</th>
-                <th>Actions</th>
+          </div>
 
-              </tr>
 
-            </thead>
+          <div class="table-wrap">
 
+            <table>
 
-            <tbody id="inventory-table">
+              <thead>
 
+                <tr>
 
-              <tr>
+                  <th>Item ID</th>
+                  <th>Item Name</th>
+                  <th>Price</th>
+                  <th>Item Image</th>
+                  <th>Description</th>
+                  <th>Qty</th>
+                  <th>Stock Condition</th>
+                  <th>Actions</th>
 
-                <td>I-001</td>
+                </tr>
 
-                <td>Chiavari Chair</td>
+              </thead>
 
-                <td>₱ 50.00</td>
 
-                <td>
+              <tbody id="inventory-table">
 
-                  <img
-                    class="inventory-img"
-                    onclick="viewInventoryAttachment(this)"
-                    src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=120&auto=format&fit=crop"
-                    alt="Chair"
-                  >
 
-                </td>
+                <tr>
 
-                <td>
-                  High Quality Chair
-                </td>
+                  <td>I-001</td>
 
-                <td>
-                  10
-                </td>
+                  <td>Chiavari Chair</td>
 
-                <td>
+                  <td>₱ 50.00</td>
 
-                  <span class="status excellent">
-                    Excellent
-                  </span>
+                  <td>
 
-                </td>
+                    <img class="inventory-img" onclick="viewInventoryAttachment(this)"
+                      src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=120&auto=format&fit=crop"
+                      alt="Chair">
 
-                <td>
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openInventoryModal(this)"
-                  >
-                    ✎
-                  </button>
+                  <td>
+                    High Quality Chair
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archiveInventory(this)"
-                  >
-                    Archive
-                  </button>
+                  <td>
+                    10
+                  </td>
 
-                </td>
+                  <td>
 
-              </tr>
+                    <span class="status excellent">
+                      Excellent
+                    </span>
 
+                  </td>
 
-              <tr>
+                  <td>
 
-                <td>I-002</td>
+                    <button class="icon-btn" onclick="openInventoryModal(this)">
+                      ✎
+                    </button>
 
-                <td>Wood Table</td>
+                    <button class="icon-btn" onclick="archiveInventory(this)">
+                      Archive
+                    </button>
 
-                <td>₱ 50.00</td>
+                  </td>
 
-                <td>
+                </tr>
 
-                  <img
-                    class="inventory-img"
-                    onclick="viewInventoryAttachment(this)"
-                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=120&auto=format&fit=crop"
-                    alt="Table"
-                  >
 
-                </td>
+                <tr>
 
-                <td>
-                  High Quality Table
-                </td>
+                  <td>I-002</td>
 
-                <td>
-                  10
-                </td>
+                  <td>Wood Table</td>
 
-                <td>
+                  <td>₱ 50.00</td>
 
-                  <span class="status pending">
-                    Good
-                  </span>
+                  <td>
 
-                </td>
+                    <img class="inventory-img" onclick="viewInventoryAttachment(this)"
+                      src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=120&auto=format&fit=crop"
+                      alt="Table">
 
-                <td>
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openInventoryModal(this)"
-                  >
-                    ✎
-                  </button>
+                  <td>
+                    High Quality Table
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archiveInventory(this)"
-                  >
-                    Archive
-                  </button>
+                  <td>
+                    10
+                  </td>
 
-                </td>
+                  <td>
 
-              </tr>
+                    <span class="status pending">
+                      Good
+                    </span>
 
+                  </td>
 
-              <tr>
+                  <td>
 
-                <td>I-003</td>
+                    <button class="icon-btn" onclick="openInventoryModal(this)">
+                      ✎
+                    </button>
 
-                <td>Tent House</td>
+                    <button class="icon-btn" onclick="archiveInventory(this)">
+                      Archive
+                    </button>
 
-                <td>₱ 150.00</td>
+                  </td>
 
-                <td>
+                </tr>
 
-                  <img
-                    class="inventory-img"
-                    onclick="viewInventoryAttachment(this)"
-                    src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=120&auto=format&fit=crop"
-                    alt="Tent"
-                  >
 
-                </td>
+                <tr>
 
-                <td>
-                  High Quality Tent House
-                </td>
+                  <td>I-003</td>
 
-                <td>
-                  10
-                </td>
+                  <td>Tent House</td>
 
-                <td>
+                  <td>₱ 150.00</td>
 
-                  <span class="status excellent">
-                    Excellent
-                  </span>
+                  <td>
 
-                </td>
+                    <img class="inventory-img" onclick="viewInventoryAttachment(this)"
+                      src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=120&auto=format&fit=crop"
+                      alt="Tent">
 
-                <td>
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openInventoryModal(this)"
-                  >
-                    ✎
-                  </button>
+                  <td>
+                    High Quality Tent House
+                  </td>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archiveInventory(this)"
-                  >
-                    Archive
-                  </button>
+                  <td>
+                    10
+                  </td>
 
-                </td>
+                  <td>
 
-              </tr>
+                    <span class="status excellent">
+                      Excellent
+                    </span>
 
+                  </td>
 
-            </tbody>
+                  <td>
 
-          </table>
+                    <button class="icon-btn" onclick="openInventoryModal(this)">
+                      ✎
+                    </button>
 
-        </div>
+                    <button class="icon-btn" onclick="archiveInventory(this)">
+                      Archive
+                    </button>
 
-      </article>
+                  </td>
 
-    </section>
+                </tr>
 
 
-    <!-- =========================
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+      </section>
+
+
+      <!-- =========================
          PACKAGE MANAGEMENT
          ========================= -->
 
-    <section
-      class="view"
-      id="packages"
-    >
+      <section class="view" id="packages">
 
-      <div class="view-title">
+        <div class="view-title">
 
-        <div>
+          <div>
 
-          <h1>
-            Package Management
-          </h1>
+            <h1>
+              Package Management
+            </h1>
 
-          <p>
-            Manage catering packages and their availability.
-          </p>
+            <p>
+              Manage catering packages and their availability.
+            </p>
 
-        </div>
+          </div>
 
-        <button
-          class="primary-btn"
-          onclick="openPackageModal()"
-        >
-          Create New Package
-        </button>
-
-      </div>
-
-
-      <div class="metric-strip">
-
-        <div class="metric">
-
-          <span>
-            Active Packages
-          </span>
-
-          <strong id="active-packages">
-            3
-          </strong>
+          <button class="primary-btn" onclick="openPackageModal()">
+            Create New Package
+          </button>
 
         </div>
 
 
-        <div class="metric">
+        <div class="metric-strip">
 
-          <span>
-            Average Price / Pax
-          </span>
+          <div class="metric">
 
-          <strong>
-            ₱ 499
-          </strong>
+            <span>
+              Active Packages
+            </span>
+
+            <strong id="active-packages">
+              3
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Average Price / Pax
+            </span>
+
+            <strong>
+              ₱ 499
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Fixed Capacities
+            </span>
+
+            <strong>
+              50 / 100 / 150
+            </strong>
+
+          </div>
 
         </div>
 
 
-        <div class="metric">
+        <article class="panel table-panel">
 
-          <span>
-            Fixed Capacities
-          </span>
-
-          <strong>
-            50 / 100 / 150
-          </strong>
-
-        </div>
-
-      </div>
+          <div class="panel-heading">
+            Catering Packages
+          </div>
 
 
-      <article class="panel table-panel">
+          <div class="table-wrap">
 
-        <div class="panel-heading">
-          Catering Packages
-        </div>
+            <table>
 
+              <thead>
 
-        <div class="table-wrap">
+                <tr>
 
-          <table>
+                  <th>Package Name</th>
+                  <th>Price / Person</th>
+                  <th>Capacity</th>
+                  <th>Status</th>
+                  <th>Actions</th>
 
-            <thead>
+                </tr>
 
-              <tr>
-
-                <th>Package Name</th>
-                <th>Price / Person</th>
-                <th>Capacity</th>
-                <th>Status</th>
-                <th>Actions</th>
-
-              </tr>
-
-            </thead>
+              </thead>
 
 
-            <tbody id="package-table">
+              <tbody id="package-table">
 
 
-              <tr>
+                <tr>
 
-                <td>
-                  Package A
-                </td>
+                  <td>
+                    Package A
+                  </td>
 
-                <td>
-                  ₱ 399
-                </td>
+                  <td>
+                    ₱ 399
+                  </td>
 
-                <td>
-                  50 pax
-                </td>
+                  <td>
+                    50 pax
+                  </td>
 
-                <td>
+                  <td>
 
-                  <span class="status active-status">
-                    Active
-                  </span>
+                    <span class="status active-status">
+                      Active
+                    </span>
 
-                </td>
+                  </td>
 
-                <td>
+                  <td>
 
-                  <button
-                    class="icon-btn"
-                    onmouseenter="showPackagePreview(
+                    <button class="icon-btn" onmouseenter="showPackagePreview(
                       this,
                       'Package A',
                       'Steamed Rice|Fried Chicken|Pork Menudo|Fresh Lumpia|Mixed Vegetables|Dessert|Iced Tea',
                       '50'
-                    )"
-                    onmouseleave="hidePackagePreview()"
-                  >
-                    ◉
-                  </button>
+                    )" onmouseleave="hidePackagePreview()">
+                      ◉
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openPackageModal()"
-                  >
-                    ✎
-                  </button>
+                    <button class="icon-btn" onclick="openPackageModal()">
+                      ✎
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archivePackage(this)"
-                  >
-                    Archive
-                  </button>
+                    <button class="icon-btn" onclick="archivePackage(this)">
+                      Archive
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
 
-              <tr>
+                <tr>
 
-                <td>
-                  Package B
-                </td>
+                  <td>
+                    Package B
+                  </td>
 
-                <td>
-                  ₱ 499
-                </td>
+                  <td>
+                    ₱ 499
+                  </td>
 
-                <td>
-                  100 pax
-                </td>
+                  <td>
+                    100 pax
+                  </td>
 
-                <td>
+                  <td>
 
-                  <span class="status active-status">
-                    Active
-                  </span>
+                    <span class="status active-status">
+                      Active
+                    </span>
 
-                </td>
+                  </td>
 
-                <td>
+                  <td>
 
-                  <button
-                    class="icon-btn"
-                    onmouseenter="showPackagePreview(
+                    <button class="icon-btn" onmouseenter="showPackagePreview(
                       this,
                       'Package B',
                       'Steamed Rice|Pancit Bihon|Chicken Teriyaki|Beef Caldereta|Shanghai Lumpia|Fruit Salad|Dessert|Iced Tea',
                       '100'
-                    )"
-                    onmouseleave="hidePackagePreview()"
-                  >
-                    ◉
-                  </button>
+                    )" onmouseleave="hidePackagePreview()">
+                      ◉
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openPackageModal()"
-                  >
-                    ✎
-                  </button>
+                    <button class="icon-btn" onclick="openPackageModal()">
+                      ✎
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archivePackage(this)"
-                  >
-                    Archive
-                  </button>
+                    <button class="icon-btn" onclick="archivePackage(this)">
+                      Archive
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
 
-              <tr>
+                <tr>
 
-                <td>
-                  Package C
-                </td>
+                  <td>
+                    Package C
+                  </td>
 
-                <td>
-                  ₱ 599
-                </td>
+                  <td>
+                    ₱ 599
+                  </td>
 
-                <td>
-                  150 pax
-                </td>
+                  <td>
+                    150 pax
+                  </td>
 
-                <td>
+                  <td>
 
-                  <span class="status active-status">
-                    Active
-                  </span>
+                    <span class="status active-status">
+                      Active
+                    </span>
 
-                </td>
+                  </td>
 
-                <td>
+                  <td>
 
-                  <button
-                    class="icon-btn"
-                    onmouseenter="showPackagePreview(
+                    <button class="icon-btn" onmouseenter="showPackagePreview(
                       this,
                       'Package C',
                       'Steamed Rice|Pancit Canton|Fried Chicken|Beef Stroganoff|Garlic Butter Shrimp|Mixed Vegetables|Corn Soup|Fruit Salad|Dessert|Iced Tea',
                       '150'
-                    )"
-                    onmouseleave="hidePackagePreview()"
-                  >
-                    ◉
-                  </button>
+                    )" onmouseleave="hidePackagePreview()">
+                      ◉
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openPackageModal()"
-                  >
-                    ✎
-                  </button>
+                    <button class="icon-btn" onclick="openPackageModal()">
+                      ✎
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archivePackage(this)"
-                  >
-                    Archive
-                  </button>
+                    <button class="icon-btn" onclick="archivePackage(this)">
+                      Archive
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
 
-              <tr>
+                <tr>
 
-                <td>
-                  Package D
-                </td>
+                  <td>
+                    Package D
+                  </td>
 
-                <td>
-                  ₱ 699
-                </td>
+                  <td>
+                    ₱ 699
+                  </td>
 
-                <td>
-                  150 pax
-                </td>
+                  <td>
+                    150 pax
+                  </td>
 
-                <td>
+                  <td>
 
-                  <span class="status inactive">
-                    Inactive
-                  </span>
+                    <span class="status inactive">
+                      Inactive
+                    </span>
 
-                </td>
+                  </td>
 
-                <td>
+                  <td>
 
-                  <button
-                    class="icon-btn"
-                    onmouseenter="showPackagePreview(
+                    <button class="icon-btn" onmouseenter="showPackagePreview(
                       this,
                       'Package D',
                       'Steamed Rice|Pancit Canton|Fried Chicken|Beef Caldereta|Mixed Vegetables|Fruit Salad|Dessert|Iced Tea',
                       '150'
-                    )"
-                    onmouseleave="hidePackagePreview()"
-                  >
-                    ◉
-                  </button>
+                    )" onmouseleave="hidePackagePreview()">
+                      ◉
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="openPackageModal()"
-                  >
-                    ✎
-                  </button>
+                    <button class="icon-btn" onclick="openPackageModal()">
+                      ✎
+                    </button>
 
-                  <button
-                    class="icon-btn"
-                    onclick="archivePackage(this)"
-                  >
-                    Archive
-                  </button>
+                    <button class="icon-btn" onclick="archivePackage(this)">
+                      Archive
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
 
-            </tbody>
+              </tbody>
 
-          </table>
+            </table>
 
-        </div>
+          </div>
 
-      </article>
+        </article>
 
-    </section>
+      </section>
 
 
-    <!-- =========================
+      <!-- =========================
          REPORTS
          ========================= -->
 
-    <section
-      class="view"
-      id="reports"
-    >
+      <section class="view" id="reports">
 
-      <div class="view-title">
+        <div class="view-title">
 
-        <div>
+          <div>
 
-          <h1>
-            Reports
-          </h1>
+            <h1>
+              Reports
+            </h1>
 
-          <p>
-            Review reservation, payment, and revenue performance.
-          </p>
+            <p>
+              Review reservation, payment, and revenue performance.
+            </p>
 
-        </div>
+          </div>
 
-        <button
-          class="outline-btn"
-          onclick="window.print()"
-        >
-          Print Report
-        </button>
-
-      </div>
-
-
-      <div class="metric-strip">
-
-        <div class="metric">
-
-          <span>
-            Total Revenue
-          </span>
-
-          <strong>
-            ₱ 124,500
-          </strong>
+          <button class="outline-btn" onclick="window.print()">
+            Print Report
+          </button>
 
         </div>
 
 
-        <div class="metric">
+        <div class="metric-strip">
 
-          <span>
-            Confirmed Events
-          </span>
+          <div class="metric">
 
-          <strong>
-            28
-          </strong>
+            <span>
+              Total Revenue
+            </span>
+
+            <strong>
+              ₱ 124,500
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Confirmed Events
+            </span>
+
+            <strong>
+              28
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <span>
+              Verification Rate
+            </span>
+
+            <strong>
+              92%
+            </strong>
+
+          </div>
 
         </div>
 
 
-        <div class="metric">
+        <div class="report-grid">
 
-          <span>
-            Verification Rate
-          </span>
 
-          <strong>
-            92%
-          </strong>
+          <article class="panel">
+
+            <div class="panel-heading">
+              Monthly Summary
+            </div>
+
+            <div class="panel-body">
+
+              <ul class="report-list">
+
+                <li>
+                  <span>January 2026</span>
+                  <strong>₱ 18,500</strong>
+                </li>
+
+                <li>
+                  <span>February 2026</span>
+                  <strong>₱ 22,000</strong>
+                </li>
+
+                <li>
+                  <span>March 2026</span>
+                  <strong>₱ 31,500</strong>
+                </li>
+
+                <li>
+                  <span>April 2026</span>
+                  <strong>₱ 24,000</strong>
+                </li>
+
+                <li>
+                  <span>May 2026</span>
+                  <strong>₱ 28,500</strong>
+                </li>
+
+              </ul>
+
+            </div>
+
+          </article>
+
+
+          <article class="panel">
+
+            <div class="panel-heading">
+              Package Performance
+            </div>
+
+            <div class="panel-body">
+
+              <ul class="report-list">
+
+                <li>
+                  <span>Package A</span>
+                  <strong>42 bookings</strong>
+                </li>
+
+                <li>
+                  <span>Package B</span>
+                  <strong>35 bookings</strong>
+                </li>
+
+                <li>
+                  <span>Package C</span>
+                  <strong>21 bookings</strong>
+                </li>
+
+                <li>
+                  <span>Package D</span>
+                  <strong>8 bookings</strong>
+                </li>
+
+              </ul>
+
+            </div>
+
+          </article>
+
 
         </div>
 
-      </div>
+      </section>
 
 
-      <div class="report-grid">
+    </main>
+
+  </div>
 
 
-        <article class="panel">
-
-          <div class="panel-heading">
-            Monthly Summary
-          </div>
-
-          <div class="panel-body">
-
-            <ul class="report-list">
-
-              <li>
-                <span>January 2026</span>
-                <strong>₱ 18,500</strong>
-              </li>
-
-              <li>
-                <span>February 2026</span>
-                <strong>₱ 22,000</strong>
-              </li>
-
-              <li>
-                <span>March 2026</span>
-                <strong>₱ 31,500</strong>
-              </li>
-
-              <li>
-                <span>April 2026</span>
-                <strong>₱ 24,000</strong>
-              </li>
-
-              <li>
-                <span>May 2026</span>
-                <strong>₱ 28,500</strong>
-              </li>
-
-            </ul>
-
-          </div>
-
-        </article>
-
-
-        <article class="panel">
-
-          <div class="panel-heading">
-            Package Performance
-          </div>
-
-          <div class="panel-body">
-
-            <ul class="report-list">
-
-              <li>
-                <span>Package A</span>
-                <strong>42 bookings</strong>
-              </li>
-
-              <li>
-                <span>Package B</span>
-                <strong>35 bookings</strong>
-              </li>
-
-              <li>
-                <span>Package C</span>
-                <strong>21 bookings</strong>
-              </li>
-
-              <li>
-                <span>Package D</span>
-                <strong>8 bookings</strong>
-              </li>
-
-            </ul>
-
-          </div>
-
-        </article>
-
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-</div>
-
-
-<!-- =========================
+  <!-- =========================
      MODAL
      ========================= -->
 
-<div
-  class="modal-backdrop"
-  id="modal-backdrop"
-  onclick="closeModal(event)"
->
+  <div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
 
-  <div
-    class="modal"
-    id="modal-content"
-  ></div>
+    <div class="modal" id="modal-content"></div>
 
-</div>
+  </div>
 
 
-<!-- =========================
+  <!-- =========================
      PACKAGE TOOLTIP
      ========================= -->
 
-<div
-  class="package-tooltip"
-  id="package-tooltip"
-></div>
+  <div class="package-tooltip" id="package-tooltip"></div>
 
 
-<!-- =========================
+  <!-- =========================
      TOAST
      ========================= -->
 
-<div
-  class="toast"
-  id="toast"
-></div>
+  <div class="toast" id="toast"></div>
 
-<dialog
-  class="account-profile-dialog"
-  id="adminProfileDialog"
-  aria-labelledby="adminProfileTitle"
->
-  <h2 id="adminProfileTitle">Admin Profile</h2>
-  <dl>
-    <dt>Account type</dt>
-    <dd>Administrator</dd>
-    <dt>Business</dt>
-    <dd>Cherry-Andrews Catering</dd>
-  </dl>
-  <p class="account-profile-note">
-    Personal profile details are not connected to an account system yet.
-  </p>
-  <form method="dialog">
-    <button class="account-profile-close" type="submit">Close</button>
-  </form>
-</dialog>
+  <!-- HTML ADMIN PROFILE: styled by CSS #adminProfileDialog and .admin-profile-* classes. -->
+  <!-- Admin profile details -->
+  <dialog class="account-profile-dialog" id="adminProfileDialog" aria-labelledby="adminProfileTitle">
+    <form id="adminProfileForm">
+      <!-- Admin profile heading and details -->
+      <div class="account-profile-heading">
+        <div class="account-profile-heading-copy">
+          <h2 id="adminProfileTitle">Profile</h2>
+          <p>Manage your admin account information</p>
+        </div>
+        <button type="button" data-close aria-label="Close profile">&times;</button>
+      </div>
+      <div class="admin-profile-layout">
+        <section class="admin-profile-card admin-profile-summary" aria-label="Admin profile summary">
+          <div class="admin-profile-avatar" id="adminProfileAvatar" aria-hidden="true">
+            <img id="adminProfilePhoto" alt="" hidden>
+            <span id="adminProfileInitial">A</span>
+          </div>
+          <strong>Administrator</strong>
+          <p>System access</p>
+          <input id="adminProfilePhotoInput" type="file" accept="image/*" hidden>
+          <button class="admin-profile-photo-btn" type="button" data-change-photo>Change Photo</button>
+        </section>
+        <section class="admin-profile-card admin-profile-section">
+          <div class="admin-profile-section-heading">
+            <h3>Personal Information</h3>
+            <div class="admin-profile-actions">
+              <button type="button" data-edit>Edit</button>
+              <button type="button" data-cancel>Cancel</button>
+              <button type="submit" data-save>Save</button>
+            </div>
+          </div>
+          <label class="admin-profile-field">Full Name
+            <input name="fullName" value="Administrator" disabled required>
+          </label>
+          <label class="admin-profile-field">Email Address
+            <input name="email" type="email" value="Not provided" disabled required>
+          </label>
+          <label class="admin-profile-field">Contact Number
+            <input name="contact" value="Not provided" disabled required>
+          </label>
+        </section>
+        <section class="admin-profile-card admin-profile-section admin-profile-access">
+          <h3>Role &amp; Access</h3>
+          <label class="admin-profile-field">Account Type
+            <input value="Administrator" disabled>
+          </label>
+          <label class="admin-profile-field">Business
+            <input name="business" value="Cherry-Andrews Catering" disabled required>
+          </label>
+          <p class="account-profile-note">Admin access is limited to the system account.</p>
+        </section>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Admin booking notification opens this review modal with customer-submitted details. -->
+  <!-- HTML ADMIN BOOKING MODAL: styled by CSS #bookingReviewDialog and .booking-review-* classes. -->
+  <dialog class="booking-review-dialog" id="bookingReviewDialog" aria-labelledby="bookingReviewTitle">
+    <div class="booking-review-head">
+      <h2 id="bookingReviewTitle">Customer Booking Details</h2>
+      <button type="button" data-close-booking aria-label="Close booking details">&times;</button>
+    </div>
+    <div class="booking-review-body" id="bookingReviewBody"></div>
+    <div class="booking-review-actions"><button type="button" data-close-booking>Close</button></div>
+  </dialog>
+
+  <script>
+
+    /* =========================
+       SIDEBAR NAVIGATION
+       ========================= */
+
+    const navItems =
+      document.querySelectorAll('.nav-item');
 
 
-<script>
+    navItems.forEach(item => {
 
-  /* =========================
-     SIDEBAR NAVIGATION
-     ========================= */
+      item.addEventListener('click', () => {
 
-  const navItems =
-    document.querySelectorAll('.nav-item');
-
-
-  navItems.forEach(item => {
-
-    item.addEventListener('click', () => {
-
-      navItems.forEach(nav => {
-        nav.classList.remove('active');
-      });
-
-      item.classList.add('active');
-
-
-      document
-        .querySelectorAll('.view')
-        .forEach(view => {
-          view.classList.remove('active');
+        navItems.forEach(nav => {
+          nav.classList.remove('active');
         });
 
+        item.classList.add('active');
 
-      document
-        .getElementById(item.dataset.view)
-        .classList.add('active');
+
+        document
+          .querySelectorAll('.view')
+          .forEach(view => {
+            view.classList.remove('active');
+          });
+
+
+        document
+          .getElementById(item.dataset.view)
+          .classList.add('active');
+
+      });
 
     });
 
-  });
 
+    /* =========================
+       TOAST
+       ========================= */
 
-  /* =========================
-     TOAST
-     ========================= */
+    function showToast(message) {
 
-  function showToast(message) {
+      const toast =
+        document.getElementById('toast');
 
-    const toast =
-      document.getElementById('toast');
+      toast.textContent = message;
 
-    toast.textContent = message;
+      toast.classList.add('show');
 
-    toast.classList.add('show');
+      clearTimeout(window.toastTimer);
 
-    clearTimeout(window.toastTimer);
+      window.toastTimer =
+        setTimeout(() => {
 
-    window.toastTimer =
-      setTimeout(() => {
+          toast.classList.remove('show');
 
-        toast.classList.remove('show');
-
-      }, 2600);
-
-  }
-
-
-  /* =========================
-     VERIFY PAYMENT
-     ========================= */
-
-  function verifyPayment(button) {
-
-    const row =
-      button.closest('tr');
-
-    row
-      .querySelector('.status')
-      .className = 'status approved';
-
-    row
-      .querySelector('.status')
-      .textContent = 'Verified';
-
-    button.remove();
-
-
-    const count =
-      document.getElementById('payment-count');
-
-    const pending =
-      document.querySelectorAll(
-        '#payment-table .pending'
-      ).length;
-
-    count.textContent =
-      pending + ' pending';
-
-
-    showToast(
-      'Payment verified successfully'
-    );
-
-  }
-
-
-  /* =========================
-     REMOVE ROW
-     ========================= */
-
-  function removeRow(button) {
-
-    if (confirm('Remove this record?')) {
-
-      button
-        .closest('tr')
-        .remove();
-
-      showToast('Record removed');
+        }, 2600);
 
     }
 
-  }
 
+    /* =========================
+       VERIFY PAYMENT
+       ========================= */
 
-  /* =========================
-     ARCHIVE PACKAGE
-     ========================= */
+    function verifyPayment(button) {
 
-  function archivePackage(button) {
+      const row =
+        button.closest('tr');
 
-    const row =
-      button.closest('tr');
+      row
+        .querySelector('.status')
+        .className = 'status approved';
 
-    if (!confirm('Archive this package?')) {
-      return;
-    }
+      row
+        .querySelector('.status')
+        .textContent = 'Verified';
 
-    row.style.opacity = '0.55';
+      button.remove();
 
-    row
-      .querySelector('.status')
-      .className = 'status inactive';
 
-    row
-      .querySelector('.status')
-      .textContent = 'Archived';
+      const count =
+        document.getElementById('payment-count');
 
-    button.textContent = 'Archived';
+      const pending =
+        document.querySelectorAll(
+          '#payment-table .pending'
+        ).length;
 
-    button.disabled = true;
+      count.textContent =
+        pending + ' pending';
 
-    showToast('Package archived');
-
-  }
-
-
-  /* =========================
-     PACKAGE PREVIEW
-     ========================= */
-
-  function showPackagePreview(
-    button,
-    packageName,
-    contents,
-    capacity
-  ) {
-
-    const tooltip =
-      document.getElementById('package-tooltip');
-
-
-    tooltip.innerHTML =
-      '<h3>' +
-      packageName +
-      '</h3>' +
-
-      '<strong>Fixed capacity: ' +
-      capacity +
-      ' pax</strong>' +
-
-      '<ul>' +
-
-      contents
-        .split('|')
-        .map(item => '<li>' + item + '</li>')
-        .join('') +
-
-      '</ul>';
-
-
-    const position =
-      button.getBoundingClientRect();
-
-
-    tooltip.style.left =
-      Math.min(
-        position.left,
-        window.innerWidth - 245
-      ) + 'px';
-
-
-    tooltip.style.top =
-      Math.min(
-        position.bottom + 8,
-        window.innerHeight - 230
-      ) + 'px';
-
-
-    tooltip.classList.add('open');
-
-  }
-
-
-  function hidePackagePreview() {
-
-    document
-      .getElementById('package-tooltip')
-      .classList.remove('open');
-
-  }
-
-
-  /* =========================
-     ARCHIVE INVENTORY
-     ========================= */
-
-  function archiveInventory(button) {
-
-    const row =
-      button.closest('tr');
-
-    if (!confirm('Archive this inventory item?')) {
-      return;
-    }
-
-    row.style.opacity = '0.55';
-
-    row
-      .querySelector('.status')
-      .className = 'status inactive';
-
-    row
-      .querySelector('.status')
-      .textContent = 'Archived';
-
-    button.textContent = 'Archived';
-
-    button.disabled = true;
-
-    showToast(
-      'Inventory item archived'
-    );
-
-  }
-
-
-  /* =========================
-     VIEW INVENTORY IMAGE
-     ========================= */
-
-  function viewInventoryAttachment(image) {
-
-    const itemName =
-      image
-        .closest('tr')
-        .children[1]
-        .textContent;
-
-
-    document
-      .getElementById('modal-content')
-      .innerHTML =
-
-      '<h2>' +
-      itemName +
-      ' - Attachment</h2>' +
-
-      '<img class="attachment-preview" src="' +
-      image.src +
-      '" alt="' +
-      image.alt +
-      '">' +
-
-      '<div class="modal-actions">' +
-
-      '<button class="primary-btn" onclick="closeModal()">' +
-      'Close' +
-      '</button>' +
-
-      '</div>';
-
-
-    document
-      .getElementById('modal-backdrop')
-      .classList.add('open');
-
-  }
-
-
-  /* =========================
-     VIEW PAYMENT ATTACHMENT
-     ========================= */
-
-  function viewPaymentAttachment(
-    paymentId,
-    clientName,
-    uploadDate
-  ) {
-
-    document
-      .getElementById('modal-content')
-      .innerHTML =
-
-      '<h2>Proof of Payment</h2>' +
-
-      '<div class="payment-preview">' +
-
-      '<div class="payment-preview-mark">₱</div>' +
-
-      '<strong>' +
-      paymentId +
-      '</strong>' +
-
-      '<span>' +
-      'Cherry-Andrews Catering Services' +
-      '</span>' +
-
-      '<small>' +
-      'Uploaded by ' +
-      clientName +
-      ' on ' +
-      uploadDate +
-      '</small>' +
-
-      '<b>PAYMENT ATTACHMENT</b>' +
-
-      '</div>' +
-
-      '<div class="modal-actions">' +
-
-      '<button class="primary-btn" onclick="closeModal()">' +
-      'Close' +
-      '</button>' +
-
-      '</div>';
-
-
-    document
-      .getElementById('modal-backdrop')
-      .classList.add('open');
-
-  }
-
-
-  /* =========================
-     INVENTORY MODAL
-     ========================= */
-
-  function openInventoryModal(button) {
-
-    const row =
-      button
-        ? button.closest('tr')
-        : null;
-
-
-    document
-      .getElementById('modal-content')
-      .innerHTML =
-
-      '<h2>' +
-
-      (
-        row
-          ? 'Update Inventory Item'
-          : 'Add Inventory Item'
-      ) +
-
-      '</h2>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Item name</label>' +
-
-      '<input ' +
-      'id="modal-name" ' +
-      'value="' +
-      (
-        row
-          ? row.children[1].textContent
-          : ''
-      ) +
-      '" ' +
-      'placeholder="e.g. Chiavari Chair">' +
-
-      '</div>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Quantity</label>' +
-
-      '<input ' +
-      'id="modal-qty" ' +
-      'type="number" ' +
-      'min="0" ' +
-      'value="' +
-      (
-        row
-          ? row.children[5].textContent
-          : '0'
-      ) +
-      '">' +
-
-      '</div>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Condition</label>' +
-
-      '<select id="modal-condition">' +
-
-      '<option>Excellent</option>' +
-      '<option>Good</option>' +
-      '<option>Needs Repair</option>' +
-
-      '</select>' +
-
-      '</div>' +
-
-
-      '<div class="modal-actions">' +
-
-      '<button class="outline-btn" onclick="closeModal()">' +
-      'Cancel' +
-      '</button>' +
-
-      '<button class="primary-btn" onclick="saveInventory(' +
-      (row ? 'true' : 'false') +
-      ')">' +
-      'Save' +
-      '</button>' +
-
-      '</div>';
-
-
-    document
-      .getElementById('modal-backdrop')
-      .classList.add('open');
-
-
-    window.editingInventoryRow = row;
-
-  }
-
-
-  /* =========================
-     SAVE INVENTORY
-     ========================= */
-
-  function saveInventory(isEdit) {
-
-    const row =
-      window.editingInventoryRow;
-
-
-    if (isEdit && row) {
-
-      row.children[1].textContent =
-        document.getElementById('modal-name').value ||
-        'Unnamed Item';
-
-
-      row.children[5].textContent =
-        document.getElementById('modal-qty').value ||
-        '0';
-
-
-      row.children[6].innerHTML =
-        '<span class="status excellent">' +
-
-        document
-          .getElementById('modal-condition')
-          .value +
-
-        '</span>';
-
-    }
-
-
-    closeModal();
-
-    showToast(
-      isEdit
-        ? 'Inventory updated'
-        : 'New inventory item saved'
-    );
-
-  }
-
-
-  /* =========================
-     PACKAGE MODAL
-     ========================= */
-
-  function openPackageModal() {
-
-    document
-      .getElementById('modal-content')
-      .innerHTML =
-
-      '<h2>Create New Package</h2>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Package name</label>' +
-
-      '<input ' +
-      'id="package-name" ' +
-      'placeholder="e.g. Package E">' +
-
-      '</div>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Price per person</label>' +
-
-      '<input ' +
-      'id="package-price" ' +
-      'type="number" ' +
-      'min="0" ' +
-      'placeholder="699">' +
-
-      '</div>' +
-
-
-      '<div class="form-row">' +
-
-      '<label>Fixed capacity</label>' +
-
-      '<select id="package-capacity">' +
-
-      '<option>50</option>' +
-      '<option>100</option>' +
-      '<option>150</option>' +
-
-      '</select>' +
-
-      '</div>' +
-
-
-      '<div class="modal-actions">' +
-
-      '<button class="outline-btn" onclick="closeModal()">' +
-      'Cancel' +
-      '</button>' +
-
-      '<button class="primary-btn" onclick="savePackage()">' +
-      'Save Package' +
-      '</button>' +
-
-      '</div>';
-
-
-    document
-      .getElementById('modal-backdrop')
-      .classList.add('open');
-
-  }
-
-
-  /* =========================
-     SAVE PACKAGE
-     ========================= */
-
-  function savePackage() {
-
-    const name =
-      document
-        .getElementById('package-name')
-        .value
-        .trim();
-
-
-    const price =
-      document
-        .getElementById('package-price')
-        .value
-        .trim();
-
-
-    const capacity =
-      document
-        .getElementById('package-capacity')
-        .value;
-
-
-    if (!name || !price) {
 
       showToast(
-        'Enter a package name and price'
+        'Payment verified successfully'
       );
-
-      return;
 
     }
 
 
-    document
-      .getElementById('package-table')
-      .insertAdjacentHTML(
-        'beforeend',
+    /* =========================
+       REMOVE ROW
+       ========================= */
 
-        '<tr>' +
+    function removeRow(button) {
 
-        '<td>' +
-        name +
-        '</td>' +
+      if (confirm('Remove this record?')) {
 
-        '<td>₱ ' +
-        price +
-        '</td>' +
+        button
+          .closest('tr')
+          .remove();
 
-        '<td>' +
-        capacity +
-        ' pax</td>' +
+        showToast('Record removed');
 
-        '<td>' +
+      }
 
-        '<span class="status active-status">' +
-        'Active' +
-        '</span>' +
-
-        '</td>' +
-
-        '<td>' +
-
-        '<button ' +
-        'class="icon-btn" ' +
-
-        'onmouseenter="showPackagePreview(' +
-        'this, ' +
-        JSON.stringify(name) +
-        ', ' +
-        JSON.stringify(
-          'Package contents will be updated here|Please edit this package to add menu items'
-        ) +
-        ', ' +
-        JSON.stringify(capacity) +
-        ') ' +
-
-        '" ' +
-
-        'onmouseleave="hidePackagePreview()">' +
-
-        '◉' +
-
-        '</button>' +
+    }
 
 
-        '<button ' +
-        'class="icon-btn" ' +
-        'onclick="openPackageModal()">' +
+    /* =========================
+       ARCHIVE PACKAGE
+       ========================= */
 
-        '✎' +
+    function archivePackage(button) {
 
-        '</button>' +
+      const row =
+        button.closest('tr');
 
+      if (!confirm('Archive this package?')) {
+        return;
+      }
 
-        '<button ' +
-        'class="icon-btn" ' +
-        'onclick="archivePackage(this)">' +
+      row.style.opacity = '0.55';
 
-        'Archive' +
+      row
+        .querySelector('.status')
+        .className = 'status inactive';
 
-        '</button>' +
+      row
+        .querySelector('.status')
+        .textContent = 'Archived';
 
-        '</td>' +
+      button.textContent = 'Archived';
 
-        '</tr>'
-      );
+      button.disabled = true;
 
+      showToast('Package archived');
 
-    document
-      .getElementById('active-packages')
-      .textContent =
-      document.querySelectorAll(
-        '#package-table tr'
-      ).length - 1;
-
-
-    closeModal();
-
-    showToast(
-      'Package created successfully'
-    );
-
-  }
+    }
 
 
-  /* =========================
-     CLOSE MODAL
-     ========================= */
+    /* =========================
+       PACKAGE PREVIEW
+       ========================= */
 
-  function closeModal(event) {
-
-    if (
-      !event ||
-      event.target.id === 'modal-backdrop'
+    function showPackagePreview(
+      button,
+      packageName,
+      contents,
+      capacity
     ) {
 
+      const tooltip =
+        document.getElementById('package-tooltip');
+
+
+      tooltip.innerHTML =
+        '<h3>' +
+        packageName +
+        '</h3>' +
+
+        '<strong>Fixed capacity: ' +
+        capacity +
+        ' pax</strong>' +
+
+        '<ul>' +
+
+        contents
+          .split('|')
+          .map(item => '<li>' + item + '</li>')
+          .join('') +
+
+        '</ul>';
+
+
+      const position =
+        button.getBoundingClientRect();
+
+
+      tooltip.style.left =
+        Math.min(
+          position.left,
+          window.innerWidth - 245
+        ) + 'px';
+
+
+      tooltip.style.top =
+        Math.min(
+          position.bottom + 8,
+          window.innerHeight - 230
+        ) + 'px';
+
+
+      tooltip.classList.add('open');
+
+    }
+
+
+    function hidePackagePreview() {
+
       document
-        .getElementById('modal-backdrop')
+        .getElementById('package-tooltip')
         .classList.remove('open');
 
     }
 
-  }
 
+    /* =========================
+       ARCHIVE INVENTORY
+       ========================= */
 
-  /* =========================
-     SYNC PACKAGE MENU
-     ========================= */
+    function archiveInventory(button) {
 
-  function syncPackageMenu() {
+      const row =
+        button.closest('tr');
 
-    const packageRow =
-      [
-        ...document.querySelectorAll(
-          '#package-table tr'
-        )
-      ]
-      .find(
-        row =>
-          row.children[0]?.textContent.trim() ===
-          'Package D'
+      if (!confirm('Archive this inventory item?')) {
+        return;
+      }
+
+      row.style.opacity = '0.55';
+
+      row
+        .querySelector('.status')
+        .className = 'status inactive';
+
+      row
+        .querySelector('.status')
+        .textContent = 'Archived';
+
+      button.textContent = 'Archived';
+
+      button.disabled = true;
+
+      showToast(
+        'Inventory item archived'
       );
 
-
-    if (!packageRow) {
-      return;
     }
 
 
-    packageRow.children[1].textContent =
-      '₱ 799';
+    /* =========================
+       VIEW INVENTORY IMAGE
+       ========================= */
+
+    function viewInventoryAttachment(image) {
+
+      const itemName =
+        image
+          .closest('tr')
+          .children[1]
+          .textContent;
 
 
-    const previewButton =
-      packageRow.querySelector('.icon-btn');
+      document
+        .getElementById('modal-content')
+        .innerHTML =
+
+        '<h2>' +
+        itemName +
+        ' - Attachment</h2>' +
+
+        '<img class="attachment-preview" src="' +
+        image.src +
+        '" alt="' +
+        image.alt +
+        '">' +
+
+        '<div class="modal-actions">' +
+
+        '<button class="primary-btn" onclick="closeModal()">' +
+        'Close' +
+        '</button>' +
+
+        '</div>';
 
 
-    previewButton.onmouseenter = () =>
+      document
+        .getElementById('modal-backdrop')
+        .classList.add('open');
 
-      showPackagePreview(
-        previewButton,
-        'Package D',
-        'Steamed Rice|Pancit Malabon|Roasted Chicken|Beef Tenderloin Tips|Fish Fillet with Tartar Sauce|Garlic Butter Shrimp|Mixed Vegetables|Creamy Macaroni Salad|Corn Soup|Dessert|Iced Tea',
-        '150'
+    }
+
+
+    /* =========================
+       VIEW PAYMENT ATTACHMENT
+       ========================= */
+
+    function viewPaymentAttachment(
+      paymentId,
+      clientName,
+      uploadDate
+    ) {
+
+      document
+        .getElementById('modal-content')
+        .innerHTML =
+
+        '<h2>Proof of Payment</h2>' +
+
+        '<div class="payment-preview">' +
+
+        '<div class="payment-preview-mark">₱</div>' +
+
+        '<strong>' +
+        paymentId +
+        '</strong>' +
+
+        '<span>' +
+        'Cherry-Andrews Catering Services' +
+        '</span>' +
+
+        '<small>' +
+        'Uploaded by ' +
+        clientName +
+        ' on ' +
+        uploadDate +
+        '</small>' +
+
+        '<b>PAYMENT ATTACHMENT</b>' +
+
+        '</div>' +
+
+        '<div class="modal-actions">' +
+
+        '<button class="primary-btn" onclick="closeModal()">' +
+        'Close' +
+        '</button>' +
+
+        '</div>';
+
+
+      document
+        .getElementById('modal-backdrop')
+        .classList.add('open');
+
+    }
+
+
+    /* =========================
+       INVENTORY MODAL
+       ========================= */
+
+    function openInventoryModal(button) {
+
+      const row =
+        button
+          ? button.closest('tr')
+          : null;
+
+
+      document
+        .getElementById('modal-content')
+        .innerHTML =
+
+        '<h2>' +
+
+        (
+          row
+            ? 'Update Inventory Item'
+            : 'Add Inventory Item'
+        ) +
+
+        '</h2>' +
+
+
+        '<div class="form-row">' +
+
+        '<label>Item name</label>' +
+
+        '<input ' +
+        'id="modal-name" ' +
+        'value="' +
+        (
+          row
+            ? row.children[1].textContent
+            : ''
+        ) +
+        '" ' +
+        'placeholder="e.g. Chiavari Chair">' +
+
+        '</div>' +
+
+
+        '<div class="form-row">' +
+
+        '<label>Quantity</label>' +
+
+        '<input ' +
+        'id="modal-qty" ' +
+        'type="number" ' +
+        'min="0" ' +
+        'value="' +
+        (
+          row
+            ? row.children[5].textContent
+            : '0'
+        ) +
+        '">' +
+
+        '</div>' +
+
+
+        '<div class="form-row">' +
+
+        '<label>Condition</label>' +
+
+        '<select id="modal-condition">' +
+
+        '<option>Excellent</option>' +
+        '<option>Good</option>' +
+        '<option>Needs Repair</option>' +
+
+        '</select>' +
+
+        '</div>' +
+
+
+        '<div class="modal-actions">' +
+
+        '<button class="outline-btn" onclick="closeModal()">' +
+        'Cancel' +
+        '</button>' +
+
+        '<button class="primary-btn" onclick="saveInventory(' +
+        (row ? 'true' : 'false') +
+        ')">' +
+        'Save' +
+        '</button>' +
+
+        '</div>';
+
+
+      document
+        .getElementById('modal-backdrop')
+        .classList.add('open');
+
+
+      window.editingInventoryRow = row;
+
+    }
+
+
+    /* =========================
+       SAVE INVENTORY
+       ========================= */
+
+    function saveInventory(isEdit) {
+
+      const row =
+        window.editingInventoryRow;
+
+
+      if (isEdit && row) {
+
+        row.children[1].textContent =
+          document.getElementById('modal-name').value ||
+          'Unnamed Item';
+
+
+        row.children[5].textContent =
+          document.getElementById('modal-qty').value ||
+          '0';
+
+
+        row.children[6].innerHTML =
+          '<span class="status excellent">' +
+
+          document
+            .getElementById('modal-condition')
+            .value +
+
+          '</span>';
+
+      }
+
+
+      closeModal();
+
+      showToast(
+        isEdit
+          ? 'Inventory updated'
+          : 'New inventory item saved'
       );
 
-  }
+    }
 
-  /* =========================================
-           NOTIFICATION SYSTEM
-           ========================================= */
 
-        const notificationBtn =
-            document.getElementById("notificationBtn");
+    /* =========================
+       PACKAGE MODAL
+       ========================= */
 
-        const notificationPanel =
-            document.getElementById("notificationPanel");
+    function openPackageModal() {
 
-        const notificationList =
-            document.getElementById("notificationList");
+      document
+        .getElementById('modal-content')
+        .innerHTML =
 
-        const notificationBadge =
-            document.getElementById("notificationBadge");
+        '<h2>Create New Package</h2>' +
 
-        const clearNotifications =
-            document.getElementById("clearNotifications");
 
-        const profileBtn =
-            document.getElementById("profileBtn");
+        '<div class="form-row">' +
 
-        const profileDialog =
-            document.getElementById("adminProfileDialog");
+        '<label>Package name</label>' +
 
-        profileBtn.addEventListener("click", () => {
-            profileDialog.showModal();
-        });
+        '<input ' +
+        'id="package-name" ' +
+        'placeholder="e.g. Package E">' +
 
+        '</div>' +
 
-        /* Example notifications */
 
-        let notifications = [
+        '<div class="form-row">' +
 
-            {
-                id: 1,
-                title: "New Booking",
-                message:
-                    "A new customer reservation has been submitted.",
-                time: "Just now",
-                read: false,
-                view: "dashboard"
-            },
+        '<label>Price per person</label>' +
 
-            {
-                id: 2,
-                title: "Payment Proof",
-                message:
-                    "A Customer uploaded a proof of payment that needs verification.",
-                time: "5 minutes ago",
-                read: false,
-                view: "payments"
-            },
+        '<input ' +
+        'id="package-price" ' +
+        'type="number" ' +
+        'min="0" ' +
+        'placeholder="699">' +
 
-            {
-                id: 3,
-                title: "Inventory Alert",
-                message:
-                    "Some inventory items are running low. Please check the stock levels.",
-                time: "1 hour ago",
-                read: true,
-                view: "inventory"
-            },
+        '</div>' +
 
-            {
-                id: 4,
-                title: "Booking Update",
-                message:
-                    "A Customer has updated their reservation details.",
-                time: "1 hour ago",
-                read: true,
-                view: "dashboard"
-            }
-            
 
-        ];
+        '<div class="form-row">' +
 
+        '<label>Fixed capacity</label>' +
 
-        /* =========================================
-           DISPLAY NOTIFICATIONS
-           ========================================= */
+        '<select id="package-capacity">' +
 
-        function displayNotifications() {
+        '<option>50</option>' +
+        '<option>100</option>' +
+        '<option>150</option>' +
 
-            notificationList.innerHTML = "";
+        '</select>' +
 
-            if (notifications.length === 0) {
+        '</div>' +
 
-                notificationList.innerHTML = `
-                    <div class="no-notification">
-                        No notifications
-                    </div>
-                `;
 
-                notificationBadge.style.display = "none";
+        '<div class="modal-actions">' +
 
-                return;
-            }
+        '<button class="outline-btn" onclick="closeModal()">' +
+        'Cancel' +
+        '</button>' +
 
+        '<button class="primary-btn" onclick="savePackage()">' +
+        'Save Package' +
+        '</button>' +
 
-            /* Count unread notifications */
+        '</div>';
 
-            const unreadCount =
-                notifications.filter(
-                    notification => !notification.read
-                ).length;
 
+      document
+        .getElementById('modal-backdrop')
+        .classList.add('open');
 
-            /* Update badge */
+    }
 
-            if (unreadCount > 0) {
 
-                notificationBadge.textContent =
-                    unreadCount;
+    /* =========================
+       SAVE PACKAGE
+       ========================= */
 
-                notificationBadge.style.display =
-                    "flex";
+    function savePackage() {
 
-            } else {
+      const name =
+        document
+          .getElementById('package-name')
+          .value
+          .trim();
 
-                notificationBadge.style.display =
-                    "none";
 
-            }
+      const price =
+        document
+          .getElementById('package-price')
+          .value
+          .trim();
 
 
-            /* Create notification items */
+      const capacity =
+        document
+          .getElementById('package-capacity')
+          .value;
 
-            notifications.forEach(notification => {
 
-                const item =
-                    document.createElement("div");
+      if (!name || !price) {
 
-                item.className =
-                    "notification-item";
+        showToast(
+          'Enter a package name and price'
+        );
 
+        return;
 
-                if (!notification.read) {
+      }
 
-                    item.classList.add("unread");
 
-                }
+      document
+        .getElementById('package-table')
+        .insertAdjacentHTML(
+          'beforeend',
 
+          '<tr>' +
 
-                item.innerHTML = `
+          '<td>' +
+          name +
+          '</td>' +
 
-                    <div class="notification-title">
-                        ${notification.title}
-                    </div>
+          '<td>₱ ' +
+          price +
+          '</td>' +
 
-                    <div class="notification-message">
-                        ${notification.message}
-                    </div>
+          '<td>' +
+          capacity +
+          ' pax</td>' +
 
-                    <div class="notification-time">
-                        ${notification.time}
-                    </div>
+          '<td>' +
 
-                `;
+          '<span class="status active-status">' +
+          'Active' +
+          '</span>' +
 
+          '</td>' +
 
-                /* Click notification */
+          '<td>' +
 
-                item.addEventListener(
-                    "click",
-                    function () {
+          '<button ' +
+          'class="icon-btn" ' +
 
-                        notification.read = true;
+          'onmouseenter="showPackagePreview(' +
+          'this, ' +
+          JSON.stringify(name) +
+          ', ' +
+          JSON.stringify(
+            'Package contents will be updated here|Please edit this package to add menu items'
+          ) +
+          ', ' +
+          JSON.stringify(capacity) +
+          ') ' +
 
-                        displayNotifications();
+          '" ' +
 
-                        notificationPanel.classList.remove("show");
+          'onmouseleave="hidePackagePreview()">' +
 
-                        if (notification.view) {
-                            const targetNavItem = [
-                                ...document.querySelectorAll(".nav-item[data-view]")
-                            ].find(item => item.dataset.view === notification.view);
+          '◉' +
 
-                            if (targetNavItem) {
-                                targetNavItem.click();
-                            }
-                        }
+          '</button>' +
 
-                    }
-                );
 
+          '<button ' +
+          'class="icon-btn" ' +
+          'onclick="openPackageModal()">' +
 
-                notificationList.appendChild(item);
+          '✎' +
 
-            });
+          '</button>' +
 
+
+          '<button ' +
+          'class="icon-btn" ' +
+          'onclick="archivePackage(this)">' +
+
+          'Archive' +
+
+          '</button>' +
+
+          '</td>' +
+
+          '</tr>'
+        );
+
+
+      document
+        .getElementById('active-packages')
+        .textContent =
+        document.querySelectorAll(
+          '#package-table tr'
+        ).length - 1;
+
+
+      closeModal();
+
+      showToast(
+        'Package created successfully'
+      );
+
+    }
+
+
+    /* =========================
+       CLOSE MODAL
+       ========================= */
+
+    function closeModal(event) {
+
+      if (
+        !event ||
+        event.target.id === 'modal-backdrop'
+      ) {
+
+        document
+          .getElementById('modal-backdrop')
+          .classList.remove('open');
+
+      }
+
+    }
+
+
+    /* =========================
+       SYNC PACKAGE MENU
+       ========================= */
+
+    function syncPackageMenu() {
+
+      const packageRow =
+        [
+          ...document.querySelectorAll(
+            '#package-table tr'
+          )
+        ]
+          .find(
+            row =>
+              row.children[0]?.textContent.trim() ===
+              'Package D'
+          );
+
+
+      if (!packageRow) {
+        return;
+      }
+
+
+      packageRow.children[1].textContent =
+        '₱ 799';
+
+
+      const previewButton =
+        packageRow.querySelector('.icon-btn');
+
+
+      previewButton.onmouseenter = () =>
+
+        showPackagePreview(
+          previewButton,
+          'Package D',
+          'Steamed Rice|Pancit Malabon|Roasted Chicken|Beef Tenderloin Tips|Fish Fillet with Tartar Sauce|Garlic Butter Shrimp|Mixed Vegetables|Creamy Macaroni Salad|Corn Soup|Dessert|Iced Tea',
+          '150'
+        );
+
+    }
+
+    /* =========================================
+             NOTIFICATION SYSTEM
+             ========================================= */
+
+    const notificationBtn =
+      document.getElementById("notificationBtn");
+
+    const notificationPanel =
+      document.getElementById("notificationPanel");
+
+    const notificationList =
+      document.getElementById("notificationList");
+
+    const notificationBadge =
+      document.getElementById("notificationBadge");
+
+    const profileBtn =
+      document.getElementById("profileBtn");
+
+    const profileDialog =
+      document.getElementById("adminProfileDialog");
+
+    profileBtn.addEventListener("click", () => {
+      // Close notifications before opening the profile.
+      notificationPanel.classList.remove("show");
+      profileDialog.showModal();
+    });
+
+    // Admin profile details and photo are stored locally in this browser.
+    function setupAdminProfileEditor() {
+      const form = document.getElementById("adminProfileForm");
+      const fields = [...form.querySelectorAll("input[name]")];
+      const photoInput = document.getElementById("adminProfilePhotoInput");
+      const photo = document.getElementById("adminProfilePhoto");
+      const initial = document.getElementById("adminProfileInitial");
+      const storageKey = "cherryAndrews.adminProfile";
+      let snapshot = [];
+
+      function setEditing(isEditing) {
+        form.classList.toggle("admin-profile-editing", isEditing);
+        fields.forEach(field => { field.disabled = !isEditing; });
+        form.querySelector("[data-edit]").hidden = isEditing;
+      }
+
+      form.querySelector("[data-edit]").addEventListener("click", () => {
+        snapshot = fields.map(field => field.value);
+        setEditing(true);
+        fields[0].focus();
+      });
+      form.querySelector("[data-cancel]").addEventListener("click", () => {
+        fields.forEach((field, index) => { field.value = snapshot[index]; });
+        setEditing(false);
+      });
+      profileDialog.querySelectorAll("[data-close]").forEach(button => {
+        button.addEventListener("click", () => profileDialog.close());
+      });
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const values = Object.fromEntries(new FormData(form).entries());
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(values));
+          setEditing(false);
+          showToast("Profile saved on this browser.");
+        } catch (error) {
+          alert("Could not save your profile in this browser. Please try again.");
         }
+      });
+      form.querySelector("[data-change-photo]").addEventListener("click", () => photoInput.click());
+      photoInput.addEventListener("change", () => {
+        const file = photoInput.files[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+          alert("Choose an image file for your profile picture.");
+          photoInput.value = "";
+          return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          alert("Choose an image smaller than 2 MB.");
+          photoInput.value = "";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            localStorage.setItem(`${storageKey}.photo`, reader.result);
+            photo.src = reader.result;
+            photo.hidden = false;
+            initial.hidden = true;
+          } catch (error) {
+            alert("Could not save this picture in your browser. Choose a smaller image.");
+          }
+        };
+        reader.onerror = () => alert("The selected picture could not be read.");
+        reader.readAsDataURL(file);
+      });
+
+      try {
+        const savedProfile = localStorage.getItem(storageKey);
+        if (savedProfile) {
+          const values = JSON.parse(savedProfile);
+          fields.forEach(field => {
+            if (typeof values[field.name] === "string") field.value = values[field.name];
+          });
+        }
+        const savedPhoto = localStorage.getItem(`${storageKey}.photo`);
+        if (savedPhoto) {
+          photo.src = savedPhoto;
+          photo.hidden = false;
+          initial.hidden = true;
+        }
+      } catch (error) {
+        alert("Saved profile information could not be loaded from this browser.");
+      }
+    }
+
+    setupAdminProfileEditor();
 
 
-        /* =========================================
-           OPEN / CLOSE NOTIFICATION PANEL
-           ========================================= */
+    const bookingStorageKey = "cherryAndrews.bookings";
+    const bookingReviewDialog = document.getElementById("bookingReviewDialog");
+    const bookingReviewBody = document.getElementById("bookingReviewBody");
+    let submittedBookings = [];
+    try {
+      const savedBookings = JSON.parse(localStorage.getItem(bookingStorageKey) || "[]");
+      if (!Array.isArray(savedBookings)) throw new Error("Saved bookings must be a list.");
+      submittedBookings = savedBookings.filter(booking => booking && typeof booking.id === "string");
+    } catch (error) {
+      alert("Customer booking details could not be loaded from this browser.");
+    }
 
-        notificationBtn.addEventListener(
-            "click",
-            function (event) {
+    function bookingNotifications(bookings) {
+      return bookings.map((booking, index) => ({
+        id: `booking-${booking.id}`,
+        bookingId: booking.id,
+        title: "New Booking",
+        message: `${booking.customerName || "A customer"} submitted a reservation for ${booking.eventType || "an event"}.`,
+        time: index === 0 ? "Just now" : new Date(booking.submittedAt).toLocaleString(),
+        read: false,
+        icon: "📅"
+      }));
+    }
 
-                event.stopPropagation();
+    let notifications = [
+      ...bookingNotifications(submittedBookings),
+      ...(submittedBookings.length ? [] : [{
+        id: "booking-demo",
+        title: "New Booking",
+        message: "Select to review booking details. No customer submission is saved in this browser yet.",
+        time: "Just now",
+        read: false,
+        icon: "📅"
+      }]),
+      { id: "payment-proof", title: "Payment Proof", message: "A customer uploaded proof of payment that needs verification.", time: "5 minutes ago", read: false, view: "payments", icon: "💳" },
+      { id: "inventory-alert", title: "Inventory Alert", message: "Some inventory items are running low. Please check the stock levels.", time: "1 hour ago", read: true, view: "inventory", icon: "📦" },
+      { id: "booking-update", title: "Booking Update", message: "A customer has updated their reservation details.", time: "1 hour ago", read: true, view: "dashboard", icon: "🔔" }
+    ];
+    const selectedNotificationIds = new Set();
 
-                notificationPanel.classList.toggle(
-                    "show"
-                );
+    function updateNotificationSelection() {
+      const count = selectedNotificationIds.size;
+      document.getElementById("notificationSelectedCount").textContent = count;
+      document.getElementById("notificationSelectionSummary").textContent = `${count} notifications selected`;
+      document.getElementById("notificationSelectAll").checked = notifications.length > 0 && count === notifications.length;
+      document.querySelectorAll("[data-notification-action]").forEach(button => { button.disabled = count === 0; });
+    }
 
+    function displayNotifications() {
+      notificationList.replaceChildren();
+      const unreadCount = notifications.filter(notification => !notification.read).length;
+      notificationBadge.textContent = unreadCount;
+      notificationBadge.style.display = unreadCount > 0 ? "flex" : "none";
+      if (!notifications.length) {
+        notificationList.innerHTML = '<div class="no-notification">No notifications</div>';
+        selectedNotificationIds.clear();
+      }
 
-                /* Mark all as read when opened */
+      notifications.forEach(notification => {
+        const item = document.createElement("div");
+        item.className = "notification-item" + (notification.read ? "" : " unread");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "notification-select";
+        checkbox.checked = selectedNotificationIds.has(notification.id);
+        checkbox.setAttribute("aria-label", `Select ${notification.title}`);
+        checkbox.addEventListener("change", () => {
+          checkbox.checked ? selectedNotificationIds.add(notification.id) : selectedNotificationIds.delete(notification.id);
+          updateNotificationSelection();
+        });
+        const icon = document.createElement("span");
+        icon.className = "notification-icon";
+        icon.textContent = notification.icon || "🔔";
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "notification-open";
+        openButton.innerHTML = '<span class="notification-title"></span><span class="notification-message"></span><span class="notification-time"></span>';
+        openButton.querySelector(".notification-title").textContent = notification.title;
+        openButton.querySelector(".notification-message").textContent = notification.message;
+        openButton.querySelector(".notification-time").textContent = notification.time;
+        openButton.addEventListener("click", () => {
+          notification.read = true;
+          displayNotifications();
+          notificationPanel.classList.remove("show");
+          notificationBtn.setAttribute("aria-expanded", "false");
+          if (notification.title === "New Booking") openBookingReview(notification.bookingId);
+          else if (notification.view) {
+            const targetNavItem = [...document.querySelectorAll(".nav-item[data-view]")].find(nav => nav.dataset.view === notification.view);
+            if (targetNavItem) targetNavItem.click();
+          }
+        });
+        const status = document.createElement("span");
+        status.className = "notification-status" + (notification.read ? " read" : "");
+        status.textContent = notification.read ? "Read" : "Unread";
+        item.append(checkbox, icon, openButton, status);
+        notificationList.appendChild(item);
+      });
+      updateNotificationSelection();
+    }
 
-                if (
-                    notificationPanel.classList.contains(
-                        "show"
-                    )
-                ) {
+    function openBookingReview(bookingId) {
+      bookingReviewBody.replaceChildren();
+      const booking = submittedBookings.find(item => item.id === bookingId);
+      if (!booking) {
+        const empty = document.createElement("p");
+        empty.className = "booking-review-empty";
+        empty.textContent = "There are no customer-submitted booking details available in this browser yet. Submit a booking from the customer New Booking page to see its details here.";
+        bookingReviewBody.appendChild(empty);
+      } else {
+        const fields = [
+          ["Customer", booking.customerName],
+          ["Email", booking.email],
+          ["Contact", booking.contact],
+          ["Event date", booking.eventDate],
+          ["Event time", booking.eventTime],
+          ["Event type", booking.eventType],
+          ["Guests", booking.guestCount],
+          ["Package", booking.packageName],
+          ["Total", booking.total],
+          ["Venue", booking.venue],
+          ["Rental items", booking.rentals],
+          ["Special requests", booking.specialRequests],
+          ["Status", booking.status]
+        ];
+        fields.forEach(([label, value]) => {
+          const field = document.createElement("div");
+          field.className = "booking-review-field";
+          const heading = document.createElement("strong");
+          heading.textContent = label;
+          const detail = document.createElement("span");
+          detail.textContent = value || "Not provided";
+          field.append(heading, detail);
+          bookingReviewBody.appendChild(field);
+        });
+      }
+      bookingReviewDialog.showModal();
+    }
 
-                    notifications.forEach(
-                        notification => {
-                            notification.read = true;
-                        }
-                    );
-
-                    displayNotifications();
-
-                }
-
-            }
-        );
-
-
-        /* =========================================
-           CLEAR ALL NOTIFICATIONS
-           ========================================= */
-
-        clearNotifications.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-                notifications = [];
-
-                displayNotifications();
-
-            }
-        );
-
-
-        /* =========================================
-           CLOSE PANEL WHEN CLICKING OUTSIDE
-           ========================================= */
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    !notificationPanel.contains(event.target) &&
-                    !notificationBtn.contains(event.target)
-                ) {
-
-                    notificationPanel.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================================
-           INITIAL DISPLAY
-           ========================================= */
-
+    document.querySelectorAll("[data-close-booking]").forEach(button => button.addEventListener("click", () => bookingReviewDialog.close()));
+    bookingReviewDialog.addEventListener("click", event => { if (event.target === bookingReviewDialog) bookingReviewDialog.close(); });
+    document.getElementById("notificationSelectAll").addEventListener("change", event => {
+      selectedNotificationIds.clear();
+      if (event.target.checked) notifications.forEach(notification => selectedNotificationIds.add(notification.id));
+      displayNotifications();
+    });
+    document.getElementById("notificationSelectToggle").addEventListener("click", event => {
+      const selectionMode = !notificationPanel.classList.contains("selection-mode");
+      notificationPanel.classList.toggle("selection-mode", selectionMode);
+      event.currentTarget.textContent = selectionMode ? "Done" : "Select";
+      event.currentTarget.setAttribute("aria-pressed", String(selectionMode));
+      if (!selectionMode) selectedNotificationIds.clear();
+      displayNotifications();
+    });
+    document.querySelector(".notification-toolbar").addEventListener("click", event => {
+      const button = event.target.closest("[data-notification-action]");
+      if (!button) return;
+      const action = button.dataset.notificationAction;
+      if (action === "delete") notifications = notifications.filter(notification => !selectedNotificationIds.has(notification.id));
+      else notifications.forEach(notification => { if (selectedNotificationIds.has(notification.id)) notification.read = action === "read"; });
+      selectedNotificationIds.clear();
+      displayNotifications();
+    });
+    notificationBtn.addEventListener("click", event => {
+      event.stopPropagation();
+      notificationPanel.classList.toggle("show");
+      notificationBtn.setAttribute("aria-expanded", String(notificationPanel.classList.contains("show")));
+    });
+    document.querySelector(".notification-close").addEventListener("click", () => {
+      notificationPanel.classList.remove("show");
+      notificationBtn.setAttribute("aria-expanded", "false");
+    });
+    document.addEventListener("click", event => {
+      if (!notificationPanel.contains(event.target) && !notificationBtn.contains(event.target)) {
+        notificationPanel.classList.remove("show");
+        notificationBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+    window.addEventListener("storage", event => {
+      if (event.key !== bookingStorageKey) return;
+      try {
+        const updatedBookings = JSON.parse(event.newValue || "[]");
+        if (!Array.isArray(updatedBookings)) throw new Error("Saved bookings must be a list.");
+        submittedBookings = updatedBookings.filter(booking => booking && typeof booking.id === "string");
+        notifications = [...notifications.filter(notification => !notification.bookingId && notification.id !== "booking-demo"), ...bookingNotifications(submittedBookings)];
         displayNotifications();
+      } catch (error) {
+        alert("Updated customer booking details could not be loaded.");
+      }
+    });
+    displayNotifications();
 
 
 
-  /* Refresh package details */
+    /* Refresh package details */
 
-  syncPackageMenu();
+    syncPackageMenu();
 
-</script>
+  </script>
 
 </body>
 
