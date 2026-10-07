@@ -28,7 +28,7 @@
             color: inherit;
         }
 
-        /* TOPBAR */
+        /* CSS CUSTOMER TOPBAR: styles the HTML <header class="topbar"> below. */
         .topbar {
             background: #4a0e18;
             display: flex;
@@ -125,12 +125,13 @@
             font-weight: 700;
         }
 
+        /* CSS CUSTOMER NOTIFICATIONS: styles #notifPanel and .notif-item in the header. */
         .notif-panel {
             display: none;
             position: absolute;
             top: 48px;
             right: 0;
-            width: 320px;
+            width: min(520px, calc(100vw - 24px));
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, .25);
@@ -143,16 +144,25 @@
         }
 
         .notif-head {
-            background: #8b1a2e;
-            color: #fff;
-            padding: 12px 16px;
+            background: #fff;
+            color: #24364b;
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #e4eaf1;
         }
 
         .notif-head h3 {
-            font-size: 14px;
+            font: 600 16px Arial, sans-serif;
+        }
+
+        .notif-close {
+            border: 0;
+            background: transparent;
+            color: #52647a;
+            font-size: 22px;
+            cursor: pointer;
         }
 
         .notif-clear {
@@ -165,45 +175,52 @@
         }
 
         .notif-list {
-            max-height: 300px;
+            max-height: 340px;
             overflow-y: auto;
         }
 
         .notif-item {
-            padding: 12px 14px;
-            border-bottom: 1px solid #eee;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            align-items: start;
+            gap: 10px;
+            padding: 13px 14px;
+            border-bottom: 1px solid #edf0f4;
             cursor: pointer;
             transition: background .15s;
+            font-family: Arial, sans-serif;
         }
+        .notif-panel.selection-mode .notif-item { grid-template-columns: 22px 42px minmax(0, 1fr) auto; }
 
         .notif-item:hover {
             background: #f8f1ed;
         }
 
         .notif-item.unread {
-            background: #fff5f2;
-            border-left: 4px solid #8b1a2e;
+            background: #fff;
+            border-left: 0;
         }
 
         .notif-title {
             font-size: 13px;
             font-weight: 700;
-            color: #4a0e18;
+            color: #24364b;
             margin-bottom: 3px;
         }
 
         .notif-msg {
             font-family: Arial, sans-serif;
             font-size: 12px;
-            color: #444;
+            color: #65758a;
             line-height: 1.4;
         }
 
         .notif-time {
             font-family: Arial, sans-serif;
             font-size: 10px;
-            color: #999;
-            margin-top: 4px;
+            color: #78879a;
+            margin-top: 0;
+            white-space: nowrap;
         }
 
         .notif-empty {
@@ -211,7 +228,139 @@
             text-align: center;
             font-family: Arial, sans-serif;
             font-size: 13px;
-            color: #999;
+            color: #65758a;
+        }
+
+        .notif-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-bottom: 1px solid #e4eaf1;
+            font: 12px Arial, sans-serif;
+        }
+
+        .notif-toolbar label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-right: auto;
+            color: #34465b;
+            white-space: nowrap;
+        }
+
+        .notif-select-toggle {
+            border: 1px solid #e0a53f;
+            border-radius: 5px;
+            padding: 7px 12px;
+            background: #fff4e8;
+            color: #704719;
+            font: 600 12px Arial, sans-serif;
+            cursor: pointer;
+        }
+
+        .notif-bulk-controls {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .notif-panel.selection-mode .notif-bulk-controls { display: flex; }
+        .notif-panel.selection-mode .notif-toolbar { flex-wrap: wrap; }
+        .notif-toolbar label { margin-right: auto; }
+        .notif-select { display: none; }
+        .notif-panel.selection-mode .notif-select { display: block; }
+
+        .notif-toolbar input,
+        .notif-select {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b1a2e;
+            cursor: pointer;
+        }
+
+        .notif-action {
+            border: 0;
+            border-radius: 5px;
+            padding: 8px 10px;
+            color: #fff;
+            font: 600 11px Arial, sans-serif;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .notif-action:disabled {
+            opacity: .5;
+            cursor: default;
+        }
+
+        .notif-action-read { background: #8b1a2e; }
+        .notif-action-unread { background: #e0a53f; color: #4a0e18; }
+        .notif-action-delete { background: #5d0d1c; }
+
+        .notif-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fbf0dc;
+            color: #8b1a2e;
+            font-size: 19px;
+        }
+
+        .notif-item-content { min-width: 0; }
+        .notif-open {
+            display: block;
+            min-width: 0;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .notif-open span { display: block; }
+
+        .notif-status {
+            align-self: center;
+            border-radius: 12px;
+            padding: 4px 8px;
+            background: #fbf0dc;
+            color: #8b1a2e;
+            font: 600 10px Arial, sans-serif;
+        }
+
+        .notif-status.read {
+            background: #f1e8e2;
+            color: #704719;
+        }
+
+        .notif-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            color: #607188;
+            font: 12px Arial, sans-serif;
+        }
+
+        .notif-selection-count {
+            border-radius: 10px;
+            padding: 3px 7px;
+            background: #fbf0dc;
+            color: #704719;
+            font-weight: 700;
+        }
+
+        @media (max-width: 560px) {
+            .notif-toolbar { flex-wrap: wrap; }
+            .notif-panel.selection-mode .notif-bulk-controls { flex-wrap: wrap; }
+            .notif-panel.selection-mode .notif-bulk-controls label { flex: 1 0 100%; }
+            .notif-action { flex: 1; padding: 7px 5px; }
         }
 
         /* AVATAR */
@@ -234,7 +383,8 @@
             transform: scale(1.05);
         }
 
-        /* PROFILE MODAL */
+        /* Profile modal backdrop and layout */
+        /* CSS CUSTOMER PROFILE: styles the HTML #profileOverlay profile modal. */
         .profile-overlay {
             display: none;
             position: fixed;
@@ -243,6 +393,8 @@
             background: rgba(0, 0, 0, .5);
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
+            padding: 16px;
         }
 
         .profile-overlay.show {
@@ -250,26 +402,37 @@
         }
 
         .profile-modal {
-            background: #fff;
-            border-radius: 12px;
+            background: #fff4e8;
+            border-radius: 10px;
             width: 100%;
-            max-width: 380px;
+            max-width: 920px;
+            max-height: calc(100vh - 32px);
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
             font-family: Arial, sans-serif;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .profile-head {
             background: #4a0e18;
             color: #fff;
-            padding: 16px 20px;
+            padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .profile-head h3 {
-            font-size: 15px;
+        .profile-heading h2 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .profile-heading p {
+            color: #ead9d5;
+            font-size: 12px;
         }
 
         .profile-close {
@@ -281,56 +444,298 @@
             line-height: 1;
         }
 
+        /* Profile cards and customer photo */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: minmax(145px, .72fr) minmax(240px, 1.35fr) minmax(190px, 1fr);
+            gap: 10px;
+            padding: 12px;
+            background: #f7e5d2;
+            overflow-y: auto;
+        }
+
+        .profile-card {
+            min-width: 0;
+            border: 1px solid #ead1b8;
+            border-radius: 8px;
+            background: #fff9f1;
+            padding: 12px;
+        }
+
+        .profile-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
         .p-avatar {
-            width: 70px;
-            height: 70px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             background: #8b1a2e;
             color: #fff;
-            font-size: 28px;
-            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px auto 14px;
-            border: 3px solid #e0a53f;
+            margin: 2px auto 9px;
+            border: 3px solid #f0d9b5;
+            overflow: hidden;
         }
 
-        .p-body {
-            padding: 0 24px 24px;
+        .p-avatar svg {
+            width: 40px;
+            height: 40px;
         }
 
         .p-name {
-            text-align: center;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #222;
-            margin-bottom: 16px;
+            margin-bottom: 5px;
         }
 
-        .p-row {
+        .p-role {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .profile-photo-btn {
+            border: 0;
+            border-radius: 5px;
+            background: #4a0e18;
+            color: #fff;
+            padding: 8px 10px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Personal information and account options */
+        .profile-section-title {
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .profile-section-title h3 {
+            color: #4a0e18;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 14px;
+        }
+
+        .profile-edit-btn {
+            border: 1px solid #e0a53f;
+            border-radius: 4px;
+            background: #fff;
+            color: #704719;
+            padding: 5px 11px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .profile-info-row {
+            display: grid;
+            grid-template-columns: 18px 1fr;
+            gap: 9px;
+            align-items: start;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0e8e3;
+        }
+
+        .profile-info-row:last-child {
+            border-bottom: 0;
+        }
+
+        .profile-info-icon {
+            color: #8b1a2e;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .profile-info-label {
+            display: block;
+            color: #666;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .profile-info-value {
+            display: block;
+            color: #222;
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-info-value input {
+            width: 100%;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+        }
+
+        .profile-info-value input:enabled {
+            border: 1px solid #d8c9bf;
+            border-radius: 4px;
+            padding: 5px 7px;
+            background: #fffdf9;
+        }
+
+        .profile-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .profile-cancel-btn,
+        .profile-save-btn {
+            border: 1px solid #e0a53f;
+            border-radius: 4px;
+            padding: 5px 9px;
+            background: #fff4e8;
+            color: #704719;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .profile-save-btn {
+            display: none;
+            border-color: #4a0e18;
+            background: #4a0e18;
+            color: #fff;
+        }
+
+        .profile-editing .profile-save-btn {
+            display: inline-block;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .p-avatar.has-photo svg {
+            display: none;
+        }
+
+        .profile-setting-row {
+            width: 100%;
+            border: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
             padding: 9px 0;
-            border-bottom: 1px solid #f0e0d6;
-            font-size: 13px;
+            border-bottom: 1px solid #f0e8e3;
+            background: transparent;
+            color: #333;
+            font: 12px Arial, sans-serif;
+            text-align: left;
+            cursor: pointer;
         }
 
-        .p-row:last-child {
-            border-bottom: none;
+        .profile-setting-row:hover {
+            color: #8b1a2e;
         }
 
-        .p-row .lbl {
-            color: #888;
-            min-width: 110px;
+        .profile-setting-row:last-of-type {
+            border-bottom: 0;
+        }
+
+        .profile-setting-row span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-setting-icon {
+            color: #8b1a2e;
+        }
+
+        .profile-setting-arrow {
+            color: #8b1a2e;
+            font-size: 17px;
+        }
+
+        .profile-setting-panel {
+            margin: 4px 0 8px;
+            padding: 9px;
+            border: 1px solid #ead1b8;
+            border-radius: 6px;
+            background: #fff4e8;
+            color: #513b23;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .profile-setting-panel[hidden] {
+            display: none;
+        }
+
+        .profile-setting-panel label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+        }
+
+        .profile-setting-panel input {
+            accent-color: #8b1a2e;
+        }
+
+        .profile-help {
+            margin-top: 8px;
+            border-radius: 7px;
+            background: #fbf0dc;
+            padding: 9px;
+            color: #513b23;
+        }
+
+        .profile-help strong {
+            display: block;
+            margin-bottom: 4px;
             font-size: 12px;
         }
 
-        .p-row .val {
-            color: #222;
-            font-weight: 600;
+        .profile-help p {
+            font-size: 11px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
         }
 
+        @media (max-width: 760px) {
+            .profile-layout {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+            }
+
+            .profile-settings {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .profile-overlay {
+                padding: 16px;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .profile-settings {
+                grid-column: auto;
+            }
+        }
+
+        /* CSS LOGOUT: style for the login-redirect button in the top bar. */
         .logout-btn {
             padding: 8px 22px;
             border: 1.5px solid #fff;
@@ -348,12 +753,14 @@
         }
 
         /* LAYOUT */
+        /* CSS CUSTOMER LAYOUT: styles the HTML .body-wrap, .sidebar, and .main. */
         .body-wrap {
             display: flex;
             flex: 1;
         }
 
         /* SIDEBAR */
+        /* CSS CUSTOMER SIDEBAR: styles the HTML <nav class="sidebar">. */
         .sidebar {
             width: 185px;
             background: #4a0e18;
@@ -403,6 +810,7 @@
         }
 
         /* MAIN */
+        /* CSS CUSTOMER CONTENT: styles the HTML <main class="main"> dashboard. */
         .main {
             flex: 1;
             padding: 28px 24px;
@@ -423,6 +831,7 @@
         }
 
         /* RESERVATION CARD */
+        /* CSS DASHBOARD RESERVATION: styles the .reservation-card in the dashboard main area. */
         .reservation-card {
             border: 2px solid #8b1a2e;
             border-radius: 10px;
@@ -562,6 +971,7 @@
         }
 
         /* PAST EVENTS TABLE */
+        /* CSS DASHBOARD HISTORY: styles the .past-events-card and its table. */
         .past-events-card {
             border: 2px solid #8b1a2e;
             border-radius: 10px;
@@ -794,10 +1204,13 @@
             }
         }
     </style>
+    <!-- Responsive layout fixes for phones and tablets are in responsive.css. -->
+    <link rel="stylesheet" href="responsive.css" />
 </head>
 
 <body>
 
+    <!-- HTML CUSTOMER TOPBAR: styled by CSS .topbar and .topbar-right. -->
     <header class="topbar">
         <div class="topbar-brand">
             <div class="brand-icon"><img src="image/logo.jpg" alt="Logo" /></div>
@@ -809,18 +1222,29 @@
         <div class="topbar-right">
             <!-- BELL -->
             <div class="notif-wrapper">
-                <button class="bell-btn" id="bellBtn" title="Notifications" aria-label="Open notifications">
+                <button class="bell-btn" id="bellBtn" title="Notifications" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
                     <svg class="action-icon" aria-hidden="true" viewBox="0 0 24 24">
                         <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
                         <path d="M10 21h4"></path>
                     </svg>
                     <span class="bell-badge" id="bellBadge">2</span>
                 </button>
+                <!-- HTML CUSTOMER NOTIFICATIONS: styled by CSS .notif-panel and .notif-item. -->
                 <div class="notif-panel" id="notifPanel">
                     <div class="notif-head">
-                        <h3>Notifications</h3><button class="notif-clear" id="notifClear">Clear all</button>
+                        <h3>Notifications</h3><button class="notif-close" type="button" aria-label="Close notifications">&times;</button>
+                    </div>
+                    <div class="notif-toolbar">
+                        <button class="notif-select-toggle" type="button" id="notifSelectToggle" aria-pressed="false">Select</button>
+                        <div class="notif-bulk-controls">
+                            <label><input id="notifSelectAll" type="checkbox"> Select All <span class="notif-selection-count" id="notifSelectedCount">0</span></label>
+                            <button class="notif-action notif-action-read" type="button" data-notif-action="read" disabled>Mark as Read</button>
+                            <button class="notif-action notif-action-unread" type="button" data-notif-action="unread" disabled>Mark as Unread</button>
+                            <button class="notif-action notif-action-delete" type="button" data-notif-action="delete" disabled>Delete</button>
+                        </div>
                     </div>
                     <div class="notif-list" id="notifList"></div>
+                    <div class="notif-footer"><span id="notifSelectionSummary">Select notifications to manage them</span></div>
                 </div>
             </div>
             <!-- AVATAR -->
@@ -830,29 +1254,98 @@
                     <path d="M4 21a8 8 0 0 1 16 0" />
                 </svg>
             </button>
-            <button class="logout-btn" onclick="location.href='index.html'">Log out</button>
+            <!-- HTML LOGOUT: sends the customer to the login form after logging out. -->
+            <button class="logout-btn" onclick="window.location.href='index.html?auth=login'">Log out</button>
         </div>
     </header>
 
-    <!-- Profile Modal -->
+    <!-- Customer profile details -->
+    <!-- HTML CUSTOMER PROFILE: styled by CSS #profileOverlay and .profile-modal. -->
     <div class="profile-overlay" id="profileOverlay">
         <div class="profile-modal">
             <div class="profile-head">
-                <h3>My Profile</h3><button class="profile-close" onclick="closeProfile()">&times;</button>
-            </div>
-            <div class="p-body">
-                <div class="p-avatar">
-                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4" />
-                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                    </svg>
+                <div class="profile-heading">
+                    <h2>Profile</h2>
+                    <p>View and manage your account information</p>
                 </div>
-                <div class="p-name">Shaina Mae Enriquez</div>
-                <div class="p-row"><span class="lbl">Email</span><span class="val">shainaberos@gmail.com</span></div>
-                <div class="p-row"><span class="lbl">Contact</span><span class="val">+63 9929987815</span></div>
-                <div class="p-row"><span class="lbl">Member Since</span><span class="val">January 2025</span></div>
-                <div class="p-row"><span class="lbl">Total Bookings</span><span class="val">2</span></div>
+                <button class="profile-close" type="button" aria-label="Close profile"
+                    onclick="closeProfile()">&times;</button>
+            </div>
+
+            <div class="profile-layout">
+                <section class="profile-card profile-summary" aria-label="Customer profile summary">
+                    <div class="p-avatar" aria-hidden="true">
+                        <img class="profile-photo" id="customerProfilePhoto" alt="" hidden>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 21a8 8 0 0 1 16 0" />
+                        </svg>
+                    </div>
+                    <h3 class="p-name">Shaina Mae Enriquez</h3>
+                    <p class="p-role">Customer</p>
+                    <input id="customerProfilePhotoInput" type="file" accept="image/*" hidden>
+                    <button class="profile-photo-btn" type="button"
+                        onclick="document.getElementById('customerProfilePhotoInput').click()">Change Profile Picture</button>
+                </section>
+
+                <form class="profile-card" id="customerProfileForm" aria-labelledby="personalInfoTitle">
+                    <div class="profile-section-title">
+                        <h3 id="personalInfoTitle">Personal Information</h3>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="profile-info-icon" aria-hidden="true">&#128100;</span>
+                        <label class="profile-info-value"><span class="profile-info-label">Full Name</span>
+                            <input name="fullName" value="Shaina Mae Enriquez" disabled required></label>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="profile-info-icon" aria-hidden="true">&#9993;</span>
+                        <label class="profile-info-value"><span class="profile-info-label">Email Address</span>
+                            <input name="email" type="email" value="shainaberos@gmail.com" disabled required></label>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="profile-info-icon" aria-hidden="true">&#9742;</span>
+                        <label class="profile-info-value"><span class="profile-info-label">Contact Number</span>
+                            <input name="contact" value="+63 9929987815" disabled required></label>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="profile-info-icon" aria-hidden="true">&#9906;</span>
+                        <label class="profile-info-value"><span class="profile-info-label">Address</span>
+                            <input name="address" value="Not provided" disabled required></label>
+                    </div>
+                    <div class="profile-form-actions">
+                        <button class="profile-cancel-btn" id="customerProfileCancel" type="button" hidden>Cancel</button>
+                        <button class="profile-save-btn" type="submit">Save</button>
+                    </div>
+                </form>
+
+                <section class="profile-card profile-settings" aria-labelledby="accountSettingsTitle">
+                    <div class="profile-section-title">
+                        <h3 id="accountSettingsTitle">Account Settings</h3>
+                    </div>
+                    <button class="profile-setting-row" type="button" data-profile-setting="edit">
+                        <span><span class="profile-setting-icon" aria-hidden="true">&#9998;</span>Edit Profile</span>
+                        <span class="profile-setting-arrow" aria-hidden="true">&rsaquo;</span>
+                    </button>
+                    <button class="profile-setting-row" type="button" data-profile-setting="password" aria-expanded="false">
+                        <span><span class="profile-setting-icon" aria-hidden="true">&#128273;</span>Change Password</span>
+                        <span class="profile-setting-arrow" aria-hidden="true">&rsaquo;</span>
+                    </button>
+                    <div class="profile-setting-panel" id="passwordSettingsPanel" hidden>
+                        Password changes need a connected account service. Contact support to update your password.
+                    </div>
+                    <button class="profile-setting-row" type="button" data-profile-setting="notifications" aria-expanded="false">
+                        <span><span class="profile-setting-icon" aria-hidden="true">&#128276;</span>Notification Settings</span>
+                        <span class="profile-setting-arrow" aria-hidden="true">&rsaquo;</span>
+                    </button>
+                    <div class="profile-setting-panel" id="notificationSettingsPanel" hidden>
+                        <label><input id="customerNotificationPreference" type="checkbox" checked> Show notification count</label>
+                    </div>
+                    <div class="profile-help">
+                        <strong>Need help?</strong>
+                        <p>Contact us at info@cherryandrews.com</p>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -889,7 +1382,9 @@
         </div>
     </div>
 
+    <!-- HTML CUSTOMER LAYOUT: styled by CSS .body-wrap, .sidebar, and .main. -->
     <div class="body-wrap">
+        <!-- HTML CUSTOMER SIDEBAR: styled by CSS .sidebar and .sidebar-item. -->
         <nav class="sidebar">
             <div class="panel-label"><strong>CUSTOMER PANEL</strong><span>CHERRY-ANDREWS CATERING</span></div>
             <a class="sidebar-item active" href="dashboard.html">Dashboard</a>
@@ -898,8 +1393,10 @@
             <a class="sidebar-item" href="new-booking.html">New Booking</a>
         </nav>
 
+        <!-- HTML CUSTOMER CONTENT: styled by CSS .main and dashboard card selectors. -->
         <main class="main">
             <div class="section-title">Active Reservation Tracker Card</div>
+            <!-- HTML DASHBOARD RESERVATION: styled by CSS .reservation-card and .res-body. -->
             <div class="reservation-card">
                 <div class="res-header">MY ACTIVE EVENT: JULY 1, 2026</div>
                 <div class="res-body">
@@ -948,6 +1445,7 @@
             </div>
 
             <div class="section-title">Past Events</div>
+            <!-- HTML DASHBOARD HISTORY: styled by CSS .past-events-card and its table. -->
             <div class="past-events-card">
                 <table>
                     <thead>
@@ -987,33 +1485,242 @@
     <script>
         /* NOTIFICATIONS */
         let notifs = [
-            { id: 1, title: 'Payment Approved ✓', msg: 'Your 50% deposit for the July 1, 2026 Wedding has been verified and approved!', time: 'Just now', read: false, link: 'my-reservations.html' },
-            { id: 2, title: 'Booking Confirmed', msg: 'Your wedding reservation for July 1, 2026 is now confirmed.', time: '2 hours ago', read: false, link: 'my-reservations.html' },
-            { id: 3, title: 'Scheduling Reminder', msg: 'Bookings must be scheduled at least 14 days in advance.', time: 'Yesterday', read: true, link: '' },
+            { id: 1, title: 'Payment Approved ✓', msg: 'Your 50% deposit for the July 1, 2026 Wedding has been verified and approved!', time: 'Just now', read: false, link: 'my-reservations.html', icon: '💳' },
+            { id: 2, title: 'Booking Confirmed', msg: 'Your wedding reservation for July 1, 2026 is now confirmed.', time: '2 hours ago', read: false, link: 'my-reservations.html', icon: '📅' },
+            { id: 3, title: 'Scheduling Reminder', msg: 'Bookings must be scheduled at least 14 days in advance.', time: 'Yesterday', read: true, link: '', icon: '🔔' },
         ];
-        function renderNotifs() {
-            const list = document.getElementById('notifList'), badge = document.getElementById('bellBadge');
-            list.innerHTML = '';
-            const unread = notifs.filter(n => !n.read).length;
-            badge.textContent = unread; badge.style.display = unread > 0 ? 'flex' : 'none';
-            if (!notifs.length) { list.innerHTML = '<div class="notif-empty">No notifications</div>'; return; }
-            notifs.forEach(n => {
-                const d = document.createElement('div');
-                d.className = 'notif-item' + (n.read ? '' : ' unread');
-                d.innerHTML = `<div class="notif-title">${n.title}</div><div class="notif-msg">${n.msg}</div><div class="notif-time">${n.time}</div>`;
-                d.onclick = () => { n.read = true; renderNotifs(); if (n.link) location.href = n.link; };
-                list.appendChild(d);
-            });
+        const notifPanel = document.getElementById('notifPanel');
+        const notifList = document.getElementById('notifList');
+        const notifSelected = new Set();
+        function updateNotifSelection() {
+            const count = notifSelected.size;
+            document.getElementById('notifSelectedCount').textContent = count;
+            document.getElementById('notifSelectionSummary').textContent = `${count} notifications selected`;
+            document.getElementById('notifSelectAll').checked = notifs.length > 0 && count === notifs.length;
+            document.querySelectorAll('[data-notif-action]').forEach(button => { button.disabled = count === 0; });
         }
-        document.getElementById('bellBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('notifPanel').classList.toggle('show'); notifs.forEach(n => n.read = true); renderNotifs(); });
-        document.getElementById('notifClear').addEventListener('click', e => { e.stopPropagation(); notifs = []; renderNotifs(); });
-        document.addEventListener('click', e => { const p = document.getElementById('notifPanel'); if (!p.contains(e.target) && e.target.id !== 'bellBtn') p.classList.remove('show'); });
+        function renderNotifs() {
+            const badge = document.getElementById('bellBadge');
+            notifList.replaceChildren();
+            const unread = notifs.filter(n => !n.read).length;
+            const countPreference = document.getElementById('customerNotificationPreference');
+            badge.textContent = unread;
+            badge.style.display = unread > 0 && (!countPreference || countPreference.checked) ? 'flex' : 'none';
+            if (!notifs.length) {
+                notifList.innerHTML = '<div class="notif-empty">No notifications</div>';
+                notifSelected.clear();
+            }
+            notifs.forEach(n => {
+                const row = document.createElement('div');
+                row.className = 'notif-item' + (n.read ? '' : ' unread');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'notif-select';
+                checkbox.checked = notifSelected.has(n.id);
+                checkbox.setAttribute('aria-label', `Select ${n.title}`);
+                checkbox.addEventListener('change', () => {
+                  checkbox.checked ? notifSelected.add(n.id) : notifSelected.delete(n.id);
+                  updateNotifSelection();
+                });
+                const icon = document.createElement('span');
+                icon.className = 'notif-icon';
+                icon.textContent = n.icon || '🔔';
+                const content = document.createElement('button');
+                content.type = 'button';
+                content.className = 'notif-open';
+                content.innerHTML = `<span class="notif-title"></span><span class="notif-msg"></span><span class="notif-time"></span>`;
+                content.querySelector('.notif-title').textContent = n.title;
+                content.querySelector('.notif-msg').textContent = n.msg;
+                content.querySelector('.notif-time').textContent = n.time;
+                content.addEventListener('click', () => {
+                  n.read = true;
+                  renderNotifs();
+                  notifPanel.classList.remove('show');
+                  document.getElementById('bellBtn').setAttribute('aria-expanded', 'false');
+                  if (n.link) location.href = n.link;
+                });
+                const status = document.createElement('span');
+                status.className = 'notif-status' + (n.read ? ' read' : '');
+                status.textContent = n.read ? 'Read' : 'Unread';
+                row.append(checkbox, icon, content, status);
+                notifList.appendChild(row);
+            });
+            updateNotifSelection();
+        }
+        document.getElementById('notifSelectAll').addEventListener('change', event => {
+            notifSelected.clear();
+            if (event.target.checked) notifs.forEach(n => notifSelected.add(n.id));
+            renderNotifs();
+        });
+        document.getElementById('notifSelectToggle').addEventListener('click', event => {
+            const selectionMode = !notifPanel.classList.contains('selection-mode');
+            notifPanel.classList.toggle('selection-mode', selectionMode);
+            event.currentTarget.textContent = selectionMode ? 'Done' : 'Select';
+            event.currentTarget.setAttribute('aria-pressed', String(selectionMode));
+            if (!selectionMode) notifSelected.clear();
+            renderNotifs();
+        });
+        document.querySelector('.notif-toolbar').addEventListener('click', event => {
+            const action = event.target.closest('[data-notif-action]')?.dataset.notifAction;
+            if (!action) return;
+            if (action === 'delete') notifs = notifs.filter(n => !notifSelected.has(n.id));
+            else notifs.forEach(n => { if (notifSelected.has(n.id)) n.read = action === 'read'; });
+            notifSelected.clear();
+            renderNotifs();
+        });
+        document.getElementById('bellBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            notifPanel.classList.toggle('show');
+            document.getElementById('bellBtn').setAttribute('aria-expanded', String(notifPanel.classList.contains('show')));
+        });
+        document.querySelector('.notif-close').addEventListener('click', () => {
+            notifPanel.classList.remove('show');
+            document.getElementById('bellBtn').setAttribute('aria-expanded', 'false');
+        });
+        document.addEventListener('click', e => { if (!notifPanel.contains(e.target) && !document.getElementById('bellBtn').contains(e.target)) { notifPanel.classList.remove('show'); document.getElementById('bellBtn').setAttribute('aria-expanded', 'false'); } });
         renderNotifs();
 
         /* PROFILE */
-        document.getElementById('avatarBtn').onclick = e => { e.stopPropagation(); document.getElementById('profileOverlay').classList.add('show'); };
+        document.getElementById('avatarBtn').onclick = e => {
+            e.stopPropagation();
+            // Close notifications before opening the profile.
+            document.getElementById('notifPanel').classList.remove('show');
+            document.getElementById('profileOverlay').classList.add('show');
+        };
         function closeProfile() { document.getElementById('profileOverlay').classList.remove('show'); }
         document.getElementById('profileOverlay').onclick = e => { if (e.target === document.getElementById('profileOverlay')) closeProfile(); };
+
+        // Customer profile edits and photo stay saved in this browser.
+        const customerProfileKey = 'cherryAndrews.customerProfile';
+        const customerProfileForm = document.getElementById('customerProfileForm');
+        const customerProfileFields = [...customerProfileForm.querySelectorAll('input[name]')];
+        const customerProfileCancel = document.getElementById('customerProfileCancel');
+        const customerPhotoInput = document.getElementById('customerProfilePhotoInput');
+        const customerPhoto = document.getElementById('customerProfilePhoto');
+        const customerAvatar = document.querySelector('.profile-summary .p-avatar');
+        const customerName = document.querySelector('.profile-summary .p-name');
+        let customerProfileSnapshot = null;
+
+        function setCustomerProfileEditing(isEditing) {
+            customerProfileForm.classList.toggle('profile-editing', isEditing);
+            customerProfileFields.forEach(field => { field.disabled = !isEditing; });
+            customerProfileCancel.hidden = !isEditing;
+        }
+
+        function startCustomerProfileEditing() {
+            customerProfileSnapshot = customerProfileFields.map(field => field.value);
+            setCustomerProfileEditing(true);
+            customerProfileFields[0].focus();
+        }
+
+        customerProfileCancel.addEventListener('click', () => {
+            customerProfileFields.forEach((field, index) => {
+                field.value = customerProfileSnapshot[index];
+            });
+            customerProfileSnapshot = null;
+            setCustomerProfileEditing(false);
+        });
+
+        customerProfileForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const values = Object.fromEntries(new FormData(customerProfileForm).entries());
+            try {
+                localStorage.setItem(customerProfileKey, JSON.stringify(values));
+                customerName.textContent = values.fullName;
+                customerProfileSnapshot = null;
+                setCustomerProfileEditing(false);
+                alert('Profile saved on this browser.');
+            } catch (error) {
+                alert('Could not save your profile in this browser. Please try again.');
+            }
+        });
+
+        // Profile settings let customers edit details and control the notification badge.
+        const profileSettingsCard = document.querySelector('.profile-settings');
+        const notificationPreference = document.getElementById('customerNotificationPreference');
+        const notificationPreferenceKey = 'cherryAndrews.customerNotificationCount';
+
+        function applyNotificationPreference() { renderNotifs(); }
+
+        profileSettingsCard.querySelectorAll('[data-profile-setting]').forEach(button => {
+            button.addEventListener('click', () => {
+                const setting = button.dataset.profileSetting;
+                if (setting === 'edit') {
+                    startCustomerProfileEditing();
+                    return;
+                }
+
+                const panelId = setting === 'password' ? 'passwordSettingsPanel' : 'notificationSettingsPanel';
+                const panel = document.getElementById(panelId);
+                panel.hidden = !panel.hidden;
+                button.setAttribute('aria-expanded', String(!panel.hidden));
+            });
+        });
+
+        try {
+            notificationPreference.checked =
+                localStorage.getItem(notificationPreferenceKey) !== 'false';
+        } catch (error) {
+            alert('Notification settings could not be loaded from this browser.');
+        }
+
+        notificationPreference.addEventListener('change', () => {
+            try {
+                localStorage.setItem(notificationPreferenceKey, String(notificationPreference.checked));
+                applyNotificationPreference();
+            } catch (error) {
+                notificationPreference.checked = !notificationPreference.checked;
+                alert('Notification settings could not be saved in this browser.');
+            }
+        });
+        applyNotificationPreference();
+
+        customerPhotoInput.addEventListener('change', () => {
+            const imageFile = customerPhotoInput.files[0];
+            if (!imageFile) return;
+            if (!imageFile.type.startsWith('image/')) {
+                alert('Choose an image file for your profile picture.');
+                customerPhotoInput.value = '';
+                return;
+            }
+            if (imageFile.size > 2 * 1024 * 1024) {
+                alert('Choose an image smaller than 2 MB.');
+                customerPhotoInput.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    localStorage.setItem(`${customerProfileKey}.photo`, reader.result);
+                    customerPhoto.src = reader.result;
+                    customerPhoto.hidden = false;
+                    customerAvatar.classList.add('has-photo');
+                } catch (error) {
+                    alert('Could not save this picture in your browser. Choose a smaller image.');
+                }
+            };
+            reader.onerror = () => alert('The selected picture could not be read.');
+            reader.readAsDataURL(imageFile);
+        });
+
+        try {
+            const savedCustomerProfile = localStorage.getItem(customerProfileKey);
+            if (savedCustomerProfile) {
+                const savedValues = JSON.parse(savedCustomerProfile);
+                customerProfileFields.forEach(field => {
+                    if (typeof savedValues[field.name] === 'string') field.value = savedValues[field.name];
+                });
+                customerName.textContent = customerProfileForm.elements.fullName.value;
+            }
+            const savedCustomerPhoto = localStorage.getItem(`${customerProfileKey}.photo`);
+            if (savedCustomerPhoto) {
+                customerPhoto.src = savedCustomerPhoto;
+                customerPhoto.hidden = false;
+                customerAvatar.classList.add('has-photo');
+            }
+        } catch (error) {
+            alert('Saved profile information could not be loaded from this browser.');
+        }
 
         /* DETAILS MODAL */
         function closeDetails() { document.getElementById('detailsOverlay').classList.remove('show'); }
