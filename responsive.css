@@ -184,3 +184,57 @@ table {
     max-width: 100%;
   }
 }
+
+/* ==========================================================
+   CUSTOMER PAGES (dashboard, my-reservations, new-booking,
+   order-history): ipakita ang sidebar sa phone bilang
+   horizontal scrollable menu imbes na itago.
+   ========================================================== */
+@media (max-width: 760px) {
+  .body-wrap {
+    flex-direction: column;
+  }
+
+  .body-wrap > .sidebar {
+    display: flex;          /* panalo laban sa display:none ng page */
+    width: 100%;
+    flex: none;
+    padding: 0;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid #3a0010;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .body-wrap > .sidebar .panel-label {
+    display: none;
+  }
+
+  .body-wrap > .sidebar .sidebar-item {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 12px 16px;
+    font-size: 13px;
+    border-left: 0;
+    border-bottom: 3px solid transparent;
+  }
+
+  .body-wrap > .sidebar .sidebar-item.active {
+    border-left: 0;
+    border-bottom-color: #e0a53f;
+  }
+
+  .body-wrap > .main {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 12px 28px;
+    overflow-y: visible;
+  }
+
+  /* Dashboard: ibalik ang "Planning ahead?" card sa ilalim ng content */
+  .body-wrap > .right-panel {
+    display: block;
+    width: 100%;
+    padding: 0 12px 24px;
+  }
+}
