@@ -257,29 +257,44 @@ table {
 }
 
 /* MOBILE HEADER: keep logo and account actions aligned */
-@media (max-width: 760px) {
-  .navbar {
-    height: auto;
-    min-height: 64px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
 
-  .nav-actions,
-  .topbar-right,
-  .top-actions {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
+/* CUSTOMER HEADER FIX — MOBILE */
+@media (max-width: 760px) {
+  .topbar-right {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 12px !important;
+    width: auto;
+    max-width: 100%;
     min-width: 0;
   }
 
-  .nav-actions > *,
-  .topbar-right > *,
-  .top-actions > * {
-    flex-shrink: 0;
+  .topbar-right .notif-wrapper {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .topbar-right .bell-btn,
+  .topbar-right .avatar-btn,
+  .topbar-right .logout-btn {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .topbar-right .notif-panel {
+    position: fixed !important;
+    top: 90px !important;
+    right: 10px !important;
+    left: auto !important;
+    width: min(360px, calc(100vw - 20px)) !important;
+    max-width: calc(100vw - 20px) !important;
+    max-height: calc(100dvh - 110px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 99999;
   }
 }
