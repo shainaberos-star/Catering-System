@@ -238,63 +238,89 @@ table {
     padding: 0 12px 24px;
   }
 }
-/* Fix notification panel on mobile */
+
+/* ==========================================================
+   TOPBAR (customer, owner, admin): iisang layout sa phone.
+   Logo sa kaliwa; notif, profile, logout sa kanan, ISANG ROW.
+   ========================================================== */
 @media (max-width: 760px) {
-  .notification-panel,
-  .notif-panel {
+  .topbar {
+    height: 64px;
+    padding: 0 12px;
+    flex-wrap: nowrap;          /* huwag bumaba ang buttons */
+    gap: 8px;
+  }
+
+  .topbar-brand,
+  .brand {
+    gap: 8px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .brand-icon,
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-words .b1,
+  .brand-name {
+    font-size: 14px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .brand-words .b2,
+  .brand-name small {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .topbar-right,
+  .top-actions {
+    flex-wrap: nowrap;          /* sa gilid, hindi sa ilalim */
+    flex-shrink: 0;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .logout-btn,
+  .logout {
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 16px;
+    white-space: nowrap;
+  }
+
+  /* Notification panel: nasa gitna ng screen sa ilalim ng topbar,
+     para hindi maputol sa kaliwa. */
+  .notif-panel,
+  .notification-panel {
     position: fixed;
-    top: 80px;
+    top: 68px;
+    left: 10px;
     right: 10px;
-    left: auto;
-    width: min(360px, calc(100vw - 20px));
-    max-width: calc(100vw - 20px);
-    max-height: calc(100dvh - 100px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    box-sizing: border-box;
-    z-index: 9999;
+    width: auto;
+    max-width: none;
   }
 }
 
-/* MOBILE HEADER: keep logo and account actions aligned */
-
-/* CUSTOMER HEADER FIX — MOBILE */
-@media (max-width: 760px) {
-  .topbar-right {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    gap: 12px !important;
-    width: auto;
-    max-width: 100%;
-    min-width: 0;
+@media (max-width: 380px) {
+  .brand-words .b1,
+  .brand-name {
+    font-size: 12px;
+    letter-spacing: 0.5px;
   }
 
-  .topbar-right .notif-wrapper {
-    position: relative;
-    flex: 0 0 auto;
+  .brand-icon,
+  .brand-mark {
+    width: 36px;
+    height: 36px;
   }
 
-  .topbar-right .bell-btn,
-  .topbar-right .avatar-btn,
-  .topbar-right .logout-btn {
-    flex: 0 0 auto;
-    margin: 0;
-  }
-
-  .topbar-right .notif-panel {
-    position: fixed !important;
-    top: 90px !important;
-    right: 10px !important;
-    left: auto !important;
-    width: min(360px, calc(100vw - 20px)) !important;
-    max-width: calc(100vw - 20px) !important;
-    max-height: calc(100dvh - 110px) !important;
-    overflow-x: hidden;
-    overflow-y: auto;
-    box-sizing: border-box;
-    z-index: 99999;
+  .topbar-right,
+  .top-actions {
+    gap: 2px;
   }
 }
