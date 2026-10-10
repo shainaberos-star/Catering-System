@@ -34,7 +34,7 @@ table {
 }
 
 /* Keep navigation, content sections, and dialogs within the screen width. */
-@media (max-width: 700px) {
+@media (max-width: 760px) {
   .navbar {
     height: auto;
     min-height: 64px;
@@ -236,5 +236,22 @@ table {
     display: block;
     width: 100%;
     padding: 0 12px 24px;
+  }
+}
+/* Fix notification panel on mobile */
+@media (max-width: 760px) {
+  .notification-panel,
+  .notif-panel {
+    position: fixed;
+    top: 80px;
+    right: 10px;
+    left: auto;
+    width: min(360px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+    max-height: calc(100dvh - 100px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 9999;
   }
 }
