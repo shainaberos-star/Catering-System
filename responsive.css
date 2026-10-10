@@ -34,7 +34,7 @@ table {
 }
 
 /* Keep navigation, content sections, and dialogs within the screen width. */
-@media (max-width: 760px) {
+@media (max-width: 700px) {
   .navbar {
     height: auto;
     min-height: 64px;
