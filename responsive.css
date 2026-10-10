@@ -34,32 +34,79 @@ table {
 }
 
 /* Keep navigation, content sections, and dialogs within the screen width. */
-
-/* MOBILE HEADER: keep logo and account actions aligned */
 @media (max-width: 760px) {
   .navbar {
     height: auto;
     min-height: 64px;
     flex-wrap: wrap;
-    align-items: center;
+    gap: 10px;
+    padding: 12px clamp(14px, 4vw, 28px);
   }
 
+  .nav-links,
   .nav-actions,
+  .topbar,
   .topbar-right,
   .top-actions {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 
-  .nav-actions > *,
-  .topbar-right > *,
-  .top-actions > * {
-    flex-shrink: 0;
+  .about-images,
+  .contact-wrap,
+  .packages-grid,
+  .rentals-grid,
+  .service-grid,
+  .chart-grid,
+  .report-grid,
+  .stat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+
+  .about-images,
+  .service-grid,
+  .packages-grid,
+  .rentals-grid,
+  .chart-grid,
+  .report-grid,
+  .stat-grid {
+    display: grid;
+  }
+
+  .layout,
+  .profile-layout,
+  .contact-wrap {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 20px;
+  }
+
+  .notification-panel,
+  .notif-panel {
+    width: min(520px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+  }
+
+  .booking-review-dialog {
+    width: min(620px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    max-height: 88vh;
+    overflow: auto;
+  }
+
+  .profile-overlay,
+  .profile-modal,
+  .account-profile-dialog {
+    max-width: calc(100vw - 24px);
+  }
+
+  .sidebar {
+    max-width: 100%;
   }
 }
 
@@ -206,5 +253,33 @@ table {
     overflow-y: auto;
     box-sizing: border-box;
     z-index: 9999;
+  }
+}
+
+/* MOBILE HEADER: keep logo and account actions aligned */
+@media (max-width: 760px) {
+  .navbar {
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .nav-actions,
+  .topbar-right,
+  .top-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .nav-actions > *,
+  .topbar-right > *,
+  .top-actions > * {
+    flex-shrink: 0;
   }
 }
