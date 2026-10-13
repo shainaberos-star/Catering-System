@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,14 +28,14 @@
       color: inherit;
     }
 
-    /* CSS ABOUT NAV: matches <nav class="navbar"> near the start of the body. */
+    /* CSS ABOUT NAV: match Admin's 34px side spacing around the header content. */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
-      height: 70px;
-      background-color: #5d0d1c;
+      padding: 16px 40px;
+      height: 90px;
+      background-color: #5c111d;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -47,12 +47,12 @@
       gap: 12px;
     }
 
-    /* Header logo, matched to the home page */
+    /* CSS ABOUT LOGO: slightly enlarge the logo and use a white border instead of gold. */
     .brand-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid #e0a53f;
+      width: 65px;
+      height: 65px;
+      border-radius: 65%;
+      border: 2px solid #f5e6c8;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -143,20 +143,32 @@
       background: #f5e6c8;
     }
 
+    /* CSS ABOUT INTRO: match the burgundy title banner used on Rentals. */
+    .page-header {
+      background: #5c111d;
+      padding: 50px 40px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      opacity: 0.85;
+    }
+
     /* About page content */
     /* CSS ABOUT CONTENT: styles the HTML <div class="page-content"> below the navbar. */
     .page-content {
       max-width: 860px;
-      margin: 70px auto;
+      margin: 50px auto 70px;
       padding: 0 40px;
       text-align: center;
-    }
-
-    .page-content h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 40px;
-      color: #8b1a2e;
-      margin-bottom: 24px;
     }
 
     /* About page image gallery */
@@ -235,11 +247,15 @@
     </div>
   </nav>
 
+  <!-- HTML ABOUT INTRO: styled by CSS .page-header to match the Rentals banner. -->
+  <div class="page-header">
+    <h1>About Us</h1>
+    <p>Quality food, affordable prices, and a family tradition passed down through generations.</p>
+  </div>
+
   <!-- HTML ABOUT CONTENT: styled by CSS .page-content and .about-images. -->
   <div class="page-content">
-    <h1>About Us</h1>
     <div class="divider"></div>
-    <p>“Quality food, affordable prices, and a family tradition passed down through generations.”</p>
     <div class="about-images">
       <div class="about-image1">
         <img src="image/aboutus1.jpg" alt="Cherry-Andrews Logo" />
