@@ -222,18 +222,18 @@
 
     /* Shared selection controls and status labels for the notification list. */
     .notif-panel { width: min(520px, calc(100vw - 24px)); }
-    .notif-head { background: #fff; color: #24364b; border-bottom: 1px solid #e4eaf1; }
+    .notif-head { background: #fff; color: #3a1a20; border-bottom: 1px solid #f0e0d6; }
     .notif-head h3 { font: 600 16px Arial, sans-serif; }
-    .notif-close { border: 0; background: transparent; color: #52647a; font-size: 22px; cursor: pointer; }
+    .notif-close { border: 0; background: transparent; color: #8a7570; font-size: 22px; cursor: pointer; }
     .notif-list { max-height: 340px; }
-    .notif-item { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: start; gap: 10px; padding: 13px 14px; border-color: #edf0f4; font-family: Arial, sans-serif; }
+    .notif-item { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: start; gap: 10px; padding: 13px 14px; border-color: #f3e8e2; font-family: Arial, sans-serif; }
     .notif-panel.selection-mode .notif-item { grid-template-columns: 22px 42px minmax(0, 1fr) auto; }
     .notif-item.unread { background: #fff; border-left: 0; }
-    .notif-title { color: #24364b; }
-    .notif-msg { color: #65758a; }
+    .notif-title { color: #3a1a20; }
+    .notif-msg { color: #8a7570; }
     .notif-time { color: #78879a; margin-top: 0; white-space: nowrap; }
-    .notif-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #e4eaf1; font: 12px Arial, sans-serif; }
-    .notif-toolbar label { display: flex; align-items: center; gap: 7px; margin-right: auto; color: #34465b; white-space: nowrap; }
+    .notif-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #f0e0d6; font: 12px Arial, sans-serif; }
+    .notif-toolbar label { display: flex; align-items: center; gap: 7px; margin-right: auto; color: #5c4a44; white-space: nowrap; }
     .notif-select-toggle { border: 1px solid #e0a53f; border-radius: 5px; padding: 7px 12px; background: #fff4e8; color: #704719; font: 600 12px Arial, sans-serif; cursor: pointer; }
     .notif-bulk-controls { display: none; align-items: center; gap: 8px; width: 100%; }
     .notif-panel.selection-mode .notif-bulk-controls { display: flex; }
@@ -490,13 +490,26 @@
     }
 
     .sidebar-item {
-      display: block;
-      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
       font-size: 14px;
       color: #fbf7f7;
       cursor: pointer;
       border-left: 4px solid transparent;
       transition: background 0.15s;
+    }
+
+    .sidebar-item svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .sidebar-item:hover {
@@ -670,6 +683,7 @@
     /* year picker dropdown */
     .cal-wrap {
       position: relative;
+      width: 100%;
     }
 
     .year-picker {
@@ -716,7 +730,11 @@
     }
 
     .cal-grid {
+      display: table;
+      table-layout: fixed;
       width: 100%;
+      max-width: 100%;
+      overflow: visible;
       border-collapse: collapse;
     }
 
@@ -903,121 +921,767 @@
       border-color: #8b1a2e;
     }
 
-    /* ===== STEP 2 – CATERING ===== */
+    /* ===== STEP 2 – CATERING: menu sheet (compact; packages scroll sideways, the rest fits the screen) ===== */
+    #step2 {
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #step2 .step-body {
+      padding-top: 12px;
+      padding-bottom: 10px;
+    }
+
+    #step2 .step-footer {
+      padding-top: 10px;
+      padding-bottom: 12px;
+    }
+
+    .menu-sheet {
+      padding: 10px;
+      border: 1px solid #e6d3c6;
+      border-radius: 10px;
+      background: #f8f1e7;
+      color: #4a2a2f;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .ms-icons {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    /* Tagline bar: same dark maroon as the customer topbar */
+    .ms-brandbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 4px 14px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: #4a0e18;
+    }
+
+    .ms-brandinfo {
+      width: 100%;
+      text-align: center;
+    }
+
+    .ms-tagline {
+      color: #f5e6c8;
+      font: 500 10px Arial, sans-serif;
+      letter-spacing: .16em;
+    }
+
+    .ms-pill {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 2px 10px;
+      margin-top: 3px;
+      color: #e9d3b8;
+      font: 8.5px Arial, sans-serif;
+      letter-spacing: .08em;
+    }
+
+    .ms-pill svg {
+      width: 11px;
+      height: 11px;
+      margin-right: 3px;
+      vertical-align: middle;
+      fill: none;
+      stroke: #e0a53f;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ms-pill .dot {
+      color: #e0a53f;
+    }
+
+    .ms-title {
+      display: flex;
+      align-items: center;
+      margin: 8px 0 4px;
+    }
+
+    .ms-title::before,
+    .ms-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #b98f86;
+    }
+
+    .ms-title span {
+      padding: 4px 22px;
+      background: #8b1a2e;
+      color: #fff;
+      font: 700 11.5px Georgia, serif;
+      letter-spacing: .14em;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 9px) 50%, 100% 100%, 0 100%, 9px 50%);
+    }
+
+    .ms-title.small span {
+      padding: 3px 18px;
+      font-size: 10px;
+    }
+
+    /* Package picker: scroll sideways */
     .packages-scroll {
       display: flex;
-      gap: 16px;
+      gap: 10px;
       overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      padding: 14px 2px 8px;
     }
 
     .packages-scroll::-webkit-scrollbar {
-      height: 4px;
+      height: 5px;
     }
 
     .packages-scroll::-webkit-scrollbar-thumb {
-      background: #ddd;
+      background: #cfae9f;
       border-radius: 4px;
     }
 
     .pkg-card {
-      flex: 0 0 200px;
-      border: 2px solid #8b1a2e;
-      border-radius: 10px;
-      overflow: hidden;
+      position: relative;
+      flex: 0 0 290px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 10px 8px;
+      border: 1px solid #d8bfb2;
+      border-radius: 6px;
+      background: #fbf6ee;
       font-family: Arial, sans-serif;
       cursor: pointer;
-      transition: box-shadow .2s;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
     }
 
-    .pkg-card:hover,
-    .pkg-card.selected {
-      box-shadow: 0 4px 20px rgba(139, 26, 46, .25);
+    .pkg-card::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid #ead9cc;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .pkg-card:hover {
+      box-shadow: 0 6px 18px rgba(92, 17, 29, .14);
     }
 
     .pkg-card.selected {
-      border-color: #4a0e18;
+      border-color: #8b1a2e;
+      box-shadow: 0 0 0 2px #8b1a2e, 0 8px 22px rgba(92, 17, 29, .2);
+      transform: translateY(-2px);
     }
 
     .pkg-card-header {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      z-index: 1;
+      width: 62%;
+      padding: 5px 4px;
+      transform: translateX(-50%);
       background: #8b1a2e;
       color: #fff;
       text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font: 700 10px Arial, sans-serif;
+      letter-spacing: .1em;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%, 8px 50%);
     }
 
-    .pkg-card-body {
-      padding: 14px 14px;
-      background: #fff;
+    .pkg-card.popular .pkg-card-header {
+      left: 40%;
+      width: 56%;
+    }
+
+    .pkg-popular {
+      position: absolute;
+      top: -11px;
+      right: 6px;
+      z-index: 2;
+      width: 58px;
+      padding: 5px 2px 12px;
+      background: #c9a45c;
+      color: #fff;
+      text-align: center;
+      font: 700 8px/1.25 Arial, sans-serif;
+      letter-spacing: .02em;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+    }
+
+    .pkg-status {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .pkg-selected-badge,
+    .pkg-customized-badge {
+      display: none;
+      margin-bottom: 3px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: #8b1a2e;
+      color: #fff;
+      font: 700 9px Arial, sans-serif;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    .pkg-customized-badge {
+      background: #c9a45c;
+    }
+
+    .pkg-card.selected .pkg-selected-badge,
+    .pkg-card.customized .pkg-customized-badge {
+      display: inline-block;
     }
 
     .pkg-price {
+      position: relative;
+      z-index: 1;
       color: #8b1a2e;
-      font-size: 22px;
-      font-weight: 700;
-      font-family: 'Georgia', serif;
       text-align: center;
+      font: 700 24px/1.05 Georgia, serif;
     }
 
     .pkg-price span {
-      font-size: 12px;
-      font-weight: 400;
-      color: #888;
       display: block;
+      margin-top: 1px;
+      color: #5b4540;
+      font: 400 9px Arial, sans-serif;
+      letter-spacing: .12em;
     }
 
     .pkg-inclusions-title {
-      color: #8b1a2e;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+      margin: 5px 0 4px;
+      color: #5c111d;
       text-align: center;
-      margin: 10px 0 8px;
+      font: 700 9.5px Arial, sans-serif;
+      letter-spacing: .06em;
+    }
+
+    .pkg-inclusions {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      column-count: 2;
+      column-gap: 12px;
+      margin: 0 0 4px;
+      padding: 0 4px;
+      list-style: none;
     }
 
     .pkg-inclusions li {
-      font-size: 12px;
-      color: #333;
-      line-height: 1.7;
-      list-style: disc inside;
+      position: relative;
+      break-inside: avoid;
+      padding-left: 11px;
+      color: #3a2a2a;
+      font-size: 10.5px;
+      line-height: 1.45;
+      list-style: none;
+    }
+
+    .pkg-inclusions li::before {
+      content: '';
+      position: absolute;
+      top: .62em;
+      left: 2px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #8b1a2e;
+    }
+
+    .pkg-orn {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 4px;
+      color: #b98f86;
+      font-size: 8px;
+    }
+
+    .pkg-orn::before,
+    .pkg-orn::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e0cbbf;
     }
 
     .pkg-occasion {
-      font-size: 11px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1px;
       color: #8b1a2e;
-      font-weight: 700;
       text-align: center;
-      margin: 10px 0 4px;
-      letter-spacing: .5px;
+      font: 700 9.5px Arial, sans-serif;
+      letter-spacing: .04em;
     }
 
     .pkg-occasion-text {
-      font-size: 11px;
-      color: #555;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 5px;
+      color: #5b4540;
       text-align: center;
-      margin-bottom: 10px;
+      font: 9.5px/1.3 Arial, sans-serif;
     }
 
     .pkg-btn {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      padding: 9px;
-      background: #8b1a2e;
-      color: #fff;
+      padding: 5px;
       border: none;
       border-radius: 6px;
-      font-size: 12px;
+      background: #8b1a2e;
+      color: #fff;
+      font-size: 10px;
       font-weight: 700;
+      letter-spacing: .5px;
       cursor: pointer;
       transition: background .15s;
-      letter-spacing: .5px;
     }
 
     .pkg-btn:hover {
       background: #6b0e1f;
+    }
+
+    /* Add-ons: click a card to select it */
+    .ms-addons {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 6px;
+      border: 1px solid #dcc7b6;
+      border-radius: 10px;
+      background: #faf3ea;
+      overflow: hidden;
+    }
+
+    .ms-addon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px;
+      border-left: 1px solid #e3d0c2;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .ms-addon:first-child {
+      border-left: 0;
+    }
+
+    .ms-addon:hover {
+      background: #f6ebdd;
+    }
+
+    .ms-addon.selected {
+      background: #f3e3d3;
+      box-shadow: inset 0 0 0 2px #8b1a2e;
+    }
+
+    .ms-addon-check {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      margin: 0;
+      accent-color: #8b1a2e;
+      cursor: pointer;
+    }
+
+    .ms-addon svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: #8b1a2e;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ms-addon strong {
+      display: block;
+      color: #3a1a20;
+      font-size: 10.5px;
+    }
+
+    .ms-addon b {
+      display: block;
+      color: #5c111d;
+      font-size: 10px;
+    }
+
+    .ms-addon small {
+      display: block;
+      color: #6a5550;
+      font-size: 9px;
+    }
+
+    /* Special Requests + Additional Information (compact) */
+    #step2 .two-col-bottom {
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    #step2 .field-label {
+      margin-bottom: 4px;
+      font-size: 12.5px;
+    }
+
+    #step2 .special-req textarea {
+      height: 58px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    #step2 .add-info-box {
+      padding: 6px 12px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .ms-addons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .ms-addon:nth-child(3) {
+        border-left: 0;
+      }
+
+      .ms-addon:nth-child(n+3) {
+        border-top: 1px solid #e3d0c2;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .menu-sheet {
+        padding: 8px;
+      }
+
+      .pkg-card {
+        flex-basis: 250px;
+      }
+
+      .pkg-inclusions {
+        column-count: 1;
+      }
+
+      .ms-addons {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .ms-addon,
+      .ms-addon:nth-child(3) {
+        border-left: 0;
+        border-top: 1px solid #e3d0c2;
+      }
+
+      .ms-addon:first-child {
+        border-top: 0;
+      }
+    }
+
+    /* CSS PACKAGE CUSTOMIZATION: step-by-step menu editor (check, replace, new price). */
+    .package-customize-dialog {
+      width: min(520px, calc(100vw - 20px));
+      max-height: min(92vh, 800px);
+      margin: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 16px;
+      color: #3a1a20;
+      box-shadow: 0 18px 50px rgba(16, 30, 48, .3);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .package-customize-dialog[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .package-customize-dialog::backdrop {
+      background: rgba(20, 31, 46, .58);
+      backdrop-filter: blur(4px);
+    }
+
+    .package-customize-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      background: #fff;
+      border-bottom: 1px solid #f0e0d6;
+    }
+
+    .package-customize-head h2 {
+      font: 700 17px Arial, sans-serif;
+      color: #3a1a20;
+    }
+
+    .package-customize-back {
+      border: 0;
+      background: transparent;
+      color: #8b1a2e;
+      font-size: 24px;
+      line-height: 1;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    .package-customize-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 16px 18px;
+      background: #fff;
+    }
+
+    .package-customize-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fdf0ea;
+      color: #5c111d;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .package-customize-summary-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #8b1a2e;
+      font-size: 20px;
+    }
+
+    .package-customize-summary strong {
+      font-size: 13px;
+    }
+
+    .package-customize-body h3 {
+      margin: 18px 0 8px;
+      color: #3a1a20;
+      font: 700 15px Arial, sans-serif;
+    }
+
+    .custom-menu-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .custom-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid #ecd9d2;
+      border-radius: 10px;
+      background: #fff;
+      color: #3a1a20;
+      cursor: pointer;
+    }
+
+    .custom-menu-item.is-fixed {
+      border-color: #d8c6a0;
+      background: #fffaf0;
+      cursor: default;
+    }
+
+    .custom-menu-item input {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: #8b1a2e;
+    }
+
+    .custom-menu-thumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      background: #f8efe9;
+      font-size: 26px;
+    }
+
+    .custom-menu-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .custom-menu-text strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .custom-menu-text small {
+      display: block;
+      margin-top: 2px;
+      color: #8a7570;
+      font-size: 12px;
+    }
+
+    .custom-menu-tag {
+      flex-shrink: 0;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .custom-menu-item.is-removed {
+      border-color: #e08a8a;
+      background: #fdeaea;
+    }
+
+    .custom-menu-item.is-removed .custom-menu-thumb {
+      opacity: .55;
+    }
+
+    .custom-menu-item.is-removed .custom-menu-text strong {
+      text-decoration: line-through;
+      color: #8a4a4a;
+    }
+
+    .custom-menu-item.is-removed .custom-menu-tag {
+      border: 1px solid #e08a8a;
+      background: #fff;
+      color: #c0392b;
+    }
+
+    .custom-menu-item.is-replaced {
+      border-color: #e0a53f;
+      background: #fbf0dc;
+    }
+
+    .custom-menu-item.is-replaced .custom-menu-tag {
+      border: 1px solid #e0a53f;
+      background: #fff;
+      color: #8b1a2e;
+    }
+
+    .custom-menu-item.is-fixed .custom-menu-tag {
+      border: 1px solid #d8c6a0;
+      background: #fff;
+      color: #78602d;
+    }
+
+    .menu-replace-panel {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f8efe9;
+      font-size: 12px;
+      color: #5c4a44;
+    }
+
+    .menu-replace-panel strong {
+      display: block;
+      font-size: 14px;
+      color: #3a1a20;
+    }
+
+    .menu-replace-panel select {
+      width: 100%;
+      margin-top: 8px;
+      padding: 11px 12px;
+      border: 1px solid #d9c3bb;
+      border-radius: 8px;
+      background: #fff;
+      color: #3a1a20;
+      font: 13px Arial, sans-serif;
+    }
+
+    .package-price-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fdf0ea;
+      color: #5c111d;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .package-price-box strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .package-price-box .new-price {
+      display: block;
+      margin-top: 2px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #8b1a2e;
+    }
+
+    .package-customize-actions {
+      padding: 12px 18px 16px;
+      border-top: 1px solid #f0e0d6;
+      background: #fff;
+    }
+
+    .package-customize-save {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      background: #8b1a2e;
+      color: #fff;
+      font: 700 13px Arial, sans-serif;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .package-customize-save:hover {
+      background: #6b0e1f;
+    }
+
+    /* Package card: new price pill and "Pinalitan" tag after customizing */
+    .pkg-swap-tag {
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: #fdf0ea;
+      color: #8b1a2e;
+      font-size: 10px;
+      font-weight: 700;
     }
 
     .two-col-bottom {
@@ -1512,10 +2176,22 @@
     <!-- HTML CUSTOMER SIDEBAR: styled by CSS .sidebar and .sidebar-item. -->
     <nav class="sidebar">
       <div class="panel-label"><strong>CUSTOMER PANEL</strong><span>CHERRY-ANDREWS<br>CATERING</span></div>
-      <a class="sidebar-item " href="dashboard.html">Dashboard</a>
-      <a class="sidebar-item " href="my-reservations.html">My Reservations</a>
-      <a class="sidebar-item" href="order-history.html">Order History</a>
-      <a class="sidebar-item active" href="new-booking.html">New Booking</a>
+      <a class="sidebar-item " href="dashboard.html">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="5" rx="1"></rect><rect x="13" y="10" width="8" height="11" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="sidebar-item " href="my-reservations.html">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+        <span>My Reservations</span>
+      </a>
+      <a class="sidebar-item" href="order-history.html">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h2M9 5h11M4 12h2M9 12h11M4 19h2M9 19h11"></path><circle cx="5" cy="5" r=".5"></circle><circle cx="5" cy="12" r=".5"></circle><circle cx="5" cy="19" r=".5"></circle></svg>
+        <span>Order History</span>
+      </a>
+      <a class="sidebar-item active" href="new-booking.html">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M12 13v5M9.5 15.5h5"></path></svg>
+        <span>New Booking</span>
+      </a>
     </nav>
 
     <!-- MAIN -->
@@ -1637,101 +2313,135 @@
       <div class="step-card" id="step2">
         <div class="step-header">STEP 2: Decide On Catering</div>
         <div class="step-body">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;">Menu Packages</h3>
+          <div class="menu-sheet">
+            <svg class="ms-icons" aria-hidden="true">
+              <symbol id="ic-cloche" viewBox="0 0 24 24"><path d="M3 18h18M5 18a7 7 0 0 1 14 0M12 8V6M10.5 6h3" /></symbol>
+              <symbol id="ic-utensils" viewBox="0 0 24 24"><path d="M8 3v8M6 3v5a2 2 0 0 0 4 0V3M8 11v10M16 3c-2 2-3 5-3 8h3v10" /></symbol>
+              <symbol id="ic-cake" viewBox="0 0 24 24"><path d="M5 20h14M6 20v-7h12v7M6 16c2 1.5 4-1.5 6 0s4 1.5 6 0M12 13V9M12 9c-1-1.2-.2-2 0-3 .2 1 1 1.8 0 3z" /></symbol>
+              <symbol id="ic-dessert" viewBox="0 0 24 24"><path d="M7 4h10l-1 6a4 4 0 0 1-8 0zM12 14v5M9 20h6M9 8h6" /></symbol>
+              <symbol id="ic-cup" viewBox="0 0 24 24"><path d="M7 5h10l-1.2 14H8.2zM7.5 9h9M12 5l2-3" /></symbol>
+            </svg>
 
-          <div class="packages-scroll">
-            <!-- Package 1 -->
-            <div class="pkg-card" onclick="selectPackage(this, 1, 399)">
-              <div class="pkg-card-header">PACKAGE 1</div>
-              <div class="pkg-card-body">
-                <div class="pkg-price">₱ 399<span>PER HEAD</span></div>
-                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
-                <ul class="pkg-inclusions">
-                  <li>Steamed Rice</li>
-                  <li>Pancit Canton</li>
-                  <li>Fried Chicken</li>
-                  <li>Pork Menudo</li>
-                  <li>Fresh Lumpia</li>
-                  <li>Mixed Vegetables</li>
-                  <li>Dessert</li>
-                  <li>Iced Tea</li>
-                </ul>
-                <div class="pkg-occasion">GOOD FOR ANY OCCASION</div>
-                <div class="pkg-occasion-text">Birthdays, Baptism, Small Gatherings</div>
-                <button class="pkg-btn">Customize Package</button>
+            <div class="ms-brandbar">
+              <div class="ms-brandinfo">
+                <div class="ms-tagline">DELICIOUS MOMENTS, BEAUTIFULLY SERVED.</div>
+                <div class="ms-pill">
+                  <span><svg><use href="#ic-cloche" /></svg>QUALITY FOOD</span><span class="dot">•</span>
+                  <span><svg><use href="#ic-utensils" /></svg>GREAT SERVICE</span><span class="dot">•</span>
+                  <span><span class="dot">♥</span> MEMORABLE EVENTS</span>
+                </div>
               </div>
             </div>
 
-            <!-- Package 2 -->
-            <div class="pkg-card" onclick="selectPackage(this, 2, 499)">
-              <div class="pkg-card-header">PACKAGE 2</div>
-              <div class="pkg-card-body">
-                <div class="pkg-price">₱ 499<span>PER HEAD</span></div>
-                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
-                <ul class="pkg-inclusions">
-                  <li>Steamed Rice</li>
-                  <li>Pancit Bihon</li>
-                  <li>Chicken Teriyaki</li>
-                  <li>Beef Caldereta</li>
-                  <li>Shanghai Lumpia</li>
-                  <li>Buttered Mixed Vegetables</li>
-                  <li>Fruit Salad</li>
-                  <li>Dessert</li>
-                  <li>Iced Tea</li>
-                </ul>
-                <div class="pkg-occasion">PERFECT FOR</div>
-                <div class="pkg-occasion-text">Birthdays, Anniversaries, Reunions</div>
-                <button class="pkg-btn">Customize Package</button>
-              </div>
+            <div class="ms-title"><span>PACKAGE MENUS</span></div>
+
+            <div class="packages-scroll">
+            <!-- Package A -->
+            <div class="pkg-card" data-package-num="1" onclick="selectPackage(this, 1, 399)">
+              <div class="pkg-card-header">PACKAGE A</div>
+              
+              <div class="pkg-status"><span class="pkg-selected-badge">Selected</span><span class="pkg-customized-badge">Customized</span></div>
+              <div class="pkg-price">₱399<span>PER HEAD</span></div>
+              <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+              <ul class="pkg-inclusions" data-package-menu="1">
+                <li>Steamed Rice</li>
+                <li>Pancit Canton</li>
+                <li>Fried Chicken</li>
+                <li>Pork Menudo</li>
+                <li>Fresh Lumpia</li>
+                <li>Mixed Vegetables</li>
+                <li>Dessert</li>
+                <li>Iced Tea</li>
+              </ul>
+              <div class="pkg-orn"><span>✦</span></div>
+              <div class="pkg-occasion">GOOD FOR ANY OCCASION</div>
+              <div class="pkg-occasion-text">Birthdays, Baptism, Small Gatherings</div>
+              <button class="pkg-btn" type="button" onclick="customizePackage(event, this.closest('.pkg-card'), 1, 399)">Customize Package</button>
             </div>
 
-            <!-- Package 3 -->
-            <div class="pkg-card" onclick="selectPackage(this, 3, 599)">
-              <div class="pkg-card-header">PACKAGE 3</div>
-              <div class="pkg-card-body">
-                <div class="pkg-price">₱ 599<span>PER HEAD</span></div>
-                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
-                <ul class="pkg-inclusions">
-                  <li>Steamed Rice</li>
-                  <li>Pancit Canton Guisado</li>
-                  <li>Fried Chicken</li>
-                  <li>Beef Stroganoff</li>
-                  <li>Garlic Butter Shrimp</li>
-                  <li>Mixed Vegetables</li>
-                  <li>Corn Soup</li>
-                  <li>Fruit Salad</li>
-                  <li>Dessert</li>
-                  <li>Iced Tea</li>
-                </ul>
-                <div class="pkg-occasion">BEST FOR</div>
-                <div class="pkg-occasion-text">Weddings, Corporate Events</div>
-                <button class="pkg-btn">Customize Package</button>
-              </div>
+            <!-- Package B -->
+            <div class="pkg-card" data-package-num="2" onclick="selectPackage(this, 2, 499)">
+              <div class="pkg-card-header">PACKAGE B</div>
+              
+              <div class="pkg-status"><span class="pkg-selected-badge">Selected</span><span class="pkg-customized-badge">Customized</span></div>
+              <div class="pkg-price">₱499<span>PER HEAD</span></div>
+              <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+              <ul class="pkg-inclusions" data-package-menu="2">
+                <li>Steamed Rice</li>
+                <li>Pancit Bihon</li>
+                <li>Chicken Teriyaki</li>
+                <li>Beef Caldereta</li>
+                <li>Shanghai Lumpia</li>
+                <li>Buttered Mixed Vegetables</li>
+                <li>Fruit Salad</li>
+                <li>Dessert</li>
+                <li>Iced Tea</li>
+              </ul>
+              <div class="pkg-orn"><span>✦</span></div>
+              <div class="pkg-occasion">PERFECT FOR</div>
+              <div class="pkg-occasion-text">Birthdays, Anniversaries, Reunions</div>
+              <button class="pkg-btn" type="button" onclick="customizePackage(event, this.closest('.pkg-card'), 2, 499)">Customize Package</button>
             </div>
 
-            <!-- Package 4 -->
-            <div class="pkg-card" onclick="selectPackage(this, 4, 799)">
-              <div class="pkg-card-header">PACKAGE 4</div>
-              <div class="pkg-card-body">
-                <div class="pkg-price">₱ 799<span>PER HEAD</span></div>
-                <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
-                <ul class="pkg-inclusions">
-                  <li>Steamed Rice</li>
-                  <li>Pancit Malabon</li>
-                  <li>Roasted Chicken</li>
-                  <li>Beef Tenderloin Tips</li>
-                  <li>Fish Fillet with Tartar Sauce</li>
-                  <li>Garlic Butter Shrimp</li>
-                  <li>Mixed Vegetables</li>
-                  <li>Creamy Macaroni Salad</li>
-                  <li>Corn Soup</li>
-                  <li>Dessert</li>
-                  <li>Iced Tea</li>
-                </ul>
-                <div class="pkg-occasion">PREMIUM CHOICE FOR</div>
-                <div class="pkg-occasion-text">Weddings, Debuts, Special Celebrations</div>
-                <button class="pkg-btn">Customize Package</button>
-              </div>
+            <!-- Package C -->
+            <div class="pkg-card popular" data-package-num="3" onclick="selectPackage(this, 3, 599)">
+              <div class="pkg-card-header">PACKAGE C</div>
+              <div class="pkg-popular">MOST POPULAR</div>
+              <div class="pkg-status"><span class="pkg-selected-badge">Selected</span><span class="pkg-customized-badge">Customized</span></div>
+              <div class="pkg-price">₱599<span>PER HEAD</span></div>
+              <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+              <ul class="pkg-inclusions" data-package-menu="3">
+                <li>Steamed Rice</li>
+                <li>Pancit Canton Guisado</li>
+                <li>Fried Chicken</li>
+                <li>Beef Stroganoff</li>
+                <li>Garlic Butter Shrimp</li>
+                <li>Mixed Vegetables</li>
+                <li>Corn Soup</li>
+                <li>Fruit Salad</li>
+                <li>Dessert</li>
+                <li>Iced Tea</li>
+              </ul>
+              <div class="pkg-orn"><span>✦</span></div>
+              <div class="pkg-occasion">BEST FOR</div>
+              <div class="pkg-occasion-text">Weddings, Debuts, Corporate Events</div>
+              <button class="pkg-btn" type="button" onclick="customizePackage(event, this.closest('.pkg-card'), 3, 599)">Customize Package</button>
+            </div>
+
+            <!-- Package D -->
+            <div class="pkg-card" data-package-num="4" onclick="selectPackage(this, 4, 799)">
+              <div class="pkg-card-header">PACKAGE D</div>
+              
+              <div class="pkg-status"><span class="pkg-selected-badge">Selected</span><span class="pkg-customized-badge">Customized</span></div>
+              <div class="pkg-price">₱799<span>PER HEAD</span></div>
+              <div class="pkg-inclusions-title">MENU INCLUSIONS</div>
+              <ul class="pkg-inclusions" data-package-menu="4">
+                <li>Steamed Rice</li>
+                <li>Pancit Malabon</li>
+                <li>Roasted Chicken</li>
+                <li>Beef Tenderloin Tips</li>
+                <li>Fish Fillet with Tartar Sauce</li>
+                <li>Garlic Butter Shrimp</li>
+                <li>Mixed Vegetables</li>
+                <li>Creamy Macaroni Salad</li>
+                <li>Corn Soup</li>
+                <li>Dessert</li>
+                <li>Iced Tea</li>
+              </ul>
+              <div class="pkg-orn"><span>✦</span></div>
+              <div class="pkg-occasion">PREMIUM CHOICE FOR</div>
+              <div class="pkg-occasion-text">Weddings, Debuts, Special Celebrations</div>
+              <button class="pkg-btn" type="button" onclick="customizePackage(event, this.closest('.pkg-card'), 4, 799)">Customize Package</button>
+            </div>
+
+            </div>
+
+            <div class="ms-title small"><span>ADD-ONS</span></div>
+            <div class="ms-addons">
+              <label class="ms-addon"><input type="checkbox" class="ms-addon-check" value="lechonWhole" aria-label="Lechon (Whole)" onchange="this.closest('.ms-addon').classList.toggle('selected', this.checked)" /><svg><use href="#ic-cloche" /></svg><div><strong>Lechon (Whole)</strong><b>₱9,500 – ₱11,000</b><small>(Good for 50–60 pax)</small></div></label>
+              <label class="ms-addon"><input type="checkbox" class="ms-addon-check" value="lechonHalf" aria-label="Lechon (Half)" onchange="this.closest('.ms-addon').classList.toggle('selected', this.checked)" /><svg><use href="#ic-cake" /></svg><div><strong>Lechon (Half)</strong><b>₱5,000 – ₱6,000</b><small>(Good for 25–30 pax)</small></div></label>
+              <label class="ms-addon"><input type="checkbox" class="ms-addon-check" value="dessertTable" aria-label="Dessert Table" onchange="this.closest('.ms-addon').classList.toggle('selected', this.checked)" /><svg><use href="#ic-dessert" /></svg><div><strong>Dessert Table</strong><b>₱80 / head</b><small>(Minimum of 30 pax)</small></div></label>
+              <label class="ms-addon"><input type="checkbox" class="ms-addon-check" value="beverage" aria-label="Beverage" onchange="this.closest('.ms-addon').classList.toggle('selected', this.checked)" /><svg><use href="#ic-cup" /></svg><div><strong>Beverage</strong><b>₱60 / head</b><small>(Iced Tea / Lemonade)</small></div></label>
             </div>
           </div>
 
@@ -1874,6 +2584,11 @@
                 <span>Rentals:</span>
                 <span id="breakRentals">—</span>
               </div>
+              <div class="cost-row">
+                <span>Add-ons:</span>
+                <span id="breakAddOns">—</span>
+              </div>
+              <div id="breakAddOnNote" style="display:none;margin:-2px 0 8px;color:#8a7570;font:11px/1.5 Arial,sans-serif;"></div>
               <hr class="cost-divider" />
               <div class="cost-row cost-total">
                 <span>Total Cost:</span>
@@ -1932,6 +2647,32 @@
 
     </main>
   </div>
+
+  <!-- HTML PACKAGE CUSTOMIZATION: check/uncheck items, replace a dish, see the new price. -->
+  <dialog class="package-customize-dialog" id="packageCustomizeDialog" aria-labelledby="packageCustomizeTitle"
+    onclick="if (event.target === this) this.close()">
+    <div class="package-customize-head">
+      <button class="package-customize-back" type="button" aria-label="Bumalik"
+        onclick="document.getElementById('packageCustomizeDialog').close()">&larr;</button>
+      <h2 id="packageCustomizeTitle">Customize Your Package</h2>
+    </div>
+    <div class="package-customize-body">
+      <div class="package-customize-summary">
+        <span class="package-customize-summary-icon">👨‍🍳</span>
+        <div>
+          <strong id="customizePackageName">Package</strong> &middot; <span id="customizePackagePrice"></span><br>
+          Piliin ang mga kasama sa package. Pwede mong palitan o tanggalin ang iba.
+        </div>
+      </div>
+      <h3>Mga Kasama sa Package</h3>
+      <div class="custom-menu-list" id="customMenuList"></div>
+      <div class="menu-replace-panel" id="menuReplacePanel"></div>
+      <div class="package-price-box" id="packagePriceBox"></div>
+    </div>
+    <div class="package-customize-actions">
+      <button class="package-customize-save" type="button" onclick="savePackageCustomization()">I-update ang Package</button>
+    </div>
+  </dialog>
 
   <script>
     /* ============================================================
@@ -2104,20 +2845,296 @@
     /* ============================================================
        PACKAGE SELECTION
     ============================================================ */
+    const PACKAGE_MENUS = {
+      1: ['Steamed Rice', 'Pancit Canton', 'Fried Chicken', 'Pork Menudo', 'Fresh Lumpia', 'Mixed Vegetables', 'Dessert', 'Iced Tea'],
+      2: ['Steamed Rice', 'Pancit Bihon', 'Chicken Teriyaki', 'Beef Caldereta', 'Shanghai Lumpia', 'Buttered Mixed Vegetables', 'Fruit Salad', 'Dessert', 'Iced Tea'],
+      3: ['Steamed Rice', 'Pancit Canton Guisado', 'Fried Chicken', 'Beef Stroganoff', 'Garlic Butter Shrimp', 'Mixed Vegetables', 'Corn Soup', 'Fruit Salad', 'Dessert', 'Iced Tea'],
+      4: ['Steamed Rice', 'Pancit Malabon', 'Roasted Chicken', 'Beef Tenderloin Tips', 'Fish Fillet with Tartar Sauce', 'Garlic Butter Shrimp', 'Mixed Vegetables', 'Creamy Macaroni Salad', 'Corn Soup', 'Dessert', 'Iced Tea']
+    };
+    const PACKAGE_BASE_PRICES = { 1: 399, 2: 499, 3: 599, 4: 799 };
+    const PACKAGE_LETTERS = { 1: 'A', 2: 'B', 3: 'C', 4: 'D' };
+
+    /* Lahat ng pagkain sa package ay pwedeng palitan ng ibang pagkain sa Package Menus ng Cherry-Andrews.
+       Walang dagdag na bayad sa pagpapalit: nananatili ang presyo ng package. */
+    const ENTREE_INFO = {
+      'Fried Chicken': { icon: '🍗', desc: 'Crispy at juicy' },
+      'Pork Menudo': { icon: '🥘', desc: 'Classic Filipino favorite' },
+      'Chicken Teriyaki': { icon: '🍱', desc: 'Sweet and savory glaze' },
+      'Roasted Chicken': { icon: '🍗', desc: 'Tender and herby' },
+      'Fish Fillet with Tartar Sauce': { icon: '🐟', desc: 'Golden and flaky' },
+      'Beef Caldereta': { icon: '🍲', desc: 'Rich and savory' },
+      'Beef Stroganoff': { icon: '🥩', desc: 'Creamy mushroom beef' },
+      'Garlic Butter Shrimp': { icon: '🍤', desc: 'Buttery garlic flavor' },
+      'Beef Tenderloin Tips': { icon: '🥩', desc: 'Tender and juicy beef' }
+    };
+    // Mga pagpipilian sa pagpapalit, naka-grupo para madaling hanapin.
+    const MENU_GROUPS = [
+      { label: 'Pancit', items: ['Pancit Canton', 'Pancit Bihon', 'Pancit Canton Guisado', 'Pancit Malabon'] },
+      { label: 'Ulam', items: Object.keys(ENTREE_INFO) },
+      { label: 'Lumpia', items: ['Fresh Lumpia', 'Shanghai Lumpia'] },
+      { label: 'Gulay', items: ['Mixed Vegetables', 'Buttered Mixed Vegetables'] },
+      { label: 'Salad at Sopas', items: ['Fruit Salad', 'Creamy Macaroni Salad', 'Corn Soup'] },
+      { label: 'Dessert at Inumin', items: ['Dessert', 'Iced Tea', 'Lemonade'] }
+    ];
+
+    function menuItemInfo(name) {
+      if (ENTREE_INFO[name]) return ENTREE_INFO[name];
+      const n = name.toLowerCase();
+      let icon = '🍽️';
+      if (n.includes('rice')) icon = '🍚';
+      else if (n.includes('pancit')) icon = '🍜';
+      else if (n.includes('lumpia')) icon = '🥟';
+      else if (n.includes('vegetable')) icon = '🥦';
+      else if (n.includes('salad')) icon = '🥗';
+      else if (n.includes('soup')) icon = '🥣';
+      else if (n.includes('dessert')) icon = '🍮';
+      else if (n.includes('lemon')) icon = '🍋';
+      else if (n.includes('tea')) icon = '🧊';
+      return { icon, desc: 'Kasama sa package' };
+    }
+
+    /* choices = { 'Orihinal na ulam': null (tinanggal) | 'Bagong ulam' (pinalitan) }
+       Kapag wala sa choices ang item, kasama pa rin ito sa package. */
+    const packageChoices = {};
+    let editingPackageNum = null;
+    let editingChoices = {};
     let selectedPkg = null;
     let selectedPkgPrice = 0;
 
+    function isFixedPackageItem(item) {
+      return item.trim().toLowerCase() === 'steamed rice';
+    }
+
+    function buildMenu(num, choices) {
+      return PACKAGE_MENUS[num]
+        .map(item => (isFixedPackageItem(item) ? item : (item in choices ? choices[item] : item)))
+        .filter(Boolean);
+    }
+
+    function getPackageMenu(num) {
+      return buildMenu(num, packageChoices[num] || {});
+    }
+
+    function formatPeso(value) {
+      return '₱' + Number(value).toLocaleString('en-PH');
+    }
+
+    function updatePackageCardMenu(num) {
+      const card = document.querySelector(`.pkg-card[data-package-num="${num}"]`);
+      if (!card) return;
+      const choices = packageChoices[num] || {};
+
+      const items = [];
+      PACKAGE_MENUS[num].forEach(original => {
+        const choice = choices[original];
+        if (choice === null) return;
+        const entry = document.createElement('li');
+        entry.textContent = choice || original;
+        if (choice) {
+          const tag = document.createElement('span');
+          tag.className = 'pkg-swap-tag';
+          tag.textContent = 'Pinalitan';
+          entry.appendChild(tag);
+        }
+        items.push(entry);
+      });
+      card.querySelector('.pkg-inclusions').replaceChildren(...items);
+
+      card.classList.toggle('customized', Object.keys(choices).length > 0);
+    }
+
     function selectPackage(card, num, price) {
-      document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
+      document.querySelectorAll('.pkg-card').forEach(packageCard => {
+        const isSelected = Number(packageCard.dataset.packageNum) === num;
+        packageCard.classList.toggle('selected', isSelected);
+        packageCard.querySelector('.pkg-selected-badge').setAttribute('aria-hidden', String(!isSelected));
+      });
+      updatePackageCardMenu(num);
       selectedPkg = num;
       selectedPkgPrice = price;
+    }
+
+    function customizePackage(event, card, num, price) {
+      event.stopPropagation();
+      selectPackage(card, num, price);
+      editingPackageNum = num;
+      editingChoices = { ...(packageChoices[num] || {}) };
+      document.getElementById('customizePackageName').textContent = `Package ${PACKAGE_LETTERS[num]}`;
+      document.getElementById('customizePackagePrice').textContent = `${formatPeso(PACKAGE_BASE_PRICES[num])} / person`;
+      renderPackageCustomization();
+      document.getElementById('packageCustomizeDialog').showModal();
+    }
+
+    function renderPackageCustomization() {
+      const num = editingPackageNum;
+      const menuList = document.getElementById('customMenuList');
+      menuList.replaceChildren();
+
+      PACKAGE_MENUS[num].forEach(original => {
+        const isFixed = isFixedPackageItem(original);
+        const choice = isFixed ? undefined : editingChoices[original];
+        const state = isFixed ? 'keep' : (choice === undefined ? 'keep' : (choice === null ? 'remove' : 'replace'));
+        const shown = state === 'replace' ? choice : original;
+        const info = menuItemInfo(shown);
+
+        const row = document.createElement(isFixed ? 'div' : 'label');
+        row.className = 'custom-menu-item' + (isFixed ? ' is-fixed' : '') + (state === 'remove' ? ' is-removed' : '') + (state === 'replace' ? ' is-replaced' : '');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = isFixed || state !== 'remove';
+        checkbox.disabled = isFixed;
+        if (!isFixed) {
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) delete editingChoices[original];
+            else editingChoices[original] = null;
+            renderPackageCustomization();
+          });
+        }
+
+        const thumb = document.createElement('span');
+        thumb.className = 'custom-menu-thumb';
+        thumb.textContent = info.icon;
+
+        const text = document.createElement('div');
+        text.className = 'custom-menu-text';
+        const name = document.createElement('strong');
+        name.textContent = shown;
+        const desc = document.createElement('small');
+        desc.textContent = state === 'replace' ? `Pinalit sa ${original}` : info.desc;
+        text.append(name, desc);
+
+        if (isFixed) {
+          checkbox.setAttribute('aria-label', `${original} ay laging kasama at hindi puwedeng palitan`);
+        }
+        row.append(checkbox, thumb, text);
+
+        if (isFixed || state !== 'keep') {
+          const tag = document.createElement('span');
+          tag.className = 'custom-menu-tag';
+          tag.textContent = isFixed ? 'Laging kasama' : (state === 'remove' ? '⊘ Tanggalin' : '✓ Palitan');
+          row.appendChild(tag);
+        }
+        menuList.appendChild(row);
+      });
+
+      renderReplacePanel();
+      renderPriceBox();
+    }
+
+    function renderReplacePanel() {
+      const num = editingPackageNum;
+      const panel = document.getElementById('menuReplacePanel');
+      panel.replaceChildren();
+
+      const swappable = PACKAGE_MENUS[num].filter(item => !isFixedPackageItem(item) && editingChoices[item] !== undefined);
+      if (swappable.length === 0) {
+        const hint = document.createElement('div');
+        hint.textContent = 'Gusto mong magpalit ng pagkain? I-uncheck ang pagkain sa itaas, tapos pumili ng kapalit dito. Walang dagdag na bayad.';
+        panel.appendChild(hint);
+        return;
+      }
+
+      const currentMenu = buildMenu(num, editingChoices);
+      swappable.forEach(original => {
+        const block = document.createElement('div');
+        const title = document.createElement('strong');
+        title.textContent = 'Palitan ang pagkain';
+        const sub = document.createElement('div');
+        sub.textContent = `Pumili ng kapalit para sa ${original}.`;
+
+        const select = document.createElement('select');
+        select.setAttribute('aria-label', `Kapalit ng ${original}`);
+        const none = document.createElement('option');
+        none.value = '';
+        none.textContent = 'Walang kapalit (tanggalin lang)';
+        select.appendChild(none);
+
+        MENU_GROUPS.forEach(group => {
+          const items = group.items.filter(item => item !== original && (!currentMenu.includes(item) || item === editingChoices[original]));
+          if (!items.length) return;
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = group.label;
+          items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item;
+            option.textContent = item;
+            optgroup.appendChild(option);
+          });
+          select.appendChild(optgroup);
+        });
+        select.value = editingChoices[original] || '';
+        select.addEventListener('change', () => {
+          editingChoices[original] = select.value || null;
+          renderPackageCustomization();
+        });
+
+        block.append(title, sub, select);
+        panel.appendChild(block);
+      });
+    }
+
+    function renderPriceBox() {
+      const num = editingPackageNum;
+      const box = document.getElementById('packagePriceBox');
+      box.replaceChildren();
+      const title = document.createElement('strong');
+      title.textContent = 'Presyo ng Package';
+      const price = document.createElement('span');
+      price.className = 'new-price';
+      price.textContent = `${formatPeso(PACKAGE_BASE_PRICES[num])} / person`;
+      const note = document.createElement('div');
+      note.textContent = 'Walang dagdag na bayad sa pagpapalit ng pagkain. Pareho pa rin ang presyo ng package.';
+      box.append(title, price, note);
+    }
+
+    function savePackageCustomization() {
+      const num = editingPackageNum;
+      if (!num) return;
+      if (buildMenu(num, editingChoices).length === 0) {
+        alert('Please keep at least one menu item in the package.');
+        return;
+      }
+      packageChoices[num] = { ...editingChoices };
+      updatePackageCardMenu(num);
+      document.getElementById('packageCustomizeDialog').close();
     }
 
     /* ============================================================
        STEP 4 – COST BREAKDOWN
     ============================================================ */
     const RENTAL_PRICES = [50, 50, 150, 80]; // chair, table, tent, lights
+
+    /* ADD-ONS (galing sa Package Menus)
+       rate  = presyo kada tao, kasama sa total.
+       range = presyo na may range (Lechon), hindi kasama sa total hanggang ma-confirm ng Cherry-Andrews. */
+    const ADDONS = {
+      lechonWhole: { name: 'Lechon (Whole)', range: '₱9,500 – ₱11,000' },
+      lechonHalf: { name: 'Lechon (Half)', range: '₱5,000 – ₱6,000' },
+      dessertTable: { name: 'Dessert Table', rate: 80, minPax: 30 },
+      beverage: { name: 'Beverage', rate: 60 }
+    };
+
+    function getAddOnSummary(guests) {
+      let cost = 0;
+      const lines = [];
+      const pending = [];
+      document.querySelectorAll('.ms-addon-check:checked').forEach(box => {
+        const addOn = ADDONS[box.value];
+        if (!addOn) return;
+        if (addOn.rate) {
+          const pax = guests > 0 ? Math.max(guests, addOn.minPax || 0) : 0;
+          const amount = addOn.rate * pax;
+          cost += amount;
+          lines.push(pax > 0
+            ? `${addOn.name} (${formatPeso(addOn.rate)} × ${pax} pax = ${formatPeso(amount)})`
+            : `${addOn.name} (${formatPeso(addOn.rate)} / head)`);
+        } else {
+          pending.push(`${addOn.name}: ${addOn.range}`);
+        }
+      });
+      return { cost, lines, pending };
+    }
 
     function calcBreakdown() {
       const guests = parseInt(document.getElementById('guestCount').value, 10) || 0;
@@ -2128,7 +3145,8 @@
         rentalCost += parseInt(el.textContent) * RENTAL_PRICES[i];
       });
 
-      const total = pkgCost + rentalCost;
+      const addOn = getAddOnSummary(guests);
+      const total = pkgCost + rentalCost + addOn.cost;
       const deposit = total * 0.5;
       const balance = total - deposit;
 
@@ -2136,6 +3154,15 @@
 
       document.getElementById('breakPackage').textContent = fmt(pkgCost);
       document.getElementById('breakRentals').textContent = fmt(rentalCost);
+      document.getElementById('breakAddOns').textContent = fmt(addOn.cost);
+      const addOnNote = document.getElementById('breakAddOnNote');
+      const addOnParts = [...addOn.lines, ...addOn.pending.map(item => `${item} (final price to be confirmed, hindi pa kasama sa total)`)];
+      addOnNote.replaceChildren(...addOnParts.map(text => {
+        const line = document.createElement('div');
+        line.textContent = text;
+        return line;
+      }));
+      addOnNote.style.display = addOnParts.length ? 'block' : 'none';
       document.getElementById('breakTotal').textContent = fmt(total);
       document.getElementById('breakDeposit').textContent = fmt(deposit);
       document.getElementById('breakBalance').textContent = fmt(balance);
@@ -2186,6 +3213,7 @@
         document.getElementById('venueProvince').value.trim(),
         document.getElementById('venueLandmark').value.trim()
       ].filter(Boolean).join(', ');
+      const addOnSummary = getAddOnSummary(parseInt(document.getElementById('guestCount').value, 10) || 0);
       const booking = {
         id: `booking-${Date.now()}`,
         customerName: customerProfile.fullName || 'Customer',
@@ -2195,8 +3223,13 @@
         eventTime: document.getElementById('eventTime').value,
         eventType: document.getElementById('eventType').value,
         guestCount: document.getElementById('guestCount').value,
-        packageName: selectedPkg ? `Package ${selectedPkg}` : 'Rental only',
+        packageName: selectedPkg ? `Package ${PACKAGE_LETTERS[selectedPkg]}` : 'Rental only',
         packagePricePerGuest: selectedPkgPrice,
+        menuItems: selectedPkg ? [...getPackageMenu(selectedPkg)] : [],
+        packageCustomized: selectedPkg
+          ? JSON.stringify(getPackageMenu(selectedPkg)) !== JSON.stringify(PACKAGE_MENUS[selectedPkg])
+          : false,
+        addOns: [...addOnSummary.lines, ...addOnSummary.pending.map(item => `${item} (to be confirmed)`)],
         total: document.getElementById('breakTotal').textContent,
         deposit: document.getElementById('breakDeposit').textContent,
         venue,
