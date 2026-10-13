@@ -324,3 +324,75 @@ table {
     gap: 2px;
   }
 }
+
+/* ==========================================================
+   PUBLIC LANDING PAGES (index, about, packages, rentals, contact)
+   1) Iisang ayos ng navbar sa phone, kahit anong link ang pinindot:
+      Logo  ->  Create Account / Log in  ->  Home About Packages Rentals Contact
+   2) "Our Services": nasa gitna ang bawat service sa kahit anong device.
+   ========================================================== */
+@media (max-width: 760px) {
+  .navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 12px;
+  }
+
+  /* 1st row: logo / brand (laging unang child ng navbar) */
+  .navbar > :first-child {
+    order: 1;
+    flex: 1 1 100%;
+  }
+
+  /* 2nd row: Create Account + Log in */
+  .navbar .nav-actions,
+  .navbar .nav-buttons,
+  .navbar .auth-buttons,
+  .navbar .navbar-actions {
+    order: 2;
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  /* 3rd row: Home, About Us, Packages, Rentals, Contact */
+  .navbar .nav-links,
+  .navbar .nav-menu,
+  .navbar .navbar-links {
+    order: 3;
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 18px;
+  }
+
+  /* Services: nasa gitna */
+  .service-grid {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .service-grid > * {
+    width: 100%;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
